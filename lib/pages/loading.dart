@@ -1,8 +1,11 @@
+//Imports and Variable Declarations
 import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/User.dart';
-// import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
+
+///Setting my Page up as a Stateful Widget 
+///so I can change the state of the list of users
 
 class Loading extends StatefulWidget {
   @override
@@ -12,6 +15,9 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   List<User> users = List<User>();
 
+  /// This function retrieves all users from the 
+  /// UserController and passes it to a state variable
+  /// So you can make a ListView Builder out of it below
   void setupUsers() async {
     UserController userController = new UserController();
     userController.getUsers().then((user) => 
@@ -21,6 +27,7 @@ class _LoadingState extends State<Loading> {
     );
   }
 
+  // Using Initiliazation method to set the state once with the list of users
   @override
   void initState() {
     super.initState();

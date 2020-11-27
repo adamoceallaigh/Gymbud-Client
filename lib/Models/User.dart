@@ -1,3 +1,4 @@
+//Class Declaration of the Class Model
 class User {
     String id, userName , password , name , gender , dob , preferredIntensity, preferredAgeRange,videoOrInPerson, fitnessLevel;
     List resources , messages , matches , sessions;
@@ -17,6 +18,9 @@ class User {
     this.resources,
     this.messages 
   );
+
+  ///Constructor to pull json data values and make up a User model
+  /// and return User to UserManager class to pass to page to be displayed
   User.fromJSON(Map<String, dynamic> data) {
     this.id = data["_id"];
     this.userName = data['userName'];
