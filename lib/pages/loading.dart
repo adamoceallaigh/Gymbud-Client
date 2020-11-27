@@ -31,37 +31,108 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Gymbud'),
+            title: Image.asset(
+              "Resources/Images/logoGymbud.png",
+              height: 100.0,
+              width: 100.0
+            ),
             backgroundColor: HexColor("FEFEFE"),
           ),
-          body: ListView.builder(
-            itemBuilder: (context , index){
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.only(top:32.0 , bottom: 32.0 , left:16.0 , right:16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget> [
-                      Text(
-                        users[index].name,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Text(
-                        users[index].userName,
-                        style: TextStyle(
-                          color: Colors.red
-                        ),
-                      ),
-                    ],
+          body: Column(
+            children: <Widget>[
+              Card(
+                child: Container(
+                  color: Colors.white,
+                  height: 50,
+                  child: Center(
+                    child: Text("Past Users / Sessions"),
                   ),
+                ),
+            ),
+            Expanded(
+              child: 
+              ListView.builder(
+                itemBuilder: (context , index){
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:32.0 , bottom: 32.0 , left:16.0 , right:16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget> [
+                        Text(
+                          users[index].name,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom:15.0),
+                          child: Text(
+                            users[index].userName,
+                            style: TextStyle(
+                              color: HexColor("EB9661")
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "Preferred Intensity: " + users[index].preferredIntensity,
+                          // style: TextStyle(
+                          //   color: HexColor("EB9661")
+                          // ),
+                        ),
+                        Text(
+                          "Video / In Person: " + users[index].videoOrInPerson,
+                          // style: TextStyle(
+                          //   color: HexColor("EB9661")
+                          // ),
+                        ),
+                        Text(
+                          "Fitness Level: " + users[index].fitnessLevel,
+                          // style: TextStyle(
+                          //   color: HexColor("EB9661")
+                          // ),
+                        ),
+                        Text(
+                          "Resources: " + users[index].resources.toString(),
+                          // style: TextStyle(
+                          //   color: HexColor("EB9661")
+                          // ),
+                        ),
+                    ],
+                    ),
                 ),
               );
             },
             itemCount: users.length,
-          )
+            ),
+          ),
+            ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: HexColor("EB9661"),
+            currentIndex: 0, // this will be set when a new tab is tapped
+            items: [
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  "Resources/Images/House_Icon.png"
+                ),
+                label:'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  "Resources/Images/Buds_Icon.png"
+                ),
+                label:'Buds',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  "Resources/Images/Calendar_Icon.png"
+                ),
+                label:'Calendar'
+              )
+            ],
+          ),
         );
       }
     }
