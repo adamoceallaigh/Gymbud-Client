@@ -1,4 +1,6 @@
 //Class Declaration of the Class Model
+import 'package:flutter/material.dart';
+
 class User {
     String id, userName , password , name , gender , dob , preferredIntensity, preferredAgeRange,videoOrInPerson, fitnessLevel;
     List resources , messages , matches , sessions;
@@ -18,7 +20,22 @@ class User {
     this.resources,
     this.messages 
   );
-
+  
+  User.register(
+    this.userName , 
+    this.password , 
+    this.name , 
+    this.gender, 
+    this.dob , 
+    this.preferredIntensity , 
+    this.preferredAgeRange , 
+    this.videoOrInPerson , 
+    this.fitnessLevel , 
+    this.matches , 
+    this.sessions ,
+    this.resources,
+    this.messages 
+  );
   ///Constructor to pull json data values and make up a User model
   /// and return User to UserManager class to pass to page to be displayed
   User.fromJSON(Map<String, dynamic> data) {

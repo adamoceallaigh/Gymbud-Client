@@ -2,6 +2,7 @@
 import 'package:Client/Models/User.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 // User Controller Class Definition to conduct user management operations
 class UserController {
@@ -20,5 +21,32 @@ class UserController {
     }
     
     return users;
+  }
+
+  Future<User> createUser(User user) async {
+    Response response = await 
+    http.post(
+      'https://gymbud.herokuapp.com/api/v1/users' , 
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "userName": user.userName,
+        "password": user.password,
+        "Name": user.name,
+        "Gender": user.gender,
+        "DOB": user.dob,
+        "Preferred_Intensity": user.preferredIntensity,
+        "Fitness_Level": user.fitnessLevel,
+        "Resources": jsonEncode(user.resources),
+        "Preferred_Age_Range": user.preferredAgeRange,
+        "Video_Or_In_Person": user.videoOrInPerson
+      })
+    );
+    if(response.statusCode == 200){
+      var userJSON = jsonDecode(response.body);
+      return User.fromJSON(userJSON);
+    }
+    return null;
   }
 }
