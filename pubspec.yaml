@@ -34,7 +34,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  http: ^0.12.2
   
 
 # The following section is specific to Flutter.
