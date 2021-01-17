@@ -49,4 +49,11 @@ class UserController {
     }
     return null;
   }
+
+  bool loginUser(User user){
+    if(user.userName == "bradysham" && user.password == "pork") return true;
+    else if (user.userName == "rob" && user.password == "goal") return true;
+    return false;
+  }
+
 }

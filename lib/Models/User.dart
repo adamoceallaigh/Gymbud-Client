@@ -36,6 +36,12 @@ class User {
     this.resources,
     this.messages 
   );
+
+  User.login(
+    this.userName , 
+    this.password , 
+  );
+  
   ///Constructor to pull json data values and make up a User model
   /// and return User to UserManager class to pass to page to be displayed
   User.fromJSON(Map<String, dynamic> data) {
