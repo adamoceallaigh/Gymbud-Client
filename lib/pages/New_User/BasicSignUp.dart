@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Client/Models/User.dart';
 
+import 'Upload_Photo.dart';
+
 class BasicSignUp extends StatelessWidget {
   final User user;
 
@@ -68,7 +70,7 @@ class BasicSignUp extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NewTripDate(user: user)),
+                                builder: (context) => UploadPhoto(user: user)),
                           ),
                         }),
               ),
