@@ -14,11 +14,11 @@ class ImageCapture extends StatefulWidget {
 class _ImageCaptureState extends State<ImageCapture> {
   // Active Image File
   File _imageFile;
+  final _storage = FirebaseStorage.instance;
+  ImagePicker _imgPicker = new ImagePicker();
+  PickedFile _selectedImage;
 
   _pickImage(ImageSource source) async {
-    ImagePicker _imgPicker = new ImagePicker();
-    PickedFile _selectedImage;
-
     // Check Permissions if Picking from Gallery
     if(source == ImageSource.gallery){
       await Permission.photos.request();
@@ -30,9 +30,10 @@ class _ImageCaptureState extends State<ImageCapture> {
         print("Grant Permissions and try again");
       }
     }
-    
+
     _selectedImage = await _imgPicker.getImage(source: source);
     File _selected = File(_selectedImage.path);
+    await _uploadFile(_selectedImage , _selected);
     
     setState((){
       _imageFile = _selected;
@@ -49,6 +50,14 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   _clear(){
     setState(() => _imageFile = null);
+  }
+
+  _uploadFile(PickedFile imageFile , File file) async {
+    // Function to upload the photo to firebase storage
+    if(imageFile != null){
+      String filePath = 'images/';
+      await _storage.ref().child(filePath).putFile(file);
+    }
   }
 
 
@@ -99,15 +108,5 @@ class _ImageCaptureState extends State<ImageCapture> {
   }
 }
 
-// Function to upload the photo to firebase storage
-  final _storage = FirebaseStorage.instance;
 
-  UploadTask _uploadTask;
 
-  void _startUpload(){
-    String filePath = 'images/';
-
-    setState((){
-      _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
-    });
-  }
