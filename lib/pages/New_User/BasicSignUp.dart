@@ -1,31 +1,18 @@
-//Imports and Variable Declarations
-import 'package:Client/Controllers/UserController.dart';
-import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
+import 'package:Client/Models/User.dart';
 
-class Login extends StatefulWidget {
-  @override
-  _LoginState createState() => _LoginState();
-}
+class BasicSignUp extends StatelessWidget {
+  final User user;
 
-class _LoginState extends State<Login> {
-  var _selectedPassword, 
-  _selectedUsername; 
-
-  void _setValues() async{ 
-    UserController userController = new UserController();
-    User newUser = new User.login(
-        _selectedUsername, 
-        _selectedPassword, 
-    );
-    bool userValidated = userController.loginUser(newUser);
-    if(userValidated){
-      Navigator.pushReplacementNamed(context , '/Home');
-    }
-  }
+  // We are going to instantiate a NewTripLocation with a required Trip instance
+  // This is the way we are going to save the values across the pages
+  BasicSignUp({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _userNameController = new TextEditingController();
+    TextEditingController _passwordController = new TextEditingController();
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: Align(
@@ -52,11 +39,7 @@ class _LoginState extends State<Login> {
                             fontSize: 20,
                           )),
                     ),
-                    TextField(
-                      onSubmitted: (newText) {
-                        _selectedUsername = newText;
-                      },
-                    ),
+                    TextField(controller: _userNameController),
                   ],
                 ),
               ),
@@ -71,22 +54,23 @@ class _LoginState extends State<Login> {
                             fontSize: 20,
                           )),
                     ),
-                    TextField(
-                      onSubmitted: (newText) {
-                        _selectedPassword = newText;
-                      },
-                    ),
+                    TextField(controller: _passwordController),
                   ],
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20.0 , top: 20.0),
+                margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
                 child: RaisedButton(
-                  child: Text('Login'), 
-                  onPressed: () => {
-                    _setValues()
-                  }
-                ),
+                    child: Text('Login'),
+                    onPressed: () => {
+                          user.userName = _userNameController.text,
+                          user.password = _passwordController.text,
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewTripDate(user: user)),
+                          ),
+                        }),
               ),
               Text('Forgot Your Password ?')
             ],

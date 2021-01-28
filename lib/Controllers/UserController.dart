@@ -33,6 +33,7 @@ class UserController {
       body: jsonEncode({
         "userName": user.userName,
         "password": user.password,
+        "Profile_Url": user.profile_url,
         "Name": user.name,
         "Gender": user.gender,
         "DOB": user.dob,
