@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Client/Models/User.dart';
-
+import 'Details_Page.dart';
 import 'Upload_Photo.dart';
 
 class BasicSignUp extends StatelessWidget {
@@ -17,65 +17,70 @@ class BasicSignUp extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Align(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 20.0),
-                width: 180,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: Image.asset('Resources/Images/logoGymbud.png'),
-              ),
-              Text('Sign Into Your Account'),
-              Container(
-                margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text("Username:",
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
+        body: SingleChildScrollView(
+          child: Form(
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    width: 180,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(100))),
+                    child: Image.asset('Resources/Images/logoGymbud.png'),
+                  ),
+                  Text('Sign Into Your Account'),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text("Username:",
+                              style: TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                        TextField(controller: _userNameController),
+                      ],
                     ),
-                    TextField(controller: _userNameController),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text("Password:",
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text("Password:",
+                              style: TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                        TextField(controller: _passwordController),
+                      ],
                     ),
-                    TextField(controller: _passwordController),
-                  ],
-                ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
+                    child: RaisedButton(
+                        child: Text('Login'),
+                        onPressed: () => {
+                              user.userName = _userNameController.text,
+                              user.password = _passwordController.text,
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailsPage(user: user)),
+                              ),
+                            }),
+                  ),
+                  Text('Forgot Your Password ?')
+                ],
               ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
-                child: RaisedButton(
-                    child: Text('Login'),
-                    onPressed: () => {
-                          user.userName = _userNameController.text,
-                          user.password = _passwordController.text,
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UploadPhoto(user: user)),
-                          ),
-                        }),
-              ),
-              Text('Forgot Your Password ?')
-            ],
+            ),
           ),
         ));
   }

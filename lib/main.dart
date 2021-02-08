@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => SplashScreen(),
           '/OnBoarding': (context) => OnBoarding(),
           '/login': (context) => Login(),
-          '/signup': (context) => SignUp(),
+          // '/signup': (context) => SignUp(),
           '/Home': (context) => Home(),
         }
     );

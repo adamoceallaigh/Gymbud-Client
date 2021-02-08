@@ -14,7 +14,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
 
   Widget build(BuildContext context) {
-    final newUser = new User(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+    final newUser = new User(null,null,null,null,null,null,null,null,null,null,null,null,[],[], [] , [] ,[]);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Align(

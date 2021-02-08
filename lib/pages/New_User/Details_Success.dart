@@ -2,6 +2,8 @@ import 'package:Client/Models/User.dart';
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:flutter/material.dart';
 
+import 'Session_Details.dart';
+
 class DetailsPageSuccess extends StatelessWidget {
   final User user;
 
@@ -31,23 +33,27 @@ class DetailsPageSuccess extends StatelessWidget {
                 width: 180,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: Image.asset('Resources/Images/logoGymbud.png')),
-            RaisedButton(
-              child: Text('Log in'),
-              onPressed: () => {
-                Navigator.pushReplacementNamed(context, '/login')
-              },
+                child: Image.asset('Resources/Images/SessionSVGS.png')
+            ),
+            Column(
+              children: [
+                Text("Lets pick your session preferences")
+              ]
+            ),
+            SizedBox(
+              height: 20.0,
             ),
             RaisedButton(
-              child: Text('Sign Up'),
+              child: Text('Continue'),
               onPressed: () => {
                 Navigator.push(
-                  context , 
-                  MaterialPageRoute(builder: (context) => BasicSignUp(user:newUser)),
-                )
-                // Navigator.pushReplacementNamed(context, '/signup')
+                  context,
+                  MaterialPageRoute(
+                  builder: (context) =>
+                  SessionDetails(user: user)),
+                ),
               },
-            ),
+            )
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 //Class Declaration of the Class Model
 
 class User {
-    String id, userName , password , profile_url, name , gender , dob , preferredIntensity, preferredAgeRange,videoOrInPerson, fitnessLevel;
-    List resources , messages , matches , sessions;
+    String id, userName , password , profile_url, name , gender , dob , preferredIntensity, preferredAgeRange, preferredDistanceRange ,videoOrInPerson, fitnessLevel;
+    List resources , messages , matches , sessions , activitiesEnjoyed;
     User(
     this.id,
     this.userName , 
@@ -13,11 +13,13 @@ class User {
     this.dob , 
     this.preferredIntensity , 
     this.preferredAgeRange , 
+    this.preferredDistanceRange,
     this.videoOrInPerson , 
     this.fitnessLevel , 
     this.matches , 
     this.sessions ,
     this.resources,
+    this.activitiesEnjoyed ,
     this.messages 
   );
   
@@ -30,11 +32,13 @@ class User {
     this.dob , 
     this.preferredIntensity , 
     this.preferredAgeRange , 
+    this.preferredDistanceRange,
     this.videoOrInPerson , 
     this.fitnessLevel , 
     this.matches , 
     this.sessions ,
     this.resources,
+    this.activitiesEnjoyed,
     this.messages 
   );
 
@@ -55,11 +59,13 @@ class User {
     this.dob = data["DOB"];
     this.preferredIntensity = data["Preferred_Intensity"];
     this.preferredAgeRange = data["Preferred_Age_Range"];
+    this.preferredDistanceRange = data["Preferred_Distance_Range"];
     this.videoOrInPerson = data["Video_Or_In_Person"];
     this.fitnessLevel = data["Fitness_Level"];
     this.matches = data["Matches"];
     this.sessions = data["Sessions"];
     this.resources = data["Resources"];
+    this.activitiesEnjoyed = data["Activities_Enjoyed"];
     this.messages = data["Messages"];
   }
 
@@ -74,8 +80,10 @@ class User {
     'Fitness_Level': this.fitnessLevel,
     'Resources': this.resources,
     'Preferred_Age_Range': this.preferredAgeRange,
+    'Preferred_Distance_Range': this.preferredDistanceRange ,
     'Video_Or_In_Person': this.videoOrInPerson,
     'Messages': this.messages,
+    'Activities_Enjoyed': this.activitiesEnjoyed,
     'Matches': this.matches,
     'Sessions': this.sessions 
   };
