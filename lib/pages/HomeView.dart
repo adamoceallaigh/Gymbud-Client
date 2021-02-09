@@ -12,101 +12,102 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: <Widget>[
-          Card(
-            child: Container(
-              color: Colors.white,
-              height: 50,
-              child: Center(
-                child: Text("Past Users / Sessions"),
-              ),
+      children: <Widget>[
+        Card(
+          child: Container(
+            color: Colors.white,
+            height: 50,
+            child: Center(
+              child: Text("Past Users / Sessions"),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
-                    child: Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              widget.users[index].name,
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 15.0),
-                              child: Text(
-                                widget.users[index].userName,
-                                style: TextStyle(color: HexColor("EB9661")),
-                              ),
-                            ),
-                            Text(
-                              "Preferred Intensity: " +
-                                  widget.users[index].preferredIntensity,
-                              // style: TextStyle(
-                              //   color: HexColor("EB9661")
-                              // ),
-                            ),
-                            Text(
-                              "Video / In Person: " +
-                                  widget.users[index].videoOrInPerson,
-                              // style: TextStyle(
-                              //   color: HexColor("EB9661")
-                              // ),
-                            ),
-                            Text(
-                              "Fitness Level: " + widget.users[index].fitnessLevel,
-                              // style: TextStyle(
-                              //   color: HexColor("EB9661")
-                              // ),
-                            ),
-                            Text(
-                              "Resources: " + widget.users[index].resources.toString(),
-                              // style: TextStyle(
-                              //   color: HexColor("EB9661")
-                              // ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          top: -5,
-                          right: 0,
-                          child: CircleAvatar(
-                            radius: 50.0,
-                            backgroundImage: widget.users[index].profile_url != null
-                                ? new NetworkImage(widget.users[index].profile_url)
-                                : null,
-                            backgroundColor: Colors.transparent,
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            widget.users[index].name,
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
                           ),
-                          // child: Container(
+                          Container(
+                            margin: EdgeInsets.only(bottom: 15.0),
+                            child: Text(
+                              widget.users[index].userName,
+                              style: TextStyle(color: HexColor("EB9661")),
+                            ),
+                          ),
+                          Text(
+                            "Preferred Intensity: " +
+                                widget.users[index].preferredIntensity,
+                            // style: TextStyle(
+                            //   color: HexColor("EB9661")
+                            // ),
+                          ),
+                          Text(
+                            "Video / In Person: " +
+                                widget.users[index].videoOrInPerson,
+                            // style: TextStyle(
+                            //   color: HexColor("EB9661")
+                            // ),
+                          ),
+                          Text(
+                            "Fitness Level: " +
+                                widget.users[index].fitnessLevel,
+                            // style: TextStyle(
+                            //   color: HexColor("EB9661")
+                            // ),
+                          ),
+                          Text(
+                            "Resources: " +
+                                widget.users[index].resources.toString(),
+                            // style: TextStyle(
+                            //   color: HexColor("EB9661")
+                            // ),
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        top: -5,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage:
+                              widget.users[index].profile_url != null
+                                  ? new NetworkImage(
+                                      widget.users[index].profile_url)
+                                  : null,
+                          backgroundColor: Colors.transparent,
+                        ),
+                        // child: Container(
 
-                          //   padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          //   height: 100,
-                          //   width: 70,
-                          //   child: users[index].profile_url != null ? new Image.network(users[index].profile_url , fit: BoxFit.cover) :  null
-                          // )
-                        )
-                      ],
-                    ),
+                        //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        //   height: 100,
+                        //   width: 70,
+                        //   child: users[index].profile_url != null ? new Image.network(users[index].profile_url , fit: BoxFit.cover) :  null
+                        // )
+                      )
+                    ],
                   ),
-                );
-              },
-              itemCount: users.length,
-            ),
+                ),
+              );
+            },
+            itemCount: widget.users.length,
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }

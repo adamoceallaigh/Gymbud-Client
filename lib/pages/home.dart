@@ -12,6 +12,12 @@ import 'MatchView.dart';
 ///so I can change the state of the list of users
 
 class Home extends StatefulWidget {
+  final User user;
+
+  // We are going to instantiate a NewTripLocation with a required Trip instance
+  // This is the way we are going to save the values across the pages
+  Home({Key key, @required this.user}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,13 +26,16 @@ class _HomeState extends State<Home> {
   /// This function retrieves all users from the
   /// UserController and passes it to a state variable
   /// So you can make a ListView Builder out of it below
-  /// 
-List<User> users = List<User>();
+  ///
+  List<User> users = List<User>();
+  int _currentIndex = 0;
+  List<Widget> _tabPages = [];
+
   void setupUsers() async {
     UserController userController = new UserController();
     userController.getUsers().then((user) => setState(() {
-        users.addAll(user);
-    }));
+          users.addAll(user);
+        }));
   }
 
   // Using Initiliazation method to set the state once with the list of users
@@ -34,14 +43,10 @@ List<User> users = List<User>();
   void initState() {
     super.initState();
     setupUsers();
+    this._tabPages = [HomeView(users: users), MatchView(), CalendarView()];
   }
 
-  int _currentIndex = 0;
-  final List<Widget> _tabPages = [
-    HomeView(users: users), 
-    MatchView(), 
-    CalendarView()
-  ];
+  HomeView homeView;
 
   void onTabTapped(int index) {
     setState(() => {_currentIndex = index});
@@ -64,8 +69,8 @@ List<User> users = List<User>();
         actions: [
           CircleAvatar(
             radius: 50.0,
-            backgroundImage: users[index].profile_url != null
-                ? new NetworkImage(users[index].profile_url)
+            backgroundImage: widget.user.profile_url != null
+                ? new NetworkImage(widget.user.profile_url)
                 : null,
             backgroundColor: Colors.transparent,
           ),
