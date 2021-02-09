@@ -88,4 +88,9 @@ class User {
     'Sessions': this.sessions 
   };
 
+  @override
+  String toString(){
+    return this.toJson().toString();
+  }
+
 }

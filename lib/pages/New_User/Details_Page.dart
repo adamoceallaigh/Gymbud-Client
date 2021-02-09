@@ -69,7 +69,7 @@ class _DetailsPageState extends State<DetailsPage> {
               child: RangeSlider(
                 values: _ageValues,
                 min: 0,
-                max: 1000,
+                max: 100,
                 labels: RangeLabels(
                     '${_ageValues.start.round()}', '${_ageValues.end.round()}'),
                 inactiveColor: Colors.grey,
@@ -93,7 +93,7 @@ class _DetailsPageState extends State<DetailsPage> {
               child: RangeSlider(
                 values: _distanceValues,
                 min: 0,
-                max: 1000,
+                max: 100,
                 labels: RangeLabels(
                     '${_distanceValues.start.round()}', '${_distanceValues.end.round()}'),
                 inactiveColor: Colors.grey,

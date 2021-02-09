@@ -1,6 +1,9 @@
+import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:math';
 
 class SessionDetails extends StatefulWidget {
   final User user;
@@ -35,16 +38,18 @@ class _SessionDetailsState extends State<SessionDetails> {
     "Hike",
     "Cycle"
   ];
+  final sessionOptions = ["At Home", "Gym"];
+  final _selectionOptions = List.generate(2, (_) => false);
   double _defaultIntensity = 20.0;
+  double _defaultActivityLevel = 20.0;
   // var pressed = false ; // This is the press variable
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
-      backgroundColor: Colors.white,
-      body: SessionBody()
-    );
+        appBar: buildAppBar(),
+        backgroundColor: Colors.white,
+        body: sessionBody());
   }
 
   AppBar buildAppBar() {
@@ -55,82 +60,246 @@ class _SessionDetailsState extends State<SessionDetails> {
     );
   }
 
-  Widget SessionBody(){
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text("Pick your fitness Level"),
-        ),
-        SliderTheme(
-          data: SliderThemeData(),
-          child: Slider(
-            min: 0.0,
-            max: 100.0,
-            divisions: 5,
-            label: GetLabel(_defaultIntensity),
-            value: _defaultIntensity,
-            onChanged: (val) => {
-              setState((){
-                _defaultIntensity = val;     
-              })
-            }
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text("Pick your session intensity level"),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text("Pick the resources you have"),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text("Pick the activities you enjoy"),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text("Pick your preferred session method"),
-        ),
-        RaisedButton(
-          child: Text("Finish"),
-          onPressed: null
-        )
-      ]
+  String getGirlPhoto(){
+    var girlUrls = [
+      "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/Stephanie.jpg?alt=media&token=6f2bdcf1-f45e-4a08-96f3-6e7acf07ffc6",
+      "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/Britanny.jpg?alt=media&token=ec32091b-0229-4d0b-b0ec-cde359e781c0"
+    ];
+    return girlUrls[new Random().nextInt(1)];
+  }
+
+  void _setUpUser() async{ 
+    UserController userController = new UserController();
+    widget.user.gender == "male" ? 
+    widget.user.profile_url = "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/James.jpg?alt=media&token=123f37e9-e7a8-4823-b6a6-ee86e4cc7e59" :
+    widget.user.profile_url = getGirlPhoto();
+    print(widget.user.toString());
+    User newUser = await userController.createUser(widget.user);
+    if(newUser != null){
+      Navigator.pushReplacementNamed(context , '/Home');
+    }
+  }
+
+  Widget sessionBody() {
+    return SingleChildScrollView(
+      child: Column(children: [
+        Container(
+            height: 1100,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text("Pick your fitness Level"),
+                ),
+                SliderTheme(
+                  data: SliderThemeData(),
+                  child: Slider(
+                      min: 0.0,
+                      max: 100.0,
+                      divisions: 5,
+                      activeColor: HexColor("#EB9661"),
+                      label: getLabel(_defaultActivityLevel, "Fitness"),
+                      value: _defaultActivityLevel,
+                      onChanged: (val) => {
+                        widget.user.fitnessLevel = getLabel(_defaultActivityLevel, "Fitness"),
+                          setState(() {
+                            _defaultActivityLevel = val;
+                          })
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text("Pick your session intensity level"),
+                ),
+                SliderTheme(
+                  data: SliderThemeData(),
+                  child: Slider(
+                      min: 0.0,
+                      max: 100.0,
+                      divisions: 5,
+                      activeColor: HexColor("#EB9661"),
+                      label: getLabel(_defaultIntensity, "Intensity"),
+                      value: _defaultIntensity,
+                      onChanged: (val) => {
+                          widget.user.preferredIntensity = getLabel(_defaultIntensity, "Intensity"),
+                          setState(() {
+                            _defaultIntensity = val;
+                          })
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text("Pick the resources you have"),
+                ),
+                SizedBox(
+                  height: 200,
+                  child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(10.0),
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 20.0,
+                      crossAxisSpacing: 20.0,
+                      shrinkWrap: true,
+                      children: resources.map((resource) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: HexColor('#C8C8C8'))),
+                          child: FlatButton(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    resource,
+                                    style: TextStyle(fontSize: 11.0),
+                                  )
+                                ]),
+                            color: widget.user.resources.contains(resource)
+                                ? HexColor('#EB9661')
+                                : Colors.transparent,
+                            onPressed: () => {
+                              if (!widget.user.resources.contains(resource))
+                                {widget.user.resources.add(resource)}
+                              else
+                                {widget.user.resources.remove(resource)},
+                              setState(() => {})
+                            },
+                          ),
+                        );
+                      }).toList()),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(38.0),
+                  child: Text("Pick the activities you enjoy"),
+                ),
+                SizedBox(
+                  height: 200,
+                  child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(10.0),
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 20.0,
+                      crossAxisSpacing: 20.0,
+                      shrinkWrap: true,
+                      children: activities.map((activity) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: HexColor('#C8C8C8'))),
+                          child: FlatButton(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    activity,
+                                    style: TextStyle(fontSize: 11.0),
+                                  )
+                                ]),
+                            color:
+                                widget.user.activitiesEnjoyed.contains(activity)
+                                    ? HexColor('#EB9661')
+                                    : Colors.transparent,
+                            onPressed: () => {
+                              if (!widget.user.activitiesEnjoyed
+                                  .contains(activity))
+                                {widget.user.activitiesEnjoyed.add(activity)}
+                              else
+                                {
+                                  widget.user.activitiesEnjoyed.remove(activity)
+                                },
+                              setState(() => {})
+                            },
+                          ),
+                        );
+                      }).toList()),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  child: Text("Pick your preferred session method"),
+                ),
+                ToggleButtons(
+                    children: [
+                      SvgPicture.asset(
+                          "Resources/Images/home_workout.svg",
+                          height: 100, 
+                          semanticsLabel: 'At Home',
+                          width: 150
+                      ), 
+                      SvgPicture.asset(
+                          "Resources/Images/gym.svg",
+                          height: 100,
+                          semanticsLabel: 'Gym', 
+                          width: 150
+                      ),
+                    ],
+                    isSelected: _selectionOptions,
+                    onPressed: (int index) => {
+                          widget.user.videoOrInPerson = getSessionOption(index),
+                          setState(() {
+                            for (int indexBtn = 0;
+                                indexBtn < _selectionOptions.length;
+                                indexBtn++) {
+                              if (indexBtn == index) {
+                                _selectionOptions[indexBtn] =
+                                    !_selectionOptions[indexBtn];
+                              } else {
+                                _selectionOptions[indexBtn] = false;
+                              }
+                            }
+                          })
+                        }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("At Home"),
+                      SizedBox(
+                        width:50
+                      ),
+                      Text("Gym")
+                    ]
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: RaisedButton(
+                      child: Text("Finish"),
+                      onPressed: () => {
+                            // print(widget.user.toString()),
+                            _setUpUser()
+                      }),
+                )
+              ],
+            ))
+      ]),
     );
   }
 
-    String getLabel(double intensityLevel) {
-      String returnLabel = "";
-      switch (intensityLevel) {
-        case 0.0:
-        returnLabel = "";
-        break
-        case 20.0:
-        returnLabel = "";
-        break
-        case 40.0:
-        returnLabel = "";
-        break
-        case 60.0:
-        returnLabel = "";
-        break
-        case 80.0:
-        returnLabel = "";
-        break
-        case 100.0:
-        returnLabel = "";
-        break
-        default:
-        break
-      }
-            return returnLabel;
+  String getSessionOption(int index) {
+    return sessionOptions[index];
   }
 
-
+  String getLabel(double percLevel, String mode) {
+    var modes = {
+      "Fitness": {
+        0: "Inactive",
+        20: "Slightly Active",
+        40: "Moderately Active",
+        60: "Active",
+        80: "Very Active",
+        100: "Super Active"
+      },
+      "Intensity": {
+        0: "Not Intensive",
+        20: "Slightly Intensive",
+        40: "Moderately Intensive",
+        60: "Intensive",
+        80: "Very Intensive",
+        100: "Super Intensive"
+      }
+    };
+    return modes[mode][percLevel];
+  }
 }
-
 
 // body: Column(
 //           children: [
@@ -185,36 +354,36 @@ class _SessionDetailsState extends State<SessionDetails> {
 //               // }).toList(),
 //               // shrinkWrap: true,
 //             ),
-//             //     return Container(
-//             //           decoration: BoxDecoration(
-//             //               border: Border.all(color: HexColor('#C8C8C8'))
-//             //           ),
-//             //           child: FlatButton(
-//             //             child: Column(
-//             //                 mainAxisAlignment: MainAxisAlignment.center,
-//             //                 children: [Text(resources[resource])]),
-//             //             color: widget.user.resources
-//             //                     .contains(resources[resource])
-//             //                 ? HexColor('#EB9661')
-//             //                 : Colors.transparent,
-//             //             onPressed: () => {
-//             //               if (!widget.user.resources
-//             //                   .contains(resources[resource]))
-//             //                 {
-//             //                   widget.user.resources
-//             //                       .add(resources[resource])
-//             //                 }
-//             //               else
-//             //                 {
-//             //                   widget.user.resources
-//             //                       .remove(resources[resource])
-//             //                 },
-//             //               setState(() => {})
-//             //             },
-//             //           ),
-//             //         );
-//             //   }),
-//             // ),
+//     return Container(
+//           decoration: BoxDecoration(
+//               border: Border.all(color: HexColor('#C8C8C8'))
+//           ),
+//           child: FlatButton(
+//             child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [Text(resources[resource])]),
+//             color: widget.user.resources
+//                     .contains(resources[resource])
+//                 ? HexColor('#EB9661')
+//                 : Colors.transparent,
+//             onPressed: () => {
+//               if (!widget.user.resources
+//                   .contains(resources[resource]))
+//                 {
+//                   widget.user.resources
+//                       .add(resources[resource])
+//                 }
+//               else
+//                 {
+//                   widget.user.resources
+//                       .remove(resources[resource])
+//                 },
+//               setState(() => {})
+//             },
+//           ),
+//         );
+//   }),
+// ),
 //             // children: List.generate(
 //             //     resources.length,
 //             //     (resource) => Container(
