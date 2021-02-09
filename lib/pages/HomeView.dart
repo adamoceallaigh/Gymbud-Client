@@ -98,7 +98,7 @@ class _HomeViewState extends State<HomeView> {
                         ],
                       ),
                       Positioned(
-                        top: -5,
+                        top: 0,
                         right: 0,
                         child: CircleAvatar(
                           radius: 50.0,
