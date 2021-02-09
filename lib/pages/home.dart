@@ -27,26 +27,23 @@ class _HomeState extends State<Home> {
   /// UserController and passes it to a state variable
   /// So you can make a ListView Builder out of it below
   ///
-  List<User> users = List<User>();
+  // List<User> users = List<User>();
   int _currentIndex = 0;
   List<Widget> _tabPages = [];
-
-  void setupUsers() async {
-    UserController userController = new UserController();
-    userController.getUsers().then((user) => setState(() {
-          users.addAll(user);
-        }));
-  }
 
   // Using Initiliazation method to set the state once with the list of users
   @override
   void initState() {
     super.initState();
-    setupUsers();
-    this._tabPages = [HomeView(users: users), MatchView(), CalendarView()];
+    // setupUsers();
+    // this._tabPages = [
+    //   HomeView(users: users),
+    //   MatchView(),
+    //   CalendarView()
+    // ];
   }
 
-  HomeView homeView;
+  final tabPages = [HomeView(), MatchView(), CalendarView()];
 
   void onTabTapped(int index) {
     setState(() => {_currentIndex = index});

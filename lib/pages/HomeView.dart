@@ -4,14 +4,34 @@ import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
-  List<User> users = List<User>();
-  HomeView({Key key, @required this.users}) : super(key: key);
+  // List<User> users = List<User>();
+  // HomeView({Key key, @required this.users}) : super(key: key);
 
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
+  List<User> users = List<User>();
+
+  void setupUsers() async {
+    UserController userController = new UserController();
+    userController.getUsers().then((user) => setState(() {
+          users.addAll(user);
+        }));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupUsers();
+    // this._tabPages = [
+    //   HomeView(users: users),
+    //   MatchView(),
+    //   CalendarView()
+    // ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,41 +58,39 @@ class _HomeViewState extends State<HomeView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.users[index].name,
+                            users[index].name,
                             style: TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.bold),
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 15.0),
                             child: Text(
-                              widget.users[index].userName,
+                              users[index].userName,
                               style: TextStyle(color: HexColor("EB9661")),
                             ),
                           ),
                           Text(
                             "Preferred Intensity: " +
-                                widget.users[index].preferredIntensity,
+                                users[index].preferredIntensity,
                             // style: TextStyle(
                             //   color: HexColor("EB9661")
                             // ),
                           ),
                           Text(
                             "Video / In Person: " +
-                                widget.users[index].videoOrInPerson,
+                                users[index].videoOrInPerson,
                             // style: TextStyle(
                             //   color: HexColor("EB9661")
                             // ),
                           ),
                           Text(
-                            "Fitness Level: " +
-                                widget.users[index].fitnessLevel,
+                            "Fitness Level: " + users[index].fitnessLevel,
                             // style: TextStyle(
                             //   color: HexColor("EB9661")
                             // ),
                           ),
                           Text(
-                            "Resources: " +
-                                widget.users[index].resources.toString(),
+                            "Resources: " + users[index].resources.toString(),
                             // style: TextStyle(
                             //   color: HexColor("EB9661")
                             // ),
@@ -84,11 +102,9 @@ class _HomeViewState extends State<HomeView> {
                         right: 0,
                         child: CircleAvatar(
                           radius: 50.0,
-                          backgroundImage:
-                              widget.users[index].profile_url != null
-                                  ? new NetworkImage(
-                                      widget.users[index].profile_url)
-                                  : null,
+                          backgroundImage: users[index].profile_url != null
+                              ? new NetworkImage(users[index].profile_url)
+                              : null,
                           backgroundColor: Colors.transparent,
                         ),
                         // child: Container(
@@ -104,7 +120,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               );
             },
-            itemCount: widget.users.length,
+            itemCount: users.length,
           ),
         ),
       ],
