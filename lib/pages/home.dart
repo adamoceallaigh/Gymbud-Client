@@ -17,32 +17,69 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  /// This function retrieves all users from the
+  /// UserController and passes it to a state variable
+  /// So you can make a ListView Builder out of it below
+  /// 
+List<User> users = List<User>();
+  void setupUsers() async {
+    UserController userController = new UserController();
+    userController.getUsers().then((user) => setState(() {
+        users.addAll(user);
+    }));
+  }
+
+  // Using Initiliazation method to set the state once with the list of users
+  @override
+  void initState() {
+    super.initState();
+    setupUsers();
+  }
+
   int _currentIndex = 0;
   final List<Widget> _tabPages = [
-    HomeView(),
-    MatchView(),
+    HomeView(users: users), 
+    MatchView(), 
     CalendarView()
   ];
 
   void onTabTapped(int index) {
-    setState(() => {
-      _currentIndex = index
-    });
+    setState(() => {_currentIndex = index});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset("Resources/Images/logoGymbud.png",
-            height: 100.0, width: 100.0),
+        leading: Container(
+          height: 120,
+          padding: const EdgeInsets.all(0),
+          child: Row(children: [
+            Expanded(
+                flex: 6,
+                child: Image.asset('Resources/Images/logoGymbud.png',
+                    fit: BoxFit.fill)),
+          ]),
+        ),
+        actions: [
+          CircleAvatar(
+            radius: 50.0,
+            backgroundImage: users[index].profile_url != null
+                ? new NetworkImage(users[index].profile_url)
+                : null,
+            backgroundColor: Colors.transparent,
+          ),
+        ],
+        // leading: Image.asset("Resources/Images/logoGymbud.png",
+        // height: 100.0, width: 100.0),
         backgroundColor: HexColor("FEFEFE"),
       ),
       body: _tabPages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         backgroundColor: HexColor("EB9661"),
-        currentIndex: _currentIndex, // this will be set when a new tab is tapped
+        currentIndex:
+            _currentIndex, // this will be set when a new tab is tapped
         items: [
           BottomNavigationBarItem(
             icon: Image.asset("Resources/Images/House_Icon.png"),
