@@ -102,8 +102,8 @@ class _HomeViewState extends State<HomeView> {
                         right: 0,
                         child: CircleAvatar(
                           radius: 50.0,
-                          backgroundImage: users[index].profile_url != null
-                              ? new NetworkImage(users[index].profile_url)
+                          backgroundImage: users[index].profileUrl != null
+                              ? new NetworkImage(users[index].profileUrl)
                               : null,
                           backgroundColor: Colors.transparent,
                         ),
@@ -112,7 +112,7 @@ class _HomeViewState extends State<HomeView> {
                         //   padding: EdgeInsets.symmetric(horizontal: 8.0),
                         //   height: 100,
                         //   width: 70,
-                        //   child: users[index].profile_url != null ? new Image.network(users[index].profile_url , fit: BoxFit.cover) :  null
+                        //   child: users[index].profileUrl != null ? new Image.network(users[index].profileUrl , fit: BoxFit.cover) :  null
                         // )
                       )
                     ],

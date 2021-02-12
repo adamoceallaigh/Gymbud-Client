@@ -73,9 +73,9 @@ class _SessionDetailsState extends State<SessionDetails> {
   void _setUpUser() async {
     UserController userController = new UserController();
     widget.user.gender == "male"
-        ? widget.user.profile_url =
+        ? widget.user.profileUrl =
             "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/James.jpg?alt=media&token=123f37e9-e7a8-4823-b6a6-ee86e4cc7e59"
-        : widget.user.profile_url = getGirlPhoto();
+        : widget.user.profileUrl = getGirlPhoto();
     print(widget.user.toString());
     User newUser = await userController.createUser(widget.user);
     if (newUser != null) {

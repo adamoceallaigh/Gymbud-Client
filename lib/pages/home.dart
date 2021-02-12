@@ -75,8 +75,8 @@ class _HomeState extends State<Home> {
             },
             child: CircleAvatar(
               radius: 50.0,
-              backgroundImage: widget.user.profile_url != null
-                  ? new NetworkImage(widget.user.profile_url)
+              backgroundImage: widget.user.profileUrl != null
+                  ? new NetworkImage(widget.user.profileUrl)
                   : null,
               backgroundColor: Colors.transparent,
             ),
