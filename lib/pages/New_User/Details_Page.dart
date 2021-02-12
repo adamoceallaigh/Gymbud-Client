@@ -16,23 +16,21 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   RangeValues _ageValues = RangeValues(5, 90);
-  RangeLabels _ageLabels = RangeLabels('1', '100');
   RangeValues _distanceValues = RangeValues(5, 90);
-  RangeLabels _distanceLabels = RangeLabels('1', '100');
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _dobController = new TextEditingController();
   TextEditingController _genderController = new TextEditingController();
 
-  void setTextControllers(_name , _dob, _gender ) {
-      widget.user.name = _name;
-      widget.user.dob = _dob;
-      widget.user.gender = _gender;
+  void setTextControllers(_name, _dob, _gender) {
+    widget.user.name = _name;
+    widget.user.dob = _dob;
+    widget.user.gender = _gender;
 
-      setState((){
-        _nameController = new TextEditingController(text: widget.user.name);
-        _dobController = new TextEditingController(text: widget.user.dob);
-        _genderController = new TextEditingController(text: widget.user.gender);
-      });
+    setState(() {
+      _nameController = new TextEditingController(text: widget.user.name);
+      _dobController = new TextEditingController(text: widget.user.dob);
+      _genderController = new TextEditingController(text: widget.user.gender);
+    });
   }
 
   @override
@@ -64,8 +62,7 @@ class _DetailsPageState extends State<DetailsPage> {
             Text("18-31"),
             SliderTheme(
               data: SliderThemeData(
-                  showValueIndicator: ShowValueIndicator.always
-              ),
+                  showValueIndicator: ShowValueIndicator.always),
               child: RangeSlider(
                 values: _ageValues,
                 min: 0,
@@ -75,10 +72,13 @@ class _DetailsPageState extends State<DetailsPage> {
                 inactiveColor: Colors.grey,
                 activeColor: HexColor('#EB9661'),
                 onChanged: (RangeValues values) {
-                  print('START: ${_ageValues.start.round()}, END: ${_ageValues.end.round()}');
+                  print(
+                      'START: ${_ageValues.start.round()}, END: ${_ageValues.end.round()}');
                   setState(() {
-                    setTextControllers(_nameController.text, _dobController.text , _genderController.text);
-                    widget.user.preferredAgeRange = '${_ageValues.start} - ${_ageValues.end}';
+                    setTextControllers(_nameController.text,
+                        _dobController.text, _genderController.text);
+                    widget.user.preferredAgeRange =
+                        '${_ageValues.start} - ${_ageValues.end}';
                     _ageValues = values;
                   });
                 },
@@ -88,40 +88,41 @@ class _DetailsPageState extends State<DetailsPage> {
             Text("20 mi"),
             SliderTheme(
               data: SliderThemeData(
-                  showValueIndicator: ShowValueIndicator.always
-              ),
+                  showValueIndicator: ShowValueIndicator.always),
               child: RangeSlider(
                 values: _distanceValues,
                 min: 0,
                 max: 100,
-                labels: RangeLabels(
-                    '${_distanceValues.start.round()}', '${_distanceValues.end.round()}'),
+                labels: RangeLabels('${_distanceValues.start.round()}',
+                    '${_distanceValues.end.round()}'),
                 inactiveColor: Colors.grey,
                 activeColor: HexColor('#EB9661'),
                 onChanged: (RangeValues values) {
-                  print('START: ${_distanceValues.start.round()}, END: ${_distanceValues.end.round()}');
+                  print(
+                      'START: ${_distanceValues.start.round()}, END: ${_distanceValues.end.round()}');
                   setState(() {
-                    setTextControllers(_nameController.text, _dobController.text , _genderController.text);
-                    widget.user.preferredDistanceRange = '${_ageValues.start} - ${_ageValues.end}';
+                    setTextControllers(_nameController.text,
+                        _dobController.text, _genderController.text);
+                    widget.user.preferredDistanceRange =
+                        '${_ageValues.start} - ${_ageValues.end}';
                     _distanceValues = values;
                   });
                 },
               ),
             ),
             RaisedButton(
-              child: Text("Continue"),
-              onPressed: () => {
-                widget.user.name = _nameController.text,
-                widget.user.dob = _dobController.text,
-                widget.user.gender = _genderController.text,
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                  builder: (context) =>
-                  DetailsPageSuccess(user: widget.user)),
-                ),
-              }
-            ),
+                child: Text("Continue"),
+                onPressed: () => {
+                      widget.user.name = _nameController.text,
+                      widget.user.dob = _dobController.text,
+                      widget.user.gender = _genderController.text,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DetailsPageSuccess(user: widget.user)),
+                      ),
+                    }),
           ]),
         ),
       ),

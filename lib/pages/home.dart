@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'CalendarView.dart';
 import 'HomeView.dart';
 import 'MatchView.dart';
+import 'ProfilePage.dart';
 
 ///Setting my Page up as a Stateful Widget
 ///so I can change the state of the list of users
@@ -64,12 +65,21 @@ class _HomeState extends State<Home> {
           ]),
         ),
         actions: [
-          CircleAvatar(
-            radius: 50.0,
-            backgroundImage: widget.user.profile_url != null
-                ? new NetworkImage(widget.user.profile_url)
-                : null,
-            backgroundColor: Colors.transparent,
+          GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfilePage(user: widget.user)),
+              ),
+            },
+            child: CircleAvatar(
+              radius: 50.0,
+              backgroundImage: widget.user.profile_url != null
+                  ? new NetworkImage(widget.user.profile_url)
+                  : null,
+              backgroundColor: Colors.transparent,
+            ),
           ),
         ],
         // leading: Image.asset("Resources/Images/logoGymbud.png",
