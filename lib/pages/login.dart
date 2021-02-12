@@ -3,6 +3,8 @@ import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -20,7 +22,11 @@ class _LoginState extends State<Login> {
     );
     bool userValidated = userController.loginUser(newUser);
     if(userValidated){
-      Navigator.pushReplacementNamed(context , '/Home');
+       Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Home(user: user)),
+      ),
     }
   }
 
