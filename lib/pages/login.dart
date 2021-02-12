@@ -11,22 +11,21 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var _selectedPassword, 
-  _selectedUsername; 
+  var _selectedPassword, _selectedUsername;
 
-  void _setValues() async{ 
+  void _setValues() async {
     UserController userController = new UserController();
     User newUser = new User.login(
-        _selectedUsername, 
-        _selectedPassword, 
+      _selectedUsername,
+      _selectedPassword,
     );
     bool userValidated = userController.loginUser(newUser);
-    if(userValidated){
-       Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Home(user: user)),
-      ),
+    if (userValidated) {
+      //  Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) => Home(user: user)),
+      // ),
     }
   }
 
@@ -86,13 +85,9 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20.0 , top: 20.0),
+                margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
                 child: RaisedButton(
-                  child: Text('Login'), 
-                  onPressed: () => {
-                    _setValues()
-                  }
-                ),
+                    child: Text('Login'), onPressed: () => {_setValues()}),
               ),
               Text('Forgot Your Password ?')
             ],

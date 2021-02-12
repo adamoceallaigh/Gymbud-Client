@@ -1,4 +1,4 @@
-// Imports 
+// Imports
 
 //____General Imports______
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import './Pages/signup.dart';
 import './Pages/onboardingScreen.dart';
 import './Pages/splashscreen.dart';
 
-// Setting up routes and paths for the flutter app  
+// Setting up routes and paths for the flutter app
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -30,8 +30,7 @@ class MyApp extends StatelessWidget {
           '/OnBoarding': (context) => OnBoarding(),
           '/login': (context) => Login(),
           // '/signup': (context) => SignUp(),
-          '/Home': (context) => Home(),
-        }
-    );
+          // '/Home': (context) => Home(),
+        });
   }
 }
