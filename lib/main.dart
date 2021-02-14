@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 // ___Page Imports________
 // import 'package:Client/pages/home.dart';
-import 'package:Client/pages/login.dart';
+// import 'package:Client/pages/login.dart';
 // import 'package:Client/pages/signup.dart';
 // import 'package:Client/pages/loading.dart';
 import 'package:Client/pages/onboardingScreen.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => SplashScreen(),
           '/OnBoarding': (context) => OnBoarding(),
-          '/login': (context) => Login(),
+          // '/login': (context) => Login(),
           // '/signup': (context) => SignUp(),
           // '/Home': (context) => Home(),
         });
