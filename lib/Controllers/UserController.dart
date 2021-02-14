@@ -49,11 +49,13 @@ class UserController {
     return null;
   }
 
-  bool loginUser(User user) {
-    if (user.userName == "harrym" && user.password == "go")
-      return true;
-    else if (user.userName == "heftyboy" && user.password == "friedchicken")
-      return true;
-    return false;
+  Future<User> loginUser(User user) async {
+    Response response = await get('$url');
+    // if (user.userName == "harrym" && user.password == "go")
+    //   return true;
+    // else if (user.userName == "heftyboy" && user.password == "friedchicken")
+    //   return true;
+    // return false;
+    return null;
   }
 }
