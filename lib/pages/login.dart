@@ -3,8 +3,6 @@ import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
-
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -32,9 +30,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Align(
-          alignment: Alignment.center,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          height: 580,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -92,6 +91,8 @@ class _LoginState extends State<Login> {
               Text('Forgot Your Password ?')
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

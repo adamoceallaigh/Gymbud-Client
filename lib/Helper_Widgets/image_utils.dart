@@ -1,83 +1,83 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'dart:io';
+// import 'package:flutter/material.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:image_cropper/image_cropper.dart';
+// import 'package:image_picker/image_picker.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
-// Widget to capture and crop the image
-class ImageCapture extends StatefulWidget {
-  @override
-  _ImageCaptureState createState() => _ImageCaptureState();
-}
+// // Widget to capture and crop the image
+// class ImageCapture extends StatefulWidget {
+//   @override
+//   _ImageCaptureState createState() => _ImageCaptureState();
+// }
 
-class _ImageCaptureState extends State<ImageCapture> {
-  // Active Image File
-  File _imageFile;
-  final _storage = FirebaseStorage.instance;
-  ImagePicker _imgPicker = new ImagePicker();
-  PickedFile _selectedImage;
+// class _ImageCaptureState extends State<ImageCapture> {
+//   // Active Image File
+//   File _imageFile;
+//   final _storage = FirebaseStorage.instance;
+//   ImagePicker _imgPicker = new ImagePicker();
+//   PickedFile _selectedImage;
 
-  _pickImage(ImageSource source) async {
-    // Check Permissions if Picking from Gallery
-    if (source == ImageSource.gallery) {
-      await Permission.photos.request();
-      var permissionStatus = await Permission.photos.status;
-      if (permissionStatus.isGranted) {
-        //Select Image
-        _selectedImage = await _imgPicker.getImage(source: source);
-      } else {
-        print("Grant Permissions and try again");
-      }
-    }
+//   _pickImage(ImageSource source) async {
+//     // Check Permissions if Picking from Gallery
+//     if (source == ImageSource.gallery) {
+//       await Permission.photos.request();
+//       var permissionStatus = await Permission.photos.status;
+//       if (permissionStatus.isGranted) {
+//         //Select Image
+//         _selectedImage = await _imgPicker.getImage(source: source);
+//       } else {
+//         print("Grant Permissions and try again");
+//       }
+//     }
 
-    _selectedImage = await _imgPicker.getImage(source: source);
-    File _selected = File(_selectedImage.path);
-    await _uploadFile(_selectedImage, _selected);
+//     _selectedImage = await _imgPicker.getImage(source: source);
+//     File _selected = File(_selectedImage.path);
+//     await _uploadFile(_selectedImage, _selected);
 
-    setState(() {
-      _imageFile = _selected;
-    });
-  }
+//     setState(() {
+//       _imageFile = _selected;
+//     });
+//   }
 
-  _cropImage() async {
-    File _croppedImage =
-        await ImageCropper.cropImage(sourcePath: _imageFile.path);
+//   // _cropImage() async {
+//   //   File _croppedImage =
+//   //       await ImageCropper.cropImage(sourcePath: _imageFile.path);
 
-    setState(() {
-      _imageFile = _croppedImage ?? _imageFile;
-    });
-  }
+//   //   setState(() {
+//   //     _imageFile = _croppedImage ?? _imageFile;
+//   //   });
+//   // }
 
-  _clear() {
-    setState(() => _imageFile = null);
-  }
+//   _clear() {
+//     setState(() => _imageFile = null);
+//   }
 
-  _uploadFile(PickedFile imageFile, File file) async {
-    // Function to upload the photo to firebase storage
-    if (imageFile != null) {
-      String filePath = 'images/';
-      await _storage.ref().child(filePath).putFile(file);
-    }
-  }
+//   _uploadFile(PickedFile imageFile, File file) async {
+//     // Function to upload the photo to firebase storage
+//     if (imageFile != null) {
+//       String filePath = 'images/';
+//       await _storage.ref().child(filePath).putFile(file);
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-          children: <Widget>[
-            (_imageFile != null)
-                ? Image.file(_imageFile)
-                : Placeholder(
-                    fallbackHeight: 200.0, fallbackWidth: 100.0),
-              RaisedButton(
-                child: Text('Upload Photo'),
-                onPressed: () => _pickImage(ImageSource.gallery),
-              ),
-              RaisedButton(
-                child: Text('Take Photo'),
-                onPressed: () => _pickImage(ImageSource.camera),
-              ),
-          ],
-        );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//           children: <Widget>[
+//             (_imageFile != null)
+//                 ? Image.file(_imageFile)
+//                 : Placeholder(
+//                     fallbackHeight: 200.0, fallbackWidth: 100.0),
+//               RaisedButton(
+//                 child: Text('Upload Photo'),
+//                 onPressed: () => _pickImage(ImageSource.gallery),
+//               ),
+//               RaisedButton(
+//                 child: Text('Take Photo'),
+//                 onPressed: () => _pickImage(ImageSource.camera),
+//               ),
+//           ],
+//         );
+//   }
+// }

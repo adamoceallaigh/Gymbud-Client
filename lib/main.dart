@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 // ___Page Imports________
-import './Pages/home.dart';
-import './Pages/login.dart';
-import './Pages/signup.dart';
-// import './Pages/loading.dart';
-import './Pages/onboardingScreen.dart';
-import './Pages/splashscreen.dart';
+// import 'package:Client/pages/home.dart';
+import 'package:Client/pages/login.dart';
+// import 'package:Client/pages/signup.dart';
+// import 'package:Client/pages/loading.dart';
+import 'package:Client/pages/onboardingScreen.dart';
+import 'package:Client/pages/splashscreen.dart';
 
 // Setting up routes and paths for the flutter app
 void main() async {
