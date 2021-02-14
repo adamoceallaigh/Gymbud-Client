@@ -2,7 +2,7 @@
 
 class User {
   String id,
-      userName,
+      username,
       password,
       profileUrl,
       name,
@@ -13,10 +13,10 @@ class User {
       preferredDistanceRange,
       videoOrInPerson,
       fitnessLevel;
-  List resources, messages, matches, sessions, activitiesEnjoyed;
+  List resources, messages, buds, sessions, activitiesEnjoyed;
   User(
       this.id,
-      this.userName,
+      this.username,
       this.password,
       this.profileUrl,
       this.name,
@@ -27,14 +27,14 @@ class User {
       this.preferredDistanceRange,
       this.videoOrInPerson,
       this.fitnessLevel,
-      this.matches,
+      this.buds,
       this.sessions,
       this.resources,
       this.activitiesEnjoyed,
       this.messages);
 
   User.register(
-      this.userName,
+      this.username,
       this.password,
       this.profileUrl,
       this.name,
@@ -45,14 +45,14 @@ class User {
       this.preferredDistanceRange,
       this.videoOrInPerson,
       this.fitnessLevel,
-      this.matches,
+      this.buds,
       this.sessions,
       this.resources,
       this.activitiesEnjoyed,
       this.messages);
 
   User.login(
-    this.userName,
+    this.username,
     this.password,
   );
 
@@ -60,8 +60,8 @@ class User {
   /// and return User to UserManager class to pass to page to be displayed
   User.fromJSON(Map<String, dynamic> data) {
     this.id = data["_id"];
-    this.userName = data['userName'];
-    this.password = data['password'];
+    this.username = data['Username'];
+    this.password = data['Password'];
     this.profileUrl = data['Profile_Url'];
     this.name = data['Name'];
     this.gender = data["Gender"];
@@ -71,7 +71,7 @@ class User {
     this.preferredDistanceRange = data["Preferred_Distance_Range"];
     this.videoOrInPerson = data["Video_Or_In_Person"];
     this.fitnessLevel = data["Fitness_Level"];
-    this.matches = data["Matches"];
+    this.buds = data["Buds"];
     this.sessions = data["Sessions"];
     this.resources = data["Resources"];
     this.activitiesEnjoyed = data["Activities_Enjoyed"];
@@ -79,8 +79,8 @@ class User {
   }
 
   Map<String, dynamic> toJson() => {
-        'userName': this.userName,
-        'password': this.password,
+        'Username': this.username,
+        'Password': this.password,
         'Profile_Url': this.profileUrl,
         'Name': this.name,
         'Gender': this.gender,
@@ -93,7 +93,7 @@ class User {
         'Video_Or_In_Person': this.videoOrInPerson,
         'Messages': this.messages,
         'Activities_Enjoyed': this.activitiesEnjoyed,
-        'Matches': this.matches,
+        'Buds': this.buds,
         'Sessions': this.sessions
       };
 

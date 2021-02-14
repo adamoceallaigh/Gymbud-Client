@@ -67,7 +67,7 @@ class BasicSignUp extends StatelessWidget {
                   child: RaisedButton(
                       child: Text('Login'),
                       onPressed: () => {
-                            user.userName = _userNameController.text,
+                            user.username = _userNameController.text,
                             user.password = _passwordController.text,
                             Navigator.push(
                               context,

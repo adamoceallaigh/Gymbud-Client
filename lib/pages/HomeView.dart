@@ -65,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
                           Container(
                             margin: EdgeInsets.only(bottom: 15.0),
                             child: Text(
-                              users[index].userName,
+                              users[index].username,
                               style: TextStyle(color: HexColor("EB9661")),
                             ),
                           ),

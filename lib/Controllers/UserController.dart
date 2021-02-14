@@ -29,19 +29,7 @@ class UserController {
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode({
-              "userName": user.userName,
-              "password": user.password,
-              "Profile_Url": user.profileUrl,
-              "Name": user.name,
-              "Gender": user.gender,
-              "DOB": user.dob,
-              "Preferred_Intensity": user.preferredIntensity,
-              "Fitness_Level": user.fitnessLevel,
-              "Resources": jsonEncode(user.resources),
-              "Preferred_Age_Range": user.preferredAgeRange,
-              "Video_Or_In_Person": user.videoOrInPerson
-            }));
+            body: jsonEncode(user.toJson()));
     if (response.statusCode == 200) {
       var userJSON = jsonDecode(response.body);
       return User.fromJSON(userJSON);
@@ -49,13 +37,20 @@ class UserController {
     return null;
   }
 
-  Future<User> loginUser(User user) async {
-    Response response = await get('$url');
-    // if (user.userName == "harrym" && user.password == "go")
-    //   return true;
-    // else if (user.userName == "heftyboy" && user.password == "friedchicken")
-    //   return true;
-    // return false;
+  Future<User> loginUser(String username, String password) async {
+    Response response =
+        await http.post('https://gymbud.herokuapp.com/api/v1/users/login',
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode({
+              'username': username,
+              'password': password,
+            }));
+    if (response.statusCode == 200) {
+      var userJSON = jsonDecode(response.body);
+      return User.fromJSON(userJSON);
+    }
     return null;
   }
 }

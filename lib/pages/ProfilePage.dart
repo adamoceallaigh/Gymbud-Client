@@ -91,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
-                          child: Text(widget.user.userName),
+                          child: Text(widget.user.username),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
