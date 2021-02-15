@@ -1,7 +1,6 @@
 //Imports and Variable Declarations
 import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/InformationPopUp.dart';
-import 'package:Client/Models/User.dart';
 import 'package:Client/pages/Home.dart';
 import 'package:flutter/material.dart';
 
