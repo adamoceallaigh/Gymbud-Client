@@ -5,7 +5,7 @@ import 'package:Client/pages/Home.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
-  final InformationPopUp infoPopUp;
+  InformationPopUp infoPopUp;
 
   Login({this.infoPopUp});
 
@@ -23,18 +23,17 @@ class _LoginState extends State<Login> {
           await userController.loginUser(_selectedUsername, _selectedPassword);
       if (userValidated.runtimeType == InformationPopUp) {
         if (userValidated.message != null) {
+          setState(() {
+            widget.infoPopUp = userValidated;
+          });
+        }
+      } else {
+        if (userValidated.username != null) {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => Login(infoPopUp: userValidated)),
+            MaterialPageRoute(builder: (context) => Home(user: userValidated)),
           );
         }
-      }
-      if (userValidated.username != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Home(user: userValidated)),
-        );
       }
     } catch (e) {
       print('caught error $e');
