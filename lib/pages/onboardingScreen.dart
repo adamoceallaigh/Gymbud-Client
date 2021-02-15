@@ -1,4 +1,5 @@
 //Imports and Variable Declarations
+import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/pages/login.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class _OnBoardingState extends State<OnBoarding> {
   Widget build(BuildContext context) {
     final newUser = new User(null, null, null, null, null, null, null, null,
         null, null, null, null, [], [], [], [], []);
+    final InformationPopUp infoPopUp = new InformationPopUp();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Align(
@@ -33,7 +35,8 @@ class _OnBoardingState extends State<OnBoarding> {
               onPressed: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Login()),
+                  MaterialPageRoute(
+                      builder: (context) => Login(infoPopUp: infoPopUp)),
                 )
               },
             ),

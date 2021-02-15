@@ -1,4 +1,5 @@
 //Imports and Variable Declarations
+import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/Models/User.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -37,19 +38,25 @@ class UserController {
     return null;
   }
 
-  Future<User> loginUser(String username, String password) async {
-    Response response =
-        await http.post('http://10.0.2.2:7000/api/v1/users/login',
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode({
-              'username': username,
-              'password': password,
-            }));
-    if (response.statusCode == 200) {
+  Future<dynamic> loginUser(String username, String password) async {
+    try {
+      Response response =
+          await http.post('http://10.0.2.2:7000/api/v1/users/login',
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode({
+                'username': username,
+                'password': password,
+              }));
       var userJSON = jsonDecode(response.body);
-      if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
+      if (response.statusCode == 200) {
+        if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
+        if (userJSON["cause"] != null)
+          return new InformationPopUp(message: userJSON["cause"][0]);
+      }
+    } catch (e) {
+      print('caught error $e');
     }
     return null;
   }

@@ -107,13 +107,6 @@ class _HomeViewState extends State<HomeView> {
                               : null,
                           backgroundColor: Colors.transparent,
                         ),
-                        // child: Container(
-
-                        //   padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        //   height: 100,
-                        //   width: 70,
-                        //   child: users[index].profileUrl != null ? new Image.network(users[index].profileUrl , fit: BoxFit.cover) :  null
-                        // )
                       )
                     ],
                   ),
