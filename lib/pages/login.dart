@@ -4,6 +4,7 @@ import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/pages/Home.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Login extends StatefulWidget {
   InformationPopUp infoPopUp;
 
