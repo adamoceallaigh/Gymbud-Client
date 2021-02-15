@@ -12,6 +12,9 @@ class MatchView extends StatefulWidget {
 class _MatchViewState extends State<MatchView> {
   List<Session> sessions = List<Session>();
 
+  //Declaring my tinderCardController to be able to indicate when we swipe left or right easily
+  CardController tinderCardController;
+
   void setupSessions() async {
     SessionController sessionController = new SessionController();
     sessionController.getSessions().then((session) => setState(() {
@@ -32,6 +35,7 @@ class _MatchViewState extends State<MatchView> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        height: MediaQuery.of(context).size.height * 0.6,
         child: TinderSwapCard(
           maxWidth: MediaQuery.of(context).size.width * 0.9,
           maxHeight: MediaQuery.of(context).size.width * 0.9,
@@ -46,6 +50,7 @@ class _MatchViewState extends State<MatchView> {
               ),
             ),
           ),
+          cardController: tinderCardController = CardController(),
           totalNum: sessions.length,
         ),
       ),
