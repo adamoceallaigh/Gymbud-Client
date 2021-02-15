@@ -39,7 +39,7 @@ class UserController {
 
   Future<User> loginUser(String username, String password) async {
     Response response =
-        await http.post('https://gymbud.herokuapp.com/api/v1/users/login',
+        await http.post('http://10.0.2.2:7000/api/v1/users/login',
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -49,7 +49,7 @@ class UserController {
             }));
     if (response.statusCode == 200) {
       var userJSON = jsonDecode(response.body);
-      return User.fromJSON(userJSON);
+      if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
     }
     return null;
   }

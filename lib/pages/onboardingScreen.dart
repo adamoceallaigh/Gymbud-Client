@@ -1,5 +1,6 @@
 //Imports and Variable Declarations
 import 'package:Client/Models/User.dart';
+import 'package:Client/pages/login.dart';
 import 'package:flutter/material.dart';
 
 import 'New_User/BasicSignUp.dart';
@@ -11,14 +12,13 @@ class OnBoarding extends StatefulWidget {
 
 class _OnBoardingState extends State<OnBoarding> {
   @override
-
-
   Widget build(BuildContext context) {
-    final newUser = new User(null,null,null,null,null,null,null,null,null,null,null,null,[],[], [] , [] ,[]);
+    final newUser = new User(null, null, null, null, null, null, null, null,
+        null, null, null, null, [], [], [], [], []);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Align(
-        alignment: Alignment.center, 
+        alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -31,15 +31,19 @@ class _OnBoardingState extends State<OnBoarding> {
             RaisedButton(
               child: Text('Log in'),
               onPressed: () => {
-                Navigator.pushReplacementNamed(context, '/login')
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                )
               },
             ),
             RaisedButton(
               child: Text('Sign Up'),
               onPressed: () => {
                 Navigator.push(
-                  context , 
-                  MaterialPageRoute(builder: (context) => BasicSignUp(user:newUser)),
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BasicSignUp(user: newUser)),
                 )
                 // Navigator.pushReplacementNamed(context, '/signup')
               },
