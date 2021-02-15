@@ -59,9 +59,12 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(0),
           child: Row(children: [
             Expanded(
-                flex: 6,
-                child: Image.asset('Resources/Images/logoGymbud.png',
-                    fit: BoxFit.fill)),
+              flex: 6,
+              child: Image.asset(
+                'Resources/Images/logoGymbud.png',
+                fit: BoxFit.fill,
+              ),
+            ),
           ]),
         ),
         actions: [
