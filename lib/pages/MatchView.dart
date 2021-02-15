@@ -1,6 +1,7 @@
 import 'package:Client/Models/Session.dart';
 import 'package:flutter/material.dart';
 import 'package:Client/Controllers/SessionController.dart';
+//Importing TinderSwipeCard here allowing me to have same functionality easily as tinder cards
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 
 class MatchView extends StatefulWidget {
@@ -23,6 +24,9 @@ class _MatchViewState extends State<MatchView> {
     super.initState();
     setupSessions();
   }
+
+  // Using TinderSwipeCard here - library from pub.dev which allows you very easily to have cards with same functionality as tinder cards
+  // https://pub.dev/packages/flutter_tindercard/example
 
   @override
   Widget build(BuildContext context) {
