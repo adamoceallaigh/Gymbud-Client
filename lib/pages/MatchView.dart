@@ -48,21 +48,12 @@ class _MatchViewState extends State<MatchView> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              // child: ClipRRect(
-              //   borderRadius: BorderRadius.circular(10.0),
-              //   child: Image.network(
-              //     sessions[index].activityImageUrl,
-              //     height: 10.0,
-              //     // fit: BoxFit.cover,
-              //   ),
-              // ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10)),
                     child: Container(
                       height: 220,
                       width: MediaQuery.of(context).size.width,
@@ -76,7 +67,31 @@ class _MatchViewState extends State<MatchView> {
                   ),
                   SizedBox(height: 8),
                   Expanded(
-                    child: Container(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: [
+                            Column(children: [
+                              Text("Activity Description"),
+                              Flexible(
+                                  child:
+                                      Text(sessions[index].activityDescription))
+                            ]),
+                            Column(
+                              children: [
+                                Text(
+                                    sessions[index].capacity.length.toString()),
+                                Text(
+                                  '$sessions[index].capacity.length.toString() / 6',
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
