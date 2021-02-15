@@ -65,33 +65,116 @@ class _MatchViewState extends State<MatchView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            Column(children: [
-                              Text("Activity Description"),
-                              Flexible(
-                                  child:
-                                      Text(sessions[index].activityDescription))
-                            ]),
-                            Column(
+                  Container(
+                    margin: EdgeInsets.only(top: 2),
+                    padding: EdgeInsets.symmetric(horizontal: 6.0),
+                    height: 70,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                    sessions[index].capacity.length.toString()),
-                                Text(
-                                  '$sessions[index].capacity.length.toString() / 6',
-                                )
+                                  "Activity Description",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(sessions[index].activityDescription),
                               ],
-                            )
-                          ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${sessions[index].capacity.length.toString()} / 6',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0),
+                    height: 50,
+                    child: Row(children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Resources",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(sessions[index].resources.toString()),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                    ]),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0),
+                    height: 50,
+                    child: Row(children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Intensity",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(sessions[index].intensityLevel),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6.0),
+                    height: 35,
+                    child: Row(children: [
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Read More",
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ]),
+                        ),
+                      ),
+                    ]),
                   ),
                 ],
               ),
