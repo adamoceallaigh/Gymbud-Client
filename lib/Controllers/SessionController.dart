@@ -7,10 +7,11 @@ import 'package:http/http.dart' as http;
 class SessionController {
   List<Session> sessions = List<Session>();
   String url = "https://gymbud.herokuapp.com/api/v1/sessions";
+  String urlLocal = 'http://10.0.2.2:7000/api/v1/sessions';
 
   // Checks Response from the backend server, to check if everything is OK
   Future<List<Session>> getSessions() async {
-    Response response = await get('$url');
+    Response response = await get('$urlLocal');
     if (response.statusCode == 200) {
       var sessionsJSON = jsonDecode(response.body);
       for (var sessionJSON in sessionsJSON) {

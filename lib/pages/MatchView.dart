@@ -1,8 +1,10 @@
+import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/Session.dart';
 import 'package:flutter/material.dart';
 import 'package:Client/Controllers/SessionController.dart';
 //Importing TinderSwipeCard here allowing me to have same functionality easily as tinder cards
 import 'package:flutter_tindercard/flutter_tindercard.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MatchView extends StatefulWidget {
   @override
@@ -20,6 +22,28 @@ class _MatchViewState extends State<MatchView> {
     sessionController.getSessions().then((session) => setState(() {
           sessions.addAll(session);
         }));
+  }
+
+  List<Widget> getAttendeeCircles(int index) {
+    List<Widget> widgetList = new List<Widget>();
+    double left = 0;
+    if (sessions[index].capacity.length == 1)
+      left = 0;
+    else
+      left = -18;
+    for (var user in sessions[index].capacity) {
+      left += 18;
+      widgetList.add(
+        Positioned(
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(user.profileUrl),
+          ),
+          left: left,
+        ),
+      );
+    }
+    widgetList.add(Container());
+    return widgetList;
   }
 
   @override
@@ -52,8 +76,9 @@ class _MatchViewState extends State<MatchView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ClipRRect(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(10),
+                    ),
                     child: Container(
                       height: 220,
                       width: MediaQuery.of(context).size.width,
@@ -81,10 +106,19 @@ class _MatchViewState extends State<MatchView> {
                               children: [
                                 Text(
                                   "Activity Description",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
+                                  style: GoogleFonts.meriendaOne(
+                                    color: HexColor("#000000"),
                                     fontSize: 18,
+                                    letterSpacing: -1.5,
                                   ),
+
+                                  // Text(
+                                  //   "Activity Description",
+                                  //   style: TextStyle(
+                                  //     fontWeight: FontWeight.w600,
+                                  //     fontSize: 18,
+                                  //     fontFamily: 'Merienda One',
+                                  //   ),
                                 ),
                                 Text(sessions[index].activityDescription),
                               ],
@@ -94,11 +128,24 @@ class _MatchViewState extends State<MatchView> {
                         Expanded(
                           flex: 1,
                           child: Container(
+                            margin: EdgeInsets.only(top: 2),
+                            height: 70,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Stack(
+                                    children: getAttendeeCircles(index),
+                                  ),
+                                ),
                                 Text(
                                   '${sessions[index].capacity.length.toString()} / 6',
+                                  style: GoogleFonts.meriendaOne(
+                                    color: HexColor("#000000"),
+                                    fontSize: 18,
+                                    letterSpacing: -1.5,
+                                  ),
                                 ),
                               ],
                             ),
@@ -119,10 +166,15 @@ class _MatchViewState extends State<MatchView> {
                             children: [
                               Text(
                                 "Resources",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                style: GoogleFonts.meriendaOne(
+                                  color: HexColor("#000000"),
+                                  fontSize: 18,
+                                  letterSpacing: -1.5,
                                 ),
+                                // style: TextStyle(
+                                //   fontWeight: FontWeight.w500,
+                                //   fontSize: 16,
+                                // ),
                               ),
                               Text(sessions[index].resources.toString()),
                             ],
@@ -143,10 +195,15 @@ class _MatchViewState extends State<MatchView> {
                             children: [
                               Text(
                                 "Intensity",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                style: GoogleFonts.meriendaOne(
+                                  color: HexColor("#000000"),
+                                  fontSize: 18,
+                                  letterSpacing: -1.5,
                                 ),
+                                // style: TextStyle(
+                                //   fontWeight: FontWeight.w500,
+                                //   fontSize: 16,
+                                // ),
                               ),
                               Text(sessions[index].intensityLevel),
                             ],
@@ -157,18 +214,50 @@ class _MatchViewState extends State<MatchView> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    height: 35,
+                    height: 65,
                     child: Row(children: [
                       Expanded(
                         child: Container(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   "Read More",
                                   style: TextStyle(
                                     color: Colors.orange,
+                                  ),
+                                ),
+                                Container(
+                                  height: 60,
+                                  width: 80,
+                                  child: Stack(
+                                    // mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Positioned(
+                                        child: Text(
+                                          "by",
+                                          style: GoogleFonts.meriendaOne(
+                                            color: HexColor("#000000"),
+                                            fontSize: 18,
+                                            letterSpacing: -1.5,
+                                          ),
+                                        ),
+                                        left: 5,
+                                        top: 0,
+                                      ),
+                                      Positioned(
+                                        top: 5,
+                                        left: 25,
+                                        child: CircleAvatar(
+                                          radius: 25,
+                                          backgroundImage: NetworkImage(
+                                              sessions[index]
+                                                  .creator
+                                                  .profileUrl),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ]),
