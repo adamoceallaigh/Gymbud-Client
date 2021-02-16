@@ -66,206 +66,210 @@ class _MatchViewState extends State<MatchView> {
           minWidth: MediaQuery.of(context).size.width * 0.8,
           minHeight: MediaQuery.of(context).size.height * 0.85,
           cardBuilder: (context, index) {
-            return Card(
-              margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(10),
-                    ),
-                    child: Container(
-                      height: 220,
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.network(
-                        sessions[index].activityImageUrl,
-                        alignment: Alignment.lerp(
-                            Alignment.center, Alignment.topCenter, .3),
-                        fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () => {},
+              child: Card(
+                margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(10),
+                      ),
+                      child: Container(
+                        height: 220,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.network(
+                          sessions[index].activityImageUrl,
+                          alignment: Alignment.lerp(
+                              Alignment.center, Alignment.topCenter, .3),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 2),
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    height: 70,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 2),
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      height: 70,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Activity Description",
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
+                                    ),
+
+                                    // Text(
+                                    //   "Activity Description",
+                                    //   style: TextStyle(
+                                    //     fontWeight: FontWeight.w600,
+                                    //     fontSize: 18,
+                                    //     fontFamily: 'Merienda One',
+                                    //   ),
+                                  ),
+                                  Text(sessions[index].activityDescription),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              margin: EdgeInsets.only(top: 2),
+                              height: 70,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Stack(
+                                      children: getAttendeeCircles(index),
+                                    ),
+                                  ),
+                                  Text(
+                                    '${sessions[index].capacity.length.toString()} / 6',
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      height: 50,
+                      child: Row(children: [
                         Expanded(
-                          flex: 3,
                           child: Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Activity Description",
+                                  "Resources",
                                   style: GoogleFonts.meriendaOne(
                                     color: HexColor("#000000"),
                                     fontSize: 18,
                                     letterSpacing: -1.5,
                                   ),
-
-                                  // Text(
-                                  //   "Activity Description",
-                                  //   style: TextStyle(
-                                  //     fontWeight: FontWeight.w600,
-                                  //     fontSize: 18,
-                                  //     fontFamily: 'Merienda One',
-                                  //   ),
+                                  // style: TextStyle(
+                                  //   fontWeight: FontWeight.w500,
+                                  //   fontSize: 16,
+                                  // ),
                                 ),
-                                Text(sessions[index].activityDescription),
+                                Text(sessions[index].resources.toString()),
                               ],
                             ),
                           ),
                         ),
+                      ]),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      height: 50,
+                      child: Row(children: [
                         Expanded(
-                          flex: 1,
                           child: Container(
-                            margin: EdgeInsets.only(top: 2),
-                            height: 70,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Stack(
-                                    children: getAttendeeCircles(index),
-                                  ),
-                                ),
                                 Text(
-                                  '${sessions[index].capacity.length.toString()} / 6',
+                                  "Intensity",
                                   style: GoogleFonts.meriendaOne(
                                     color: HexColor("#000000"),
                                     fontSize: 18,
                                     letterSpacing: -1.5,
                                   ),
+                                  // style: TextStyle(
+                                  //   fontWeight: FontWeight.w500,
+                                  //   fontSize: 16,
+                                  // ),
                                 ),
+                                Text(sessions[index].intensityLevel),
                               ],
                             ),
                           ),
                         ),
-                      ],
+                      ]),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    height: 50,
-                    child: Row(children: [
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Resources",
-                                style: GoogleFonts.meriendaOne(
-                                  color: HexColor("#000000"),
-                                  fontSize: 18,
-                                  letterSpacing: -1.5,
-                                ),
-                                // style: TextStyle(
-                                //   fontWeight: FontWeight.w500,
-                                //   fontSize: 16,
-                                // ),
-                              ),
-                              Text(sessions[index].resources.toString()),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ]),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    height: 50,
-                    child: Row(children: [
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Intensity",
-                                style: GoogleFonts.meriendaOne(
-                                  color: HexColor("#000000"),
-                                  fontSize: 18,
-                                  letterSpacing: -1.5,
-                                ),
-                                // style: TextStyle(
-                                //   fontWeight: FontWeight.w500,
-                                //   fontSize: 16,
-                                // ),
-                              ),
-                              Text(sessions[index].intensityLevel),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ]),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0),
-                    height: 65,
-                    child: Row(children: [
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Read More",
-                                  style: TextStyle(
-                                    color: Colors.orange,
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      height: 65,
+                      child: Row(children: [
+                        Expanded(
+                          child: Container(
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Read More",
+                                    style: TextStyle(
+                                      color: Colors.orange,
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 80,
-                                  child: Stack(
-                                    // mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Positioned(
-                                        child: Text(
-                                          "by",
-                                          style: GoogleFonts.meriendaOne(
-                                            color: HexColor("#000000"),
-                                            fontSize: 18,
-                                            letterSpacing: -1.5,
+                                  Container(
+                                    height: 60,
+                                    width: 80,
+                                    child: Stack(
+                                      // mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Positioned(
+                                          child: Text(
+                                            "by",
+                                            style: GoogleFonts.meriendaOne(
+                                              color: HexColor("#000000"),
+                                              fontSize: 18,
+                                              letterSpacing: -1.5,
+                                            ),
                                           ),
+                                          left: 5,
+                                          top: 0,
                                         ),
-                                        left: 5,
-                                        top: 0,
-                                      ),
-                                      Positioned(
-                                        top: 5,
-                                        left: 25,
-                                        child: CircleAvatar(
-                                          radius: 25,
-                                          backgroundImage: NetworkImage(
-                                              sessions[index]
-                                                  .creator
-                                                  .profileUrl),
-                                        ),
-                                      )
-                                    ],
+                                        Positioned(
+                                          top: 5,
+                                          left: 25,
+                                          child: CircleAvatar(
+                                            radius: 25,
+                                            backgroundImage: NetworkImage(
+                                                sessions[index]
+                                                    .creator
+                                                    .profileUrl),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ]),
+                                ]),
+                          ),
                         ),
-                      ),
-                    ]),
-                  ),
-                ],
+                      ]),
+                    ),
+                  ],
+                ),
               ),
             );
           },
