@@ -265,14 +265,36 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  "Participants",
-                                  style: GoogleFonts.meriendaOne(
-                                    color: HexColor("#000000"),
-                                    fontSize: 18,
-                                    letterSpacing: -1.5,
+                                RichText(
+                                  text: TextSpan(
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
+                                    ),
+                                    children: [
+                                      TextSpan(text: 'Participants'),
+                                      WidgetSpan(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20.0),
+                                          child: Icon(Icons.person),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                          text:
+                                              '${widget.session.capacity.length}'),
+                                    ],
                                   ),
                                 ),
+                                // Text(
+                                //   "Participants ⚧ ${widget.session.capacity.length}",
+                                //   style: GoogleFonts.meriendaOne(
+                                //     color: HexColor("#000000"),
+                                //     fontSize: 18,
+                                //     letterSpacing: -1.5,
+                                //   ),
+                                // ),
                                 Expanded(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

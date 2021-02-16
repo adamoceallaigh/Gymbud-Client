@@ -79,7 +79,7 @@ class _MatchViewState extends State<MatchView> {
                 ),
               },
               child: Hero(
-                tag: 'Activity $index',
+                tag: 'Activity ${sessions[index].hashCode}',
                 child: Card(
                   margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
                   elevation: 8,
@@ -107,7 +107,7 @@ class _MatchViewState extends State<MatchView> {
                       Container(
                         margin: EdgeInsets.only(top: 2),
                         padding: EdgeInsets.symmetric(horizontal: 6.0),
-                        height: 70,
+                        height: 80,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -198,101 +198,144 @@ class _MatchViewState extends State<MatchView> {
                         ]),
                       ),
                       Container(
+                        margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.symmetric(horizontal: 6.0),
-                        height: 50,
+                        height: 60,
                         child: Row(children: [
                           Expanded(
                             child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Intensity",
-                                    style: GoogleFonts.meriendaOne(
-                                      color: HexColor("#000000"),
-                                      fontSize: 18,
-                                      letterSpacing: -1.5,
-                                    ),
-                                    // style: TextStyle(
-                                    //   fontWeight: FontWeight.w500,
-                                    //   fontSize: 16,
-                                    // ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Intensity",
+                                        style: GoogleFonts.meriendaOne(
+                                          color: HexColor("#000000"),
+                                          fontSize: 18,
+                                          letterSpacing: -1.5,
+                                        ),
+                                        // style: TextStyle(
+                                        //   fontWeight: FontWeight.w500,
+                                        //   fontSize: 16,
+                                        // ),
+                                      ),
+                                      Text(sessions[index].intensityLevel),
+                                    ],
                                   ),
-                                  Text(sessions[index].intensityLevel),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        width: 80,
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                              child: Text(
+                                                "by",
+                                                style: GoogleFonts.meriendaOne(
+                                                  color: HexColor("#000000"),
+                                                  fontSize: 18,
+                                                  letterSpacing: -1.5,
+                                                ),
+                                              ),
+                                              left: 5,
+                                              top: 0,
+                                            ),
+                                            Positioned(
+                                              top: 5,
+                                              left: 25,
+                                              child: CircleAvatar(
+                                                radius: 25,
+                                                backgroundImage: NetworkImage(
+                                                    sessions[index]
+                                                        .creator
+                                                        .profileUrl),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
                           ),
                         ]),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 6.0),
-                        height: 65,
-                        child: Row(children: [
-                          Expanded(
-                            child: Container(
-                              child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FlatButton(
-                                      onPressed: () => {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SingleSessionView(
-                                              session: sessions[index],
-                                            ),
-                                          ),
-                                        ),
-                                      },
-                                      child: Text(
-                                        "Read More",
-                                        style: TextStyle(
-                                          color: Colors.orange,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 60,
-                                      width: 80,
-                                      child: Stack(
-                                        // mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Positioned(
-                                            child: Text(
-                                              "by",
-                                              style: GoogleFonts.meriendaOne(
-                                                color: HexColor("#000000"),
-                                                fontSize: 18,
-                                                letterSpacing: -1.5,
-                                              ),
-                                            ),
-                                            left: 5,
-                                            top: 0,
-                                          ),
-                                          Positioned(
-                                            top: 5,
-                                            left: 25,
-                                            child: CircleAvatar(
-                                              radius: 25,
-                                              backgroundImage: NetworkImage(
-                                                  sessions[index]
-                                                      .creator
-                                                      .profileUrl),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        ]),
-                      ),
+                      // Container(
+                      //   padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      //   height: 75,
+                      //   child: Row(children: [
+                      //     Expanded(
+                      //       child: Container(
+                      //         child: Row(
+                      //             crossAxisAlignment: CrossAxisAlignment.center,
+                      //             mainAxisAlignment:
+                      //                 MainAxisAlignment.spaceBetween,
+                      //             children: [
+                      //               // FlatButton(
+                      //               //   onPressed: () => {
+                      //               //     Navigator.push(
+                      //               //       context,
+                      //               //       MaterialPageRoute(
+                      //               //         builder: (context) =>
+                      //               //             SingleSessionView(
+                      //               //           session: sessions[index],
+                      //               //         ),
+                      //               //       ),
+                      //               //     ),
+                      //               //   },
+                      //               //   child: Text(
+                      //               //     "Read More",
+                      //               //     style: TextStyle(
+                      //               //       color: Colors.orange,
+                      //               //     ),
+                      //               //   ),
+                      //               // ),
+                      // Container(
+                      //   height: 60,
+                      //   width: 80,
+                      //   child: Stack(
+                      //     // mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: [
+                      //       Positioned(
+                      //         child: Text(
+                      //           "by",
+                      //           style: GoogleFonts.meriendaOne(
+                      //             color: HexColor("#000000"),
+                      //             fontSize: 18,
+                      //             letterSpacing: -1.5,
+                      //           ),
+                      //         ),
+                      //         left: 5,
+                      //         top: 0,
+                      //       ),
+                      //       Positioned(
+                      //         top: 5,
+                      //         left: 25,
+                      //         child: CircleAvatar(
+                      //           radius: 25,
+                      //           backgroundImage: NetworkImage(
+                      //               sessions[index]
+                      //                   .creator
+                      //                   .profileUrl),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      //             ]),
+                      //       ),
+                      //     ),
+                      //   ]),
+                      // ),
                     ],
                   ),
                 ),
