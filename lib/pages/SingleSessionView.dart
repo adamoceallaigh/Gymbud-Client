@@ -2,6 +2,7 @@ import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/Session.dart';
 import 'package:Client/pages/ProfilePage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SingleSessionView extends StatefulWidget {
   final Session session;
@@ -85,7 +86,14 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text("Name"),
+                              Text(
+                                "Name",
+                                style: GoogleFonts.meriendaOne(
+                                  color: HexColor("#000000"),
+                                  fontSize: 18,
+                                  letterSpacing: -1.5,
+                                ),
+                              ),
                               Text(widget.session.activityName),
                             ],
                           ),
@@ -103,7 +111,14 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text("Type Of Workout"),
+                              Text(
+                                "Type Of Workout",
+                                style: GoogleFonts.meriendaOne(
+                                  color: HexColor("#000000"),
+                                  fontSize: 18,
+                                  letterSpacing: -1.5,
+                                ),
+                              ),
                               Text(widget.session.activityType),
                             ],
                           ),
@@ -121,7 +136,14 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text("Looking To Workout With"),
+                              Text(
+                                "Looking To Workout With",
+                                style: GoogleFonts.meriendaOne(
+                                  color: HexColor("#000000"),
+                                  fontSize: 18,
+                                  letterSpacing: -1.5,
+                                ),
+                              ),
                               Text(widget.session.activityGenderPreference),
                             ],
                           ),
@@ -245,8 +267,10 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                               children: [
                                 Text(
                                   "Participants",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
+                                  style: GoogleFonts.meriendaOne(
+                                    color: HexColor("#000000"),
+                                    fontSize: 18,
+                                    letterSpacing: -1.5,
                                   ),
                                 ),
                                 Expanded(
@@ -272,7 +296,14 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text("Resources"),
+                              Text(
+                                "Resources",
+                                style: GoogleFonts.meriendaOne(
+                                  color: HexColor("#000000"),
+                                  fontSize: 18,
+                                  letterSpacing: -1.5,
+                                ),
+                              ),
                               Text(widget.session.resources.toString()),
                             ],
                           ),
