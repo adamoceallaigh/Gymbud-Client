@@ -30,21 +30,17 @@ class _HomeState extends State<Home> {
   ///
   // List<User> users = List<User>();
   int _currentIndex = 0;
-  // List<Widget> _tabPages = [];
+  List<Widget> _tabPages = [];
 
   // Using Initiliazation method to set the state once with the list of users
   @override
   void initState() {
     super.initState();
     // setupUsers();
-    // this._tabPages = [
-    //   HomeView(users: users),
-    //   MatchView(),
-    //   CalendarView()
-    // ];
+    this._tabPages = [HomeView(), MatchView(user: widget.user), CalendarView()];
   }
 
-  final _tabPages = [HomeView(), MatchView(), CalendarView()];
+  // final _tabPages = [HomeView(), MatchView(), CalendarView()];
 
   void onTabTapped(int index) {
     setState(() => {_currentIndex = index});

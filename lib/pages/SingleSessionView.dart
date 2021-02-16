@@ -1,13 +1,16 @@
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/Session.dart';
-import 'package:Client/pages/ProfilePage.dart';
+import 'package:Client/Models/User.dart';
+// import 'package:Client/pages/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SingleSessionView extends StatefulWidget {
   final Session session;
+  final User user;
 
-  SingleSessionView({Key key, @required this.session}) : super(key: key);
+  SingleSessionView({Key key, @required this.session, @required this.user})
+      : super(key: key);
 
   @override
   _SingleSessionViewState createState() => _SingleSessionViewState();
@@ -332,7 +335,13 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                         ],
                       ),
                     ),
-                    Text("I want to do this/I'm Available")
+                    FlatButton(
+                      onPressed: () => {
+                        print(widget.user),
+                        print(widget.session),
+                      },
+                      child: Text("I want to do this/I'm Available"),
+                    )
                   ],
                 ),
               ),

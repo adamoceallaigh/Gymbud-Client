@@ -1,5 +1,6 @@
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/Session.dart';
+import 'package:Client/Models/User.dart';
 import 'package:Client/pages/SingleSessionView.dart';
 import 'package:flutter/material.dart';
 import 'package:Client/Controllers/SessionController.dart';
@@ -8,6 +9,10 @@ import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MatchView extends StatefulWidget {
+  final User user;
+
+  MatchView({this.user});
+
   @override
   _MatchViewState createState() => _MatchViewState();
 }
@@ -74,6 +79,7 @@ class _MatchViewState extends State<MatchView> {
                   MaterialPageRoute(
                     builder: (context) => SingleSessionView(
                       session: sessions[index],
+                      user: widget.user,
                     ),
                   ),
                 ),
