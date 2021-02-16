@@ -1,6 +1,4 @@
 // Class Declaration of the Session Model
-
-import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/User.dart';
 
 class Session {
@@ -39,6 +37,7 @@ class Session {
   });
 
   Session.fromJSON(Map<String, dynamic> data) {
+    this.id = data['id'];
     this.creator = User.fromJSON(data['Creator']);
     this.time = data['Time'];
     this.date = data['Date'];
