@@ -135,8 +135,9 @@ class _LoginState extends State<Login> {
         child: Container(
           height: 580,
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildChildren()),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _buildChildren(),
+          ),
         ),
       ),
     );
