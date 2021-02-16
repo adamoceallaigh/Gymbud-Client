@@ -73,7 +73,7 @@ class _MatchViewState extends State<MatchView> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SingleSessionView(
-                      sessionId: sessions[index],
+                      sessionId: index,
                     ),
                   ),
                 ),
@@ -244,7 +244,7 @@ class _MatchViewState extends State<MatchView> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 SingleSessionView(
-                                              sessionId: sessions[index],
+                                              sessionId: index,
                                             ),
                                           ),
                                         ),
