@@ -1,4 +1,6 @@
+import 'package:Client/Controllers/SessionController.dart';
 import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/Models/Session.dart';
 import 'package:Client/Models/User.dart';
 // import 'package:Client/pages/ProfilePage.dart';
@@ -17,6 +19,8 @@ class SingleSessionView extends StatefulWidget {
 }
 
 class _SingleSessionViewState extends State<SingleSessionView> {
+  InformationPopUp infoPopUp;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +55,12 @@ class _SingleSessionViewState extends State<SingleSessionView> {
     }
     widgetList.add(Container());
     return widgetList;
+  }
+
+  void addUserToSession(sessionId, userId) {
+    SessionController sessionController = new SessionController();
+    Future<String> result =
+        sessionController.addUserToSession(sessionId, userId);
   }
 
   Widget getSingleSessionBody() {
@@ -337,8 +347,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                     ),
                     FlatButton(
                       onPressed: () => {
-                        print(widget.user),
-                        print(widget.session),
+                        addUserToSession(widget.session.id, widget.user.id),
                       },
                       child: Text("I want to do this/I'm Available"),
                     )

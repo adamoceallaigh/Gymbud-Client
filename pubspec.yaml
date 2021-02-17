@@ -37,6 +37,7 @@ dependencies:
   flutter_svg: ^0.19.0
   flutter_tindercard: ^0.2.0
   google_fonts: ^1.1.2
+  requests: ^3.3.0
   
 
 dev_dependencies:
