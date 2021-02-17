@@ -29,6 +29,8 @@ class SessionController {
         await http.post('https://gymbud.herokuapp.com/api/v1/sessions',
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'credentials': 'include'
             },
             body: jsonEncode(session.toJson()));
     if (response.statusCode == 200) {

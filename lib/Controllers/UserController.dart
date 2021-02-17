@@ -29,6 +29,8 @@ class UserController {
         await http.post('https://gymbud.herokuapp.com/api/v1/users',
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'credentials': 'include'
             },
             body: jsonEncode(user.toJson()));
     if (response.statusCode == 200) {
@@ -40,16 +42,17 @@ class UserController {
 
   Future<dynamic> loginUser(String username, String password) async {
     try {
-      Response response = await http.post(
-          'http://10.0.2.2:7000/api/v1/users/login',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json'
-          },
-          body: jsonEncode({
-            'username': username,
-            'password': password,
-          }));
+      Response response =
+          await http.post('http://10.0.2.2:7000/api/v1/users/login',
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json',
+                'credentials': 'include'
+              },
+              body: jsonEncode({
+                'username': username,
+                'password': password,
+              }));
       var userJSON = jsonDecode(response.body);
       if (response.statusCode == 200) {
         if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
