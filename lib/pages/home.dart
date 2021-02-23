@@ -3,6 +3,7 @@
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'CalendarView.dart';
 import 'HomeView.dart';
@@ -31,6 +32,7 @@ class _HomeState extends State<Home> {
   // List<User> users = List<User>();
   int _currentIndex = 0;
   List<Widget> _tabPages = [];
+  Widget filterWidget;
 
   // Using Initiliazation method to set the state once with the list of users
   @override
@@ -46,16 +48,68 @@ class _HomeState extends State<Home> {
     setState(() => {_currentIndex = index});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+  List<Widget> getTopBarActions() {
+    List<Widget> actionsList = new List<Widget>();
+    actionsList = [
+      GestureDetector(
+        onTap: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProfilePage(user: widget.user)),
+          ),
+        },
+        child: CircleAvatar(
+          radius: 50.0,
+          backgroundImage: widget.user.profileUrl != null
+              ? new NetworkImage(widget.user.profileUrl)
+              : null,
+          backgroundColor: Colors.transparent,
+        ),
+      ),
+    ];
+    return actionsList;
+  }
+
+  Widget getAppBar() {
+    if (_currentIndex == 1) {
+      return AppBar(
+        title: GestureDetector(
+          onTap: () => {
+            print("Well"),
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 4, right: 4),
+            height: 40,
+            decoration: BoxDecoration(
+              color: HexColor('#FFFFFF'),
+              border: Border.all(
+                width: 1.0,
+                color: HexColor('#C4C4C4'),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "FILTER BY",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: HexColor("#000000"),
+                  ),
+                ),
+                SizedBox(width: 10),
+                SvgPicture.asset("Resources/Images/arrowFilter.svg"),
+              ],
+            ),
+          ),
+        ),
         leading: Container(
           height: 120,
           padding: const EdgeInsets.all(0),
           child: Row(children: [
             Expanded(
-              flex: 6,
+              flex: 2,
               child: Image.asset(
                 'Resources/Images/logoGymbud.png',
                 fit: BoxFit.fill,
@@ -63,28 +117,37 @@ class _HomeState extends State<Home> {
             ),
           ]),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfilePage(user: widget.user)),
-              ),
-            },
-            child: CircleAvatar(
-              radius: 50.0,
-              backgroundImage: widget.user.profileUrl != null
-                  ? new NetworkImage(widget.user.profileUrl)
-                  : null,
-              backgroundColor: Colors.transparent,
-            ),
-          ),
-        ],
-        // leading: Image.asset("Resources/Images/logoGymbud.png",
-        // height: 100.0, width: 100.0),
+        actions: getTopBarActions(),
         backgroundColor: HexColor("FEFEFE"),
+      );
+    }
+    return AppBar(
+      leading: Container(
+        height: 120,
+        padding: const EdgeInsets.all(0),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Image.asset(
+                'Resources/Images/logoGymbud.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ],
+        ),
       ),
+      actions: getTopBarActions(),
+      // leading: Image.asset("Resources/Images/logoGymbud.png",
+      // height: 100.0, width: 100.0),
+      backgroundColor: HexColor("FEFEFE"),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: getAppBar(),
       body: _tabPages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,

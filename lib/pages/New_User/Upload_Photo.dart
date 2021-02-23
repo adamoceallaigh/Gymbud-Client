@@ -3,6 +3,8 @@
 // import 'package:flutter/material.dart';
 // import 'package:Client/Helper_Widgets/image_utils.dart';
 
+//This code taken from firebase with flutter youtube video here - https://www.youtube.com/watch?v=EXp0gq9kGxI&ab_channel=Firebase
+
 // class UploadPhoto extends StatelessWidget {
 //   final User user;
 

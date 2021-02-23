@@ -55,5 +55,6 @@ class SessionController {
       var responseJSON = jsonDecode(response.body);
       return responseJSON[0];
     }
+    return null;
   }
 }
