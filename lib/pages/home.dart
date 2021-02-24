@@ -25,21 +25,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  /// This function retrieves all users from the
-  /// UserController and passes it to a state variable
-  /// So you can make a ListView Builder out of it below
-  ///
-  // List<User> users = List<User>();
   int _currentIndex = 0;
   List<Widget> _tabPages = [];
   Widget filterWidget;
+  bool isDropped = false;
+  GlobalKey filterKey;
+  double widthOfFilterContainer, heightOfContainer, xPos, yPos;
+  OverlayEntry _filterContainer;
+  RangeValues _ageValues = RangeValues(5, 90);
 
   // Using Initiliazation method to set the state once with the list of users
   @override
   void initState() {
     super.initState();
-    // setupUsers();
     this._tabPages = [HomeView(), MatchView(user: widget.user), CalendarView()];
+    filterKey = LabeledGlobalKey("filterDropdown");
   }
 
   // final _tabPages = [HomeView(), MatchView(), CalendarView()];
@@ -71,12 +71,104 @@ class _HomeState extends State<Home> {
     return actionsList;
   }
 
+  void fillDropDownData() {
+    RenderBox renderBox = filterKey.currentContext.findRenderObject();
+    widthOfFilterContainer = MediaQuery.of(context).size.width;
+    heightOfContainer = renderBox.size.height;
+    Offset offset = renderBox.localToGlobal(Offset.zero);
+    xPos = offset.dx;
+    yPos = offset.dy;
+    print(
+      "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
+    );
+  }
+
+  OverlayEntry _createDropDown() {
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        left: 0,
+        width: widthOfFilterContainer,
+        height: MediaQuery.of(context).size.height / 4,
+        top: yPos + heightOfContainer + 10,
+        child: Material(
+          child: Container(
+            alignment: null,
+            color: Colors.white,
+            height: 200,
+            child: Row(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset("Resources/Images/Male.svg"),
+                          SvgPicture.asset("Resources/Images/Female.svg"),
+                          SvgPicture.asset("Resources/Images/All_Gender.svg"),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset("Resources/Images/GymWeights.svg"),
+                          SvgPicture.asset("Resources/Images/Home_Workout.svg"),
+                          SvgPicture.asset("Resources/Images/Outdoor_Act.svg"),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      SliderTheme(
+                        data: SliderThemeData(
+                            showValueIndicator: ShowValueIndicator.always),
+                        child: RangeSlider(
+                          values: _ageValues,
+                          min: 0,
+                          max: 100,
+                          labels: RangeLabels('${_ageValues.start.round()}',
+                              '${_ageValues.end.round()}'),
+                          inactiveColor: Colors.grey,
+                          activeColor: HexColor('#EB9661'),
+                          onChanged: (RangeValues values) {
+                            print(
+                                'START: ${_ageValues.start.round()}, END: ${_ageValues.end.round()}');
+                            setState(() {
+                              widget.user.preferredAgeRange =
+                                  '${_ageValues.start} - ${_ageValues.end}';
+                              _ageValues = values;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget getAppBar() {
     if (_currentIndex == 1) {
       return AppBar(
         title: GestureDetector(
+          key: filterKey,
           onTap: () => {
-            print("Well"),
+            setState(() {
+              if (isDropped)
+                _filterContainer.remove();
+              else {
+                fillDropDownData();
+                _filterContainer = _createDropDown();
+                Overlay.of(context).insert(_filterContainer);
+              }
+              isDropped = !isDropped;
+            })
           },
           child: Container(
             margin: EdgeInsets.only(left: 4, right: 4),
