@@ -46,7 +46,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
 
   List<Widget> getAttendeeCircles() {
     List<Widget> widgetList = new List<Widget>();
-    for (var user in widget.session.capacity) {
+    for (var user in widget.session.participants) {
       widgetList.add(
         CircleAvatar(
           backgroundImage: NetworkImage(user.profileUrl),
@@ -296,18 +296,10 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                       ),
                                       TextSpan(
                                           text:
-                                              '${widget.session.capacity.length}'),
+                                              '${widget.session.participants.length}'),
                                     ],
                                   ),
                                 ),
-                                // Text(
-                                //   "Participants ⚧ ${widget.session.capacity.length}",
-                                //   style: GoogleFonts.meriendaOne(
-                                //     color: HexColor("#000000"),
-                                //     fontSize: 18,
-                                //     letterSpacing: -1.5,
-                                //   ),
-                                // ),
                                 Expanded(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

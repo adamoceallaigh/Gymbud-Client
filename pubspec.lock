@@ -287,6 +287,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  form_builder_image_picker:
+    dependency: "direct main"
+    description:
+      name: form_builder_image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   google_fonts:
     dependency: "direct main"
     description:
@@ -336,6 +343,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.7+22"
+  image_picker_for_web:
+    dependency: transitive
+    description:
+      name: image_picker_for_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0+2"
   image_picker_platform_interface:
     dependency: transitive
     description:

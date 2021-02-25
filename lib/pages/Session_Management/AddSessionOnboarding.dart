@@ -20,7 +20,6 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
   @override
   Widget build(BuildContext context) {
     final newSession = new Session(
-      id: widget.user.id,
       time: null,
       date: null,
       location: null,
@@ -28,11 +27,12 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
       activityName: null,
       activityDescription: null,
       activityGenderPreference: null,
-      videoOrInPerson: null,
-      intensityLevel: null,
+      activityIntensityLevel: null,
+      activityBudgetLevel: null,
+      activityFitnessLevel: null,
       activityImageUrl: null,
       resources: [],
-      capacity: [],
+      participants: [],
     );
     return SafeArea(
       child: Scaffold(

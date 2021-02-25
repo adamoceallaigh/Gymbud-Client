@@ -33,11 +33,11 @@ class _MatchViewState extends State<MatchView> {
   List<Widget> getAttendeeCircles(int index) {
     List<Widget> widgetList = new List<Widget>();
     double left = 0;
-    if (sessions[index].capacity.length == 1)
+    if (sessions[index].participants.length == 1)
       left = 0;
     else
       left = -18;
-    for (var user in sessions[index].capacity) {
+    for (var user in sessions[index].participants) {
       left += 18;
       widgetList.add(
         Positioned(
@@ -160,7 +160,7 @@ class _MatchViewState extends State<MatchView> {
                                       ),
                                     ),
                                     Text(
-                                      '${sessions[index].capacity.length.toString()} / 6',
+                                      '${sessions[index].participants.length.toString()} / 6',
                                       style: GoogleFonts.meriendaOne(
                                         color: HexColor("#000000"),
                                         fontSize: 18,
@@ -231,7 +231,8 @@ class _MatchViewState extends State<MatchView> {
                                         //   fontSize: 16,
                                         // ),
                                       ),
-                                      Text(sessions[index].intensityLevel),
+                                      Text(sessions[index]
+                                          .activityIntensityLevel),
                                     ],
                                   ),
                                   Column(

@@ -11,12 +11,13 @@ class Session {
       activityName,
       activityDescription,
       activityGenderPreference,
-      videoOrInPerson,
-      intensityLevel,
+      activityIntensityLevel,
+      activityBudgetLevel,
+      activityFitnessLevel,
       activityImageUrl;
   User creator;
   List resources;
-  List<User> capacity;
+  List<User> participants;
 
   Session({
     this.id,
@@ -29,11 +30,12 @@ class Session {
     this.activityName,
     this.activityDescription,
     this.activityGenderPreference,
-    this.videoOrInPerson,
-    this.intensityLevel,
+    this.activityIntensityLevel,
+    this.activityBudgetLevel,
+    this.activityFitnessLevel,
     this.activityImageUrl,
     this.resources,
-    this.capacity,
+    this.participants,
   });
 
   Session.fromJSON(Map<String, dynamic> data) {
@@ -47,11 +49,12 @@ class Session {
     this.activityName = data['Activity_Name'];
     this.activityDescription = data['Activity_Description'];
     this.activityGenderPreference = data['Activity_Gender_Preference'];
-    this.videoOrInPerson = data['Video_Or_In_Person'];
-    this.intensityLevel = data['Intensity_Level'];
+    this.activityIntensityLevel = data['Intensity_Level'];
+    this.activityBudgetLevel = data['Budget_Level'];
+    this.activityFitnessLevel = data['Fitness_Level'];
     this.activityImageUrl = data['Activity_Image_Url'];
     this.resources = data['Resources'];
-    this.capacity = getUsersFromList(data['Capacity']);
+    this.participants = getUsersFromList(data['Participants']);
   }
 
   List<User> getUsersFromList(users) {
@@ -73,11 +76,12 @@ class Session {
         'Activiy_Name': this.activityName,
         'Activity_Description': this.activityDescription,
         'Activity_Gender_Preference': this.activityGenderPreference,
-        'Video_Or_In_Person': this.videoOrInPerson,
-        'Intensity_Level': this.intensityLevel,
+        'Intensity_Level': this.activityIntensityLevel,
+        'Fitness_Level': this.activityFitnessLevel,
+        'Budget_Level': this.activityBudgetLevel,
         'Activity_Image_Url': this.activityImageUrl,
         'Resources': this.resources,
-        'Capacity': this.capacity
+        'Participants': this.participants
       };
 
   @override
