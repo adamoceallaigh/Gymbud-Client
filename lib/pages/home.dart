@@ -38,7 +38,11 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    this._tabPages = [HomeView(), MatchView(user: widget.user), CalendarView()];
+    this._tabPages = [
+      HomeView(),
+      MatchView(user: widget.user),
+      CalendarView(user: widget.user)
+    ];
     filterKey = LabeledGlobalKey("filterDropdown");
   }
 
@@ -199,15 +203,17 @@ class _HomeState extends State<Home> {
         leading: Container(
           height: 120,
           padding: const EdgeInsets.all(0),
-          child: Row(children: [
-            Expanded(
-              flex: 2,
-              child: Image.asset(
-                'Resources/Images/logoGymbud.png',
-                fit: BoxFit.fill,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Image.asset(
+                  'Resources/Images/logoGymbud.png',
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ),
         actions: getTopBarActions(),
         backgroundColor: HexColor("FEFEFE"),

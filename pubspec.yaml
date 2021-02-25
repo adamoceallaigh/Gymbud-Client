@@ -38,6 +38,8 @@ dependencies:
   flutter_tindercard: ^0.2.0
   google_fonts: ^1.1.2
   requests: ^3.3.0
+  table_calendar: ^2.3.3
+  flutter_form_builder: ^4.2.0
   
 
 dev_dependencies:

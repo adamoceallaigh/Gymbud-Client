@@ -88,8 +88,9 @@ class _SessionDetailsState extends State<SessionDetails> {
 
   Widget sessionBody() {
     return SingleChildScrollView(
-      child: Column(children: [
-        Container(
+      child: Column(
+        children: [
+          Container(
             height: 1100,
             child: Column(
               children: [
@@ -194,13 +195,14 @@ class _SessionDetailsState extends State<SessionDetails> {
                               border: Border.all(color: HexColor('#C8C8C8'))),
                           child: FlatButton(
                             child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    activity,
-                                    style: TextStyle(fontSize: 11.0),
-                                  )
-                                ]),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  activity,
+                                  style: TextStyle(fontSize: 11.0),
+                                )
+                              ],
+                            ),
                             color:
                                 widget.user.activitiesEnjoyed.contains(activity)
                                     ? HexColor('#EB9661')
@@ -224,28 +226,37 @@ class _SessionDetailsState extends State<SessionDetails> {
                   child: Text("Pick your preferred session method"),
                 ),
                 ToggleButtons(
-                    children: [
-                      SvgPicture.asset("Resources/Images/home_workout.svg",
-                          height: 100, semanticsLabel: 'At Home', width: 150),
-                      SvgPicture.asset("Resources/Images/gym.svg",
-                          height: 100, semanticsLabel: 'Gym', width: 150),
-                    ],
-                    isSelected: _selectionOptions,
-                    onPressed: (int index) => {
-                          widget.user.videoOrInPerson = getSessionOption(index),
-                          setState(() {
-                            for (int indexBtn = 0;
-                                indexBtn < _selectionOptions.length;
-                                indexBtn++) {
-                              if (indexBtn == index) {
-                                _selectionOptions[indexBtn] =
-                                    !_selectionOptions[indexBtn];
-                              } else {
-                                _selectionOptions[indexBtn] = false;
-                              }
-                            }
-                          })
-                        }),
+                  children: [
+                    SvgPicture.asset(
+                      "Resources/Images/Home_Workout.svg",
+                      height: 100,
+                      semanticsLabel: 'At Home',
+                      width: 150,
+                    ),
+                    SvgPicture.asset(
+                      "Resources/Images/gym.svg",
+                      height: 100,
+                      semanticsLabel: 'Gym',
+                      width: 150,
+                    ),
+                  ],
+                  isSelected: _selectionOptions,
+                  onPressed: (int index) => {
+                    widget.user.videoOrInPerson = getSessionOption(index),
+                    setState(() {
+                      for (int indexBtn = 0;
+                          indexBtn < _selectionOptions.length;
+                          indexBtn++) {
+                        if (indexBtn == index) {
+                          _selectionOptions[indexBtn] =
+                              !_selectionOptions[indexBtn];
+                        } else {
+                          _selectionOptions[indexBtn] = false;
+                        }
+                      }
+                    })
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -259,15 +270,18 @@ class _SessionDetailsState extends State<SessionDetails> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: RaisedButton(
-                      child: Text("Finish"),
-                      onPressed: () => {
-                            // print(widget.user.toString()),
-                            _setUpUser()
-                          }),
+                    child: Text("Finish"),
+                    onPressed: () => {
+                      // print(widget.user.toString()),
+                      _setUpUser()
+                    },
+                  ),
                 )
               ],
-            ))
-      ]),
+            ),
+          )
+        ],
+      ),
     );
   }
 
