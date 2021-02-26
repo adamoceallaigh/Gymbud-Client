@@ -39,7 +39,6 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
         body: SingleChildScrollView(
           child: Container(
             height: 1100,
-            color: Colors.redAccent,
             child: Column(
               children: [
                 Row(
@@ -48,14 +47,12 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
                       margin: EdgeInsets.all(10),
                       height: 180,
                       width: MediaQuery.of(context).size.width - 20,
-                      color: Colors.yellowAccent,
                       child: Stack(
                         children: [
                           Positioned(
                             top: 20,
                             left: 10,
                             child: Container(
-                              color: Colors.blueAccent,
                               height: 90,
                               width: 93,
                               child: SvgPicture.asset(

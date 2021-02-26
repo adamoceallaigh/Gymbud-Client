@@ -79,6 +79,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() => {
+        '_id': this.id,
         'Username': this.username,
         'Password': this.password,
         'Profile_Url': this.profileUrl,

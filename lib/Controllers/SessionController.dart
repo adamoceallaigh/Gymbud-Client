@@ -24,18 +24,20 @@ class SessionController {
     return sessions;
   }
 
-  Future<Session> createsession(Session session) async {
-    http.Response response =
-        await http.post('https://gymbud.herokuapp.com/api/v1/sessions',
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-              'credentials': 'include'
-            },
-            body: jsonEncode(session.toJson()));
-    if (response.statusCode == 200) {
-      var sessionJSON = jsonDecode(response.body);
-      return Session.fromJSON(sessionJSON);
+  Future<bool> createsession(Session session) async {
+    try {
+      http.Response response = await http.post('$urlLocal',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'credentials': 'include'
+          },
+          body: jsonEncode(session.toJson()));
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      print('caught error $e');
     }
     return null;
   }

@@ -163,8 +163,8 @@ class _CalendarViewState extends State<CalendarView> {
                         ),
                       ),
                       taskList(
-                        "Task 1",
-                        "Description of Task 1 to be updated here",
+                        "Activity 1",
+                        "Core Workout - Home Workout",
                         CupertinoIcons.check_mark_circled_solid,
                         HexColor("#00CF8D"),
                       ),

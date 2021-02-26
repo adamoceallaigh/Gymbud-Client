@@ -1,6 +1,8 @@
+import 'package:Client/Controllers/SessionController.dart';
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/Session.dart';
 import 'package:Client/Models/User.dart';
+import 'package:Client/pages/MatchView.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -47,9 +49,10 @@ class _AddSessionState extends State<AddSession> {
     return activityTypes[type];
   }
 
-  void setUpSession(Map<String, dynamic> formValues) {
+  void setUpSession(Map<String, dynamic> formValues) async {
     final formattedDate =
         DateFormat('yyyy-MM-dd kk:mm').format(formValues['Activity_Date_Time']);
+    // ['id'] = widget.user._id;
     widget.session.activityName = formValues['Workout_Name'];
     widget.session.activityDescription = formValues['Workout_Description'];
     widget.session.activityGenderPreference = formValues['Gender_Preference'];
@@ -64,9 +67,20 @@ class _AddSessionState extends State<AddSession> {
         getLabel(formValues['Activity_Budget_Level'], "Budget");
     widget.session.activityFitnessLevel =
         getLabel(formValues['Activity_Fitness_Level'], "Fitness");
-    print(widget.session);
-    //
-    // widget.session.activityImageUrl
+    widget.session.location = "4 Fraher Field, WestPort";
+    widget.session.activityImageUrl =
+        formValues['Activity_Image_Url'].toString();
+    SessionController sessionController = new SessionController();
+    bool isCreated = await sessionController.createsession(widget.session);
+    if (isCreated == true)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MatchView(
+            user: widget.user,
+          ),
+        ),
+      );
   }
 
   @override

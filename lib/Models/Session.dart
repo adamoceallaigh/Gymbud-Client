@@ -73,7 +73,7 @@ class Session {
         'Location': this.location,
         'Duration': this.duration,
         'Activity_Type': this.activityType,
-        'Activiy_Name': this.activityName,
+        'Activity_Name': this.activityName,
         'Activity_Description': this.activityDescription,
         'Activity_Gender_Preference': this.activityGenderPreference,
         'Intensity_Level': this.activityIntensityLevel,
