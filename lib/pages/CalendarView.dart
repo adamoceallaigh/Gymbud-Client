@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:Client/Helper_Widgets/hex_color.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/pages/Session_Management/AddSessionOnboarding.dart';
@@ -15,7 +16,8 @@ class CalendarView extends StatefulWidget {
 }
 
 class _CalendarViewState extends State<CalendarView> {
-  CalendarController _calendarController;
+  DateTime _selectedDay;
+  // CalendarController _calendarController;
   TextStyle dayStyle(FontWeight fontWeight) {
     return TextStyle(
       color: HexColor("#0B2011"),
@@ -73,13 +75,13 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
+    // _calendarController = CalendarController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _calendarController.dispose();
+    // _calendarController.dispose();
   }
 
   @override
@@ -93,27 +95,6 @@ class _CalendarViewState extends State<CalendarView> {
             ),
             TableCalendar(
               startingDayOfWeek: StartingDayOfWeek.monday,
-              calendarStyle: CalendarStyle(
-                weekdayStyle: dayStyle(FontWeight.normal),
-                weekendStyle: dayStyle(FontWeight.normal),
-                selectedColor: HexColor("#30374B"),
-                todayColor: HexColor("#30374B"),
-              ),
-              daysOfWeekStyle: DaysOfWeekStyle(
-                weekdayStyle: TextStyle(
-                  color: HexColor("#30384C"),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-                weekendStyle: TextStyle(
-                  color: HexColor("#30384C"),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-                dowTextBuilder: (date, locale) {
-                  return DateFormat.E(locale).format(date).substring(0, 1);
-                },
-              ),
               headerStyle: HeaderStyle(
                 formatButtonVisible: false,
                 titleTextStyle: TextStyle(
@@ -130,7 +111,17 @@ class _CalendarViewState extends State<CalendarView> {
                   color: HexColor("#30384C"),
                 ),
               ),
-              calendarController: _calendarController,
+              selectedDayPredicate: (day) {
+                return _selectedDay == day;
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                });
+              },
+              firstDay: DateTime.utc(2010, 10, 16),
+              lastDay: DateTime.utc(2030, 3, 14),
+              focusedDay: DateTime.now(),
             ),
             SizedBox(
               height: 20,

@@ -1,14 +1,20 @@
+import 'dart:io';
 import 'package:Client/Controllers/SessionController.dart';
 import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Models/ImageURL.dart';
 import 'package:Client/Models/Session.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/MatchView.dart';
+import 'package:Client/pages/Home.dart';
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mime/mime.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class AddSession extends StatefulWidget {
   final User user;
@@ -25,6 +31,10 @@ class _AddSessionState extends State<AddSession> {
   double _defaultIntensity = 20.0;
   double _defaultActivityLevel = 20.0;
   double _defaultBudgetLevel = 10.0;
+  Uri urlLocal = Uri.parse('http://10.0.2.2:7000/image/upload');
+  File _image;
+  final picker = ImagePicker();
+  Dio dio = new Dio();
 
   final resources = [
     "Bicycle",
@@ -40,6 +50,49 @@ class _AddSessionState extends State<AddSession> {
     "Kettle Bells"
   ];
 
+  Future getImageFromSource(ImageSource imgSource) async {
+    final pickedImage = await picker.getImage(source: imgSource);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    } else {
+      print("No image selected");
+    }
+
+    try {
+      String filename = pickedImage.path.split("/").last;
+      final mimeTypeData =
+          lookupMimeType(_image.path, headerBytes: [0xFF, 0xD8]).split("/");
+
+      FormData formData = new FormData.fromMap({
+        'uploadingImage': await MultipartFile.fromFile(
+          _image.path,
+          filename: filename,
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+        ),
+        "type": "image/png"
+      });
+
+      Response response = await dio.post('http://10.0.2.2:7000/image/upload',
+          data: formData,
+          options: Options(headers: {
+            "accept": "*/*",
+            "Content-Type": "multipart/form-data"
+          }));
+
+      print(response);
+      var imageJSON;
+      if (response.statusCode == 200) {
+        imageJSON = response.data;
+        widget.session.activityImageUrl = ImageURL.fromJson(imageJSON).path;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   String getActivitySVG(String type) {
     var activityTypes = {
       "Home Workout": "Home_Workout",
@@ -49,7 +102,41 @@ class _AddSessionState extends State<AddSession> {
     return activityTypes[type];
   }
 
-  void setUpSession(Map<String, dynamic> formValues) async {
+  Future<String> getImageUrl(File image) async {
+    try {
+      // Find the mime type of the selected file by looking at the header bytes of the file
+      final mimeTypeData =
+          lookupMimeType(image.path, headerBytes: [0xFF, 0xD8]).split("/");
+
+      // Initialize the multipart request
+      final imageUploadRequest = http.MultipartRequest('POST', urlLocal);
+
+      // Attach the file in the request
+      final imageFile = await http.MultipartFile.fromPath(
+        'uploadingImage',
+        image.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      );
+
+      // Sending the image request and getting back the response
+      final streamedResponse = await imageUploadRequest.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      print(response);
+    } catch (e) {
+      print('caught error $e');
+    }
+    return null;
+  }
+
+  void setUpSession(
+      Map<String, dynamic> formValues, BuildContext context) async {
+    // var imageURL = await getImageUrl(_image);
+    // if (imageURL != null) {
+    //   widget.session.activityImageUrl = await getImageUrl(_image);
+    // } else {
+    //   print("There was a problem uploading your image");
+    // }
+
     final formattedDate =
         DateFormat('yyyy-MM-dd kk:mm').format(formValues['Activity_Date_Time']);
     // ['id'] = widget.user._id;
@@ -68,15 +155,15 @@ class _AddSessionState extends State<AddSession> {
     widget.session.activityFitnessLevel =
         getLabel(formValues['Activity_Fitness_Level'], "Fitness");
     widget.session.location = "4 Fraher Field, WestPort";
-    widget.session.activityImageUrl =
-        formValues['Activity_Image_Url'].toString();
+
+    // Creating a Session
     SessionController sessionController = new SessionController();
     bool isCreated = await sessionController.createsession(widget.session);
     if (isCreated == true)
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MatchView(
+          builder: (context) => Home(
             user: widget.user,
           ),
         ),
@@ -460,8 +547,31 @@ class _AddSessionState extends State<AddSession> {
                             ),
                           ),
                         ),
-                        FormBuilderImagePicker(
-                          name: 'Activity_Image_Url',
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200.0,
+                            child: Center(
+                                child: _image == null
+                                    ? Text("No image Selected")
+                                    : Image.file(_image)),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RaisedButton(
+                              onPressed: () =>
+                                  getImageFromSource(ImageSource.camera),
+                              child: Icon(Icons.camera),
+                            ),
+                            RaisedButton(
+                              onPressed: () =>
+                                  getImageFromSource(ImageSource.gallery),
+                              child: Icon(Icons.folder),
+                            )
+                          ],
                         ),
                         Center(
                           child: Padding(
@@ -471,7 +581,8 @@ class _AddSessionState extends State<AddSession> {
                               onPressed: () => {
                                 if (_formKey.currentState.saveAndValidate())
                                   {
-                                    setUpSession(_formKey.currentState.value),
+                                    setUpSession(
+                                        _formKey.currentState.value, context),
                                   }
                               },
                               child: Text(

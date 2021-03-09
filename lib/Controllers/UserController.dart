@@ -7,12 +7,12 @@ import 'package:http/http.dart' as http;
 
 // User Controller Class Definition to conduct user management operations
 class UserController {
-  List<User> users = List<User>();
-  String url = "https://gymbud.herokuapp.com/api/v1/users";
+  List<User> users = [];
+  Uri url = Uri.parse("https://gymbud.herokuapp.com/api/v1/users");
 
   // Checks Response from the backend server, to check if everything is OK
   Future<List<User>> getUsers() async {
-    Response response = await get('$url');
+    Response response = await get(url);
     if (response.statusCode == 200) {
       var usersJSON = jsonDecode(response.body);
       for (var userJSON in usersJSON) {
@@ -25,14 +25,13 @@ class UserController {
   }
 
   Future<User> createUser(User user) async {
-    Response response =
-        await http.post('https://gymbud.herokuapp.com/api/v1/users',
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-              'credentials': 'include'
-            },
-            body: jsonEncode(user.toJson()));
+    Response response = await http.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'credentials': 'include'
+        },
+        body: jsonEncode(user.toJson()));
     if (response.statusCode == 200) {
       var userJSON = jsonDecode(response.body);
       return User.fromJSON(userJSON);
@@ -41,18 +40,18 @@ class UserController {
   }
 
   Future<dynamic> loginUser(String username, String password) async {
+    Uri uri_local = Uri.parse('http://10.0.2.2:7000/api/v1/users/login');
     try {
-      Response response =
-          await http.post('http://10.0.2.2:7000/api/v1/users/login',
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json',
-                'credentials': 'include'
-              },
-              body: jsonEncode({
-                'username': username,
-                'password': password,
-              }));
+      Response response = await http.post(uri_local,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'credentials': 'include'
+          },
+          body: jsonEncode({
+            'username': username,
+            'password': password,
+          }));
       var userJSON = jsonDecode(response.body);
       if (response.statusCode == 200) {
         if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
