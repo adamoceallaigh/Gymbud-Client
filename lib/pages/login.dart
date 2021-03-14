@@ -1,31 +1,57 @@
 //Imports and Variable Declarations
+
+// Library Imports
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+// Page Imports
+import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/pages/Home.dart';
-import 'package:flutter/material.dart';
+import 'package:Client/pages/New_User/BasicSignUp.dart';
+import 'package:Client/Models/User.dart';
 
-// ignore: must_be_immutable
+// Login Page
 class Login extends StatefulWidget {
-  InformationPopUp infoPopUp;
-
-  Login({this.infoPopUp});
-
   @override
   _LoginState createState() => _LoginState();
 }
 
+// Template for what makes login page
 class _LoginState extends State<Login> {
-  var _selectedPassword, _selectedUsername;
+  /*  
+    Setting up variables for this page
+   */
 
-  void _setValues() async {
+  // Info  pop up to be used to alert user to a error within their input
+  InformationPopUp infoPopUp = new InformationPopUp();
+
+  // Basic sign up form key to be used for validation and on this page
+  final _loginKey = GlobalKey<FormBuilderState>();
+
+  // Styling for Signup Button
+  final ButtonStyle login_btn_style = ButtonProducer.getOrangeGymbudBtn();
+
+  // Logic Functions
+
+  // Navigate to Home Page once validation passed
+  _checkLoginValues(
+      Map<String, dynamic> formValues, BuildContext context) async {
+    // Setting up the
     UserController userController = new UserController();
     try {
-      dynamic userValidated =
-          await userController.loginUser(_selectedUsername, _selectedPassword);
+      dynamic userValidated = await userController.loginUser(
+        formValues["Username"],
+        formValues["Password"],
+        context,
+      );
       if (userValidated.runtimeType == InformationPopUp) {
         if (userValidated.message != null) {
           setState(() {
-            widget.infoPopUp = userValidated;
+            infoPopUp = userValidated;
           });
         }
       } else {
@@ -41,8 +67,31 @@ class _LoginState extends State<Login> {
     }
   }
 
+  // UI Functions
+
+  @override
+  Widget build(BuildContext context) {
+    // Scaffold to make up the main part of the log in page
+    return Scaffold(backgroundColor: Colors.white, body: retrieveLogInBody());
+  }
+
+  // Retrieve Body for the log in view
+  Widget retrieveLogInBody() {
+    return SingleChildScrollView(
+      child: Container(
+        height: 580,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _buildChildren(),
+        ),
+      ),
+    );
+  }
+
+  // Building Template Widget to represent log in page body
   List<Widget> _buildChildren() {
-    var list = [
+    return [
+      if (infoPopUp.message != null) checkForLoginErrorPopUp(),
       Container(
         margin: EdgeInsets.only(bottom: 20.0),
         width: 180,
@@ -50,95 +99,165 @@ class _LoginState extends State<Login> {
             BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(100))),
         child: Image.asset('Resources/Images/logoGymbud.png'),
       ),
-      Text('Sign Into Your Account'),
-      Container(
-        margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text("Username:",
-                  style: TextStyle(
-                    fontSize: 20,
-                  )),
-            ),
-            TextField(
-              onSubmitted: (newText) {
-                _selectedUsername = newText;
-              },
-            ),
-          ],
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text("Password:",
-                  style: TextStyle(
-                    fontSize: 20,
-                  )),
-            ),
-            TextField(
-              onSubmitted: (newText) {
-                _selectedPassword = newText;
-              },
-            ),
-          ],
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
-        child:
-            RaisedButton(child: Text('Login'), onPressed: () => {_setValues()}),
-      ),
-      Text('Forgot Your Password ?')
+      Text('Log into your account'),
+      loginForm(context),
+      loginButton(context),
+      basicDetailsFormFooter(context),
     ];
-
-    if (widget.infoPopUp.message != null) {
-      list.insert(
-          0,
-          Container(
-            color: Colors.amberAccent,
-            width: double.infinity,
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Icon(Icons.error_outline),
-                ),
-                Expanded(child: Text(widget.infoPopUp.message)),
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () => {
-                    setState(() {
-                      widget.infoPopUp.message = null;
-                    })
-                  },
-                ),
-              ],
-            ),
-          ));
-    }
-
-    return list;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Container(
-          height: 580,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildChildren()),
+  Widget checkForLoginErrorPopUp() {
+    return Container(
+      color: Colors.amberAccent,
+      width: double.infinity,
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(Icons.error_outline),
+          ),
+          Expanded(child: Text(infoPopUp.message)),
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => {
+              setState(() {
+                infoPopUp.message = null;
+              })
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Building the Login Form
+  Widget loginForm(BuildContext context) {
+    return FormBuilder(
+      key: _loginKey,
+      child: Container(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Username:",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                  FormBuilderTextField(
+                    name: "Username",
+                    validator: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(context),
+                        FormBuilderValidators.maxLength(context, 30)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10, bottom: 10.0, top: 10.0),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Password:",
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                  FormBuilderTextField(
+                    name: "Password",
+                    obscureText: true,
+                    validator: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(context),
+                        FormBuilderValidators.minLength(context, 8)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+
+  // Creating the login button and dealing with login button click
+  Widget loginButton(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
+      child: ElevatedButton(
+        child: Text('Login'),
+        style: login_btn_style,
+        onPressed: () => {
+          // Check if the form is validated
+          if (_loginKey.currentState.saveAndValidate())
+            {
+              // Checking the valid formValues against DB credentials
+              _checkLoginValues(_loginKey.currentState.value, context)
+            }
+        },
+      ),
+    );
+  }
+
+  // Building the Footer for Sign Up form
+  Widget basicDetailsFormFooter(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            // Default user to use in the sign up process
+            var newUser = User.newUser();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BasicSignUp(user: newUser),
+              ),
+            );
+          },
+          child: RichText(
+            text: TextSpan(
+              style: GoogleFonts.meriendaOne(
+                color: HexColor("#000000"),
+                fontSize: 15,
+                letterSpacing: -1.5,
+              ),
+              children: [
+                TextSpan(
+                  text: 'Don\'t have an account?',
+                ),
+                WidgetSpan(
+                  child: Container(
+                    width: 10,
+                  ),
+                ),
+                TextSpan(
+                  text: 'Sign Up',
+                  style: TextStyle(
+                    color: HexColor("EB9661"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: 30,
+        ),
+        Text('Forgot Your Password ?'),
+      ],
+    );
+  }
+
+  // End of the Login Page Functions
 }

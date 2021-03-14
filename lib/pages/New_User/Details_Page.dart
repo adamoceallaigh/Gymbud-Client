@@ -37,93 +37,158 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset("Resources/Images/logoGymbud.png",
-            height: 100.0, width: 100.0),
+        leadingWidth: 100,
+        leading: Container(
+          child: Image.asset(
+            'Resources/Images/logoGymbud.png',
+          ),
+        ),
         backgroundColor: HexColor("FEFEFE"),
       ),
-      backgroundColor: Colors.white,
-      body: Form(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(children: <Widget>[
-            Text("Name:"),
-            TextField(
-              controller: _nameController,
+      body: SingleChildScrollView(
+        child: Container(
+          height: 880,
+          child: Form(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Name:"),
+                        TextField(
+                          controller: _nameController,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("DOB:"),
+                        TextField(
+                          controller: _dobController,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Gender:"),
+                        TextField(
+                          controller: _genderController,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Age Range:"),
+                        Text("18-31"),
+                        SliderTheme(
+                          data: SliderThemeData(
+                            showValueIndicator: ShowValueIndicator.always,
+                          ),
+                          child: RangeSlider(
+                            values: _ageValues,
+                            min: 0,
+                            max: 100,
+                            labels: RangeLabels('${_ageValues.start.round()}',
+                                '${_ageValues.end.round()}'),
+                            inactiveColor: Colors.grey,
+                            activeColor: HexColor('#EB9661'),
+                            onChanged: (RangeValues values) {
+                              print(
+                                  'START: ${_ageValues.start.round()}, END: ${_ageValues.end.round()}');
+                              setState(() {
+                                setTextControllers(
+                                    _nameController.text,
+                                    _dobController.text,
+                                    _genderController.text);
+                                widget.user.preferredAgeRange =
+                                    '${_ageValues.start} - ${_ageValues.end}';
+                                _ageValues = values;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Maximum Distance:"),
+                        Text("20 mi"),
+                        SliderTheme(
+                          data: SliderThemeData(
+                            showValueIndicator: ShowValueIndicator.always,
+                          ),
+                          child: RangeSlider(
+                            values: _distanceValues,
+                            min: 0,
+                            max: 100,
+                            labels: RangeLabels(
+                                '${_distanceValues.start.round()}',
+                                '${_distanceValues.end.round()}'),
+                            inactiveColor: Colors.grey,
+                            activeColor: HexColor('#EB9661'),
+                            onChanged: (RangeValues values) {
+                              print(
+                                  'START: ${_distanceValues.start.round()}, END: ${_distanceValues.end.round()}');
+                              setState(() {
+                                setTextControllers(
+                                    _nameController.text,
+                                    _dobController.text,
+                                    _genderController.text);
+                                widget.user.preferredDistanceRange =
+                                    '${_ageValues.start} - ${_ageValues.end}';
+                                _distanceValues = values;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                RaisedButton(
+                    child: Text("Continue"),
+                    onPressed: () => {
+                          widget.user.name = _nameController.text,
+                          widget.user.dob = _dobController.text,
+                          widget.user.gender = _genderController.text,
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailsPageSuccess(user: widget.user)),
+                          ),
+                        }),
+              ]),
             ),
-            Text("DOB:"),
-            TextField(
-              controller: _dobController,
-            ),
-            Text("Gender:"),
-            TextField(
-              controller: _genderController,
-            ),
-            Text("Age Range:"),
-            Text("18-31"),
-            SliderTheme(
-              data: SliderThemeData(
-                  showValueIndicator: ShowValueIndicator.always),
-              child: RangeSlider(
-                values: _ageValues,
-                min: 0,
-                max: 100,
-                labels: RangeLabels(
-                    '${_ageValues.start.round()}', '${_ageValues.end.round()}'),
-                inactiveColor: Colors.grey,
-                activeColor: HexColor('#EB9661'),
-                onChanged: (RangeValues values) {
-                  print(
-                      'START: ${_ageValues.start.round()}, END: ${_ageValues.end.round()}');
-                  setState(() {
-                    setTextControllers(_nameController.text,
-                        _dobController.text, _genderController.text);
-                    widget.user.preferredAgeRange =
-                        '${_ageValues.start} - ${_ageValues.end}';
-                    _ageValues = values;
-                  });
-                },
-              ),
-            ),
-            Text("Maximum Distance:"),
-            Text("20 mi"),
-            SliderTheme(
-              data: SliderThemeData(
-                  showValueIndicator: ShowValueIndicator.always),
-              child: RangeSlider(
-                values: _distanceValues,
-                min: 0,
-                max: 100,
-                labels: RangeLabels('${_distanceValues.start.round()}',
-                    '${_distanceValues.end.round()}'),
-                inactiveColor: Colors.grey,
-                activeColor: HexColor('#EB9661'),
-                onChanged: (RangeValues values) {
-                  print(
-                      'START: ${_distanceValues.start.round()}, END: ${_distanceValues.end.round()}');
-                  setState(() {
-                    setTextControllers(_nameController.text,
-                        _dobController.text, _genderController.text);
-                    widget.user.preferredDistanceRange =
-                        '${_ageValues.start} - ${_ageValues.end}';
-                    _distanceValues = values;
-                  });
-                },
-              ),
-            ),
-            RaisedButton(
-                child: Text("Continue"),
-                onPressed: () => {
-                      widget.user.name = _nameController.text,
-                      widget.user.dob = _dobController.text,
-                      widget.user.gender = _genderController.text,
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DetailsPageSuccess(user: widget.user)),
-                      ),
-                    }),
-          ]),
+          ),
         ),
       ),
     );

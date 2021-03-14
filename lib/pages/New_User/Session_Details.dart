@@ -40,8 +40,8 @@ class _SessionDetailsState extends State<SessionDetails> {
     "Hike",
     "Cycle"
   ];
-  final sessionOptions = ["At Home", "Gym"];
-  final _selectionOptions = List.generate(2, (_) => false);
+  final sessionOptions = ["At Home", "Gym", "Outdoor Activity"];
+  final _selectionOptions = List.generate(3, (_) => false);
   double _defaultIntensity = 20.0;
   double _defaultActivityLevel = 20.0;
   // var pressed = false ; // This is the press variable
@@ -56,8 +56,12 @@ class _SessionDetailsState extends State<SessionDetails> {
 
   AppBar buildAppBar() {
     return AppBar(
-      title: Image.asset("Resources/Images/logoGymbud.png",
-          height: 100.0, width: 100.0),
+      leadingWidth: 100,
+      leading: Container(
+        child: Image.asset(
+          'Resources/Images/logoGymbud.png',
+        ),
+      ),
       backgroundColor: HexColor("FEFEFE"),
     );
   }
@@ -223,20 +227,26 @@ class _SessionDetailsState extends State<SessionDetails> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  child: Text("Pick your preferred session method"),
+                  child: Text("Pick your preferred activity"),
                 ),
                 ToggleButtons(
                   children: [
                     SvgPicture.asset(
                       "Resources/Images/Home_Workout.svg",
                       height: 100,
-                      semanticsLabel: 'At Home',
+                      semanticsLabel: 'Outdoor Activity',
                       width: 150,
                     ),
                     SvgPicture.asset(
                       "Resources/Images/gym.svg",
                       height: 100,
                       semanticsLabel: 'Gym',
+                      width: 150,
+                    ),
+                    SvgPicture.asset(
+                      "Resources/Images/gym.svg",
+                      height: 100,
+                      semanticsLabel: 'Home Workout',
                       width: 150,
                     ),
                   ],

@@ -1,6 +1,8 @@
 //Imports and Variable Declarations
 import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/Models/User.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -39,10 +41,16 @@ class UserController {
     return null;
   }
 
-  Future<dynamic> loginUser(String username, String password) async {
-    Uri uri_local = Uri.parse('http://10.0.2.2:7000/api/v1/users/login');
+  Future<dynamic> loginUser(
+      String username, String password, BuildContext context) async {
+    Uri uri_local;
+    if (Theme.of(context).platform == TargetPlatform.iOS)
+      uri_local = Uri.parse('http://localhost:7000/api/v1/users/login');
+    else
+      uri_local = Uri.parse('http://10.0.2.2:7000/api/v1/users/login');
     try {
-      Response response = await http.post(uri_local,
+      Uri url = Uri.parse("https://gymbud.herokuapp.com/api/v1/users/login");
+      Response response = await http.post(url,
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept': 'application/json',

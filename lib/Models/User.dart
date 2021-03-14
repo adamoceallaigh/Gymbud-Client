@@ -3,6 +3,7 @@
 class User {
   String id,
       username,
+      email,
       password,
       profileUrl,
       name,
@@ -15,41 +16,45 @@ class User {
       fitnessLevel;
   List resources, messages, buds, sessions, activitiesEnjoyed;
   User(
-      this.id,
-      this.username,
-      this.password,
-      this.profileUrl,
-      this.name,
-      this.gender,
-      this.dob,
-      this.preferredIntensity,
-      this.preferredAgeRange,
-      this.preferredDistanceRange,
-      this.videoOrInPerson,
-      this.fitnessLevel,
-      this.buds,
-      this.sessions,
-      this.resources,
-      this.activitiesEnjoyed,
-      this.messages);
+    this.id,
+    this.username,
+    this.email,
+    this.password,
+    this.profileUrl,
+    this.name,
+    this.gender,
+    this.dob,
+    this.preferredIntensity,
+    this.preferredAgeRange,
+    this.preferredDistanceRange,
+    this.videoOrInPerson,
+    this.fitnessLevel,
+    this.buds,
+    this.sessions,
+    this.resources,
+    this.activitiesEnjoyed,
+    this.messages,
+  );
 
   User.register(
-      this.username,
-      this.password,
-      this.profileUrl,
-      this.name,
-      this.gender,
-      this.dob,
-      this.preferredIntensity,
-      this.preferredAgeRange,
-      this.preferredDistanceRange,
-      this.videoOrInPerson,
-      this.fitnessLevel,
-      this.buds,
-      this.sessions,
-      this.resources,
-      this.activitiesEnjoyed,
-      this.messages);
+    this.username,
+    this.email,
+    this.password,
+    this.profileUrl,
+    this.name,
+    this.gender,
+    this.dob,
+    this.preferredIntensity,
+    this.preferredAgeRange,
+    this.preferredDistanceRange,
+    this.videoOrInPerson,
+    this.fitnessLevel,
+    this.buds,
+    this.sessions,
+    this.resources,
+    this.activitiesEnjoyed,
+    this.messages,
+  );
 
   User.login(
     this.username,
@@ -61,6 +66,7 @@ class User {
   User.fromJSON(Map<String, dynamic> data) {
     this.id = data["_id"];
     this.username = data['Username'];
+    this.email = data["Email"];
     this.password = data['Password'];
     this.profileUrl = data['Profile_Url'];
     this.name = data['Name'];
@@ -81,6 +87,7 @@ class User {
   Map<String, dynamic> toJson() => {
         '_id': this.id,
         'Username': this.username,
+        'Email': this.email,
         'Password': this.password,
         'Profile_Url': this.profileUrl,
         'Name': this.name,
@@ -101,5 +108,29 @@ class User {
   @override
   String toString() {
     return this.toJson().toString();
+  }
+
+  // Making the Default user to start off from
+  static User newUser() {
+    return new User(
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [],
+      [],
+      [],
+      [],
+      [],
+    );
   }
 }

@@ -13,7 +13,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mime/mime.dart';
-import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 class AddSession extends StatefulWidget {
@@ -75,7 +74,9 @@ class _AddSessionState extends State<AddSession> {
         "type": "image/png"
       });
 
-      Response response = await dio.post('http://10.0.2.2:7000/image/upload',
+      var url_sim = 'http://10.0.2.2:7000/image/upload';
+      var url_dev = 'https://gymbud.herokuapp.com/image/upload';
+      Response response = await dio.post(url_dev,
           data: formData,
           options: Options(headers: {
             "accept": "*/*",
@@ -102,41 +103,8 @@ class _AddSessionState extends State<AddSession> {
     return activityTypes[type];
   }
 
-  Future<String> getImageUrl(File image) async {
-    try {
-      // Find the mime type of the selected file by looking at the header bytes of the file
-      final mimeTypeData =
-          lookupMimeType(image.path, headerBytes: [0xFF, 0xD8]).split("/");
-
-      // Initialize the multipart request
-      final imageUploadRequest = http.MultipartRequest('POST', urlLocal);
-
-      // Attach the file in the request
-      final imageFile = await http.MultipartFile.fromPath(
-        'uploadingImage',
-        image.path,
-        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
-      );
-
-      // Sending the image request and getting back the response
-      final streamedResponse = await imageUploadRequest.send();
-      final response = await http.Response.fromStream(streamedResponse);
-      print(response);
-    } catch (e) {
-      print('caught error $e');
-    }
-    return null;
-  }
-
   void setUpSession(
       Map<String, dynamic> formValues, BuildContext context) async {
-    // var imageURL = await getImageUrl(_image);
-    // if (imageURL != null) {
-    //   widget.session.activityImageUrl = await getImageUrl(_image);
-    // } else {
-    //   print("There was a problem uploading your image");
-    // }
-
     final formattedDate =
         DateFormat('yyyy-MM-dd kk:mm').format(formValues['Activity_Date_Time']);
     // ['id'] = widget.user._id;
@@ -582,7 +550,9 @@ class _AddSessionState extends State<AddSession> {
                                 if (_formKey.currentState.saveAndValidate())
                                   {
                                     setUpSession(
-                                        _formKey.currentState.value, context),
+                                      _formKey.currentState.value,
+                                      context,
+                                    ),
                                   }
                               },
                               child: Text(

@@ -63,13 +63,13 @@ class _HomeState extends State<Home> {
                 builder: (context) => ProfilePage(user: widget.user)),
           ),
         },
-        child: CircleAvatar(
-          radius: 50.0,
-          backgroundImage: widget.user.profileUrl != null
-              ? new NetworkImage(widget.user.profileUrl)
-              : null,
-          backgroundColor: Colors.transparent,
-        ),
+        // child: CircleAvatar(
+        //   radius: 50.0,
+        //   backgroundImage: widget.user.profileUrl != null
+        //       ? new NetworkImage(widget.user.profileUrl)
+        //       : null,
+        //   backgroundColor: Colors.transparent,
+        // ),
       ),
     ];
     return actionsList;
@@ -215,7 +215,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        actions: getTopBarActions(),
+        // actions: getTopBarActions(),
         backgroundColor: HexColor("FEFEFE"),
       );
     }
@@ -223,21 +223,14 @@ class _HomeState extends State<Home> {
       leading: Container(
         height: 120,
         padding: const EdgeInsets.all(0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Image.asset(
-                'Resources/Images/logoGymbud.png',
-                fit: BoxFit.fill,
-              ),
-            ),
-          ],
+        child: Expanded(
+          child: Image.asset(
+            'Resources/Images/logoGymbud.png',
+            fit: BoxFit.fill,
+          ),
         ),
       ),
-      actions: getTopBarActions(),
-      // leading: Image.asset("Resources/Images/logoGymbud.png",
-      // height: 100.0, width: 100.0),
+      // actions: getTopBarActions(),
       backgroundColor: HexColor("FEFEFE"),
     );
   }
@@ -245,7 +238,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(),
       appBar: getAppBar(),
+      endDrawer: Drawer(
+        child: Text("Well"),
+      ),
       body: _tabPages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,

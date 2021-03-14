@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:Client/pages/onboardingScreen.dart';
 import 'package:Client/pages/splashscreen.dart';
 
-// Setting up routes and paths for the flutter app
-void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+// Main Method
+void main() {
   runApp(MyApp());
 }
 
+// Main Scaffolding for the app
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
