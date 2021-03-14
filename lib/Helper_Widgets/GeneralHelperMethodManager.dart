@@ -10,15 +10,6 @@ import 'package:Client/Controllers/UserController.dart';
 
 // Class To upload Photos to the Backend
 class GeneralHelperMethodManager {
-  // Upload Image file to server
-  // static Future<String> uploadImage(File _image) async {
-  //   try {
-  //     const downloadURL =
-  //   } catch (e) {
-  //     print('caught error $e');
-  //   }
-  //   return null;
-  // }
   static storeValuesInPreferences(Map<String, List<dynamic>> dataList) async {
     // Setting up the app with a network manager and general helper manager
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,5 +29,6 @@ class GeneralHelperMethodManager {
         return ActivityController.encodeActivityListToActivitiesString(
             dynamicListValues);
     }
+    return null;
   }
 }

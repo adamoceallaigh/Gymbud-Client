@@ -53,7 +53,7 @@ class UserController {
       ),
     );
     if (response.statusCode == 200) {
-      var userJSON = jsonDecode(response.data);
+      var userJSON = response.data;
       return User.fromJSON(userJSON);
     }
     return null;

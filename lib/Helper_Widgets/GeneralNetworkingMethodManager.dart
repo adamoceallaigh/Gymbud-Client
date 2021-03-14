@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:Client/Controllers/ActivityController.dart';
 import 'package:Client/Controllers/ConversationController.dart';
 import 'package:Client/Controllers/UserController.dart';
+import 'package:Client/Controllers/ImageController.dart';
 
 class GeneralNetworkingMethodManager {
   // Making the class variables to hold all the url's
@@ -22,6 +23,7 @@ class GeneralNetworkingMethodManager {
   UserController user_controller;
   ActivityController activity_controller;
   ConversationController conversation_controller;
+  ImageController image_controller;
 
   GeneralNetworkingMethodManager(BuildContext context) {
     if (this.production)
@@ -35,6 +37,10 @@ class GeneralNetworkingMethodManager {
     this.user_controller = new UserController(this.url_in_use);
     this.activity_controller = new ActivityController(this.url_in_use);
     this.conversation_controller = new ConversationController(this.url_in_use);
+  }
+
+  ImageController getImageController() {
+    return this.image_controller;
   }
 
   UserController getUserController() {

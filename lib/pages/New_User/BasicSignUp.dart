@@ -10,6 +10,7 @@ import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/pages/login.dart';
 import 'package:Client/Models/User.dart';
+import 'package:Client/pages/New_User/Upload_Photo_Success.dart';
 import 'package:Client/pages/New_User/Upload_Photo.dart';
 
 // Sign Up Page
