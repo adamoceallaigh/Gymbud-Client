@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Page Imports
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/pages/login.dart';
 import 'package:Client/Models/User.dart';

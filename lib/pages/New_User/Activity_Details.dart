@@ -1,21 +1,22 @@
 import 'package:Client/Controllers/UserController.dart';
+import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math';
 
 import '../home.dart';
 
-class SessionDetails extends StatefulWidget {
+class ActivityDetails extends StatefulWidget {
   final User user;
 
-  SessionDetails({Key key, @required this.user}) : super(key: key);
+  ActivityDetails({Key key, @required this.user}) : super(key: key);
   @override
-  _SessionDetailsState createState() => _SessionDetailsState();
+  _ActivityDetailsState createState() => _ActivityDetailsState();
 }
 
-class _SessionDetailsState extends State<SessionDetails> {
+class _ActivityDetailsState extends State<ActivityDetails> {
   final resources = [
     "Bicycle",
     "Assault Bike",
@@ -40,7 +41,7 @@ class _SessionDetailsState extends State<SessionDetails> {
     "Hike",
     "Cycle"
   ];
-  final sessionOptions = ["At Home", "Gym", "Outdoor Activity"];
+  final activityOptions = ["At Home", "Gym", "Outdoor Activity"];
   final _selectionOptions = List.generate(3, (_) => false);
   double _defaultIntensity = 20.0;
   double _defaultActivityLevel = 20.0;
@@ -51,7 +52,7 @@ class _SessionDetailsState extends State<SessionDetails> {
     return Scaffold(
         appBar: buildAppBar(),
         backgroundColor: Colors.white,
-        body: sessionBody());
+        body: activityBody());
   }
 
   AppBar buildAppBar() {
@@ -74,14 +75,15 @@ class _SessionDetailsState extends State<SessionDetails> {
     return girlUrls[new Random().nextInt(1)];
   }
 
-  void _setUpUser() async {
-    UserController userController = new UserController();
+  void _setUpUser(BuildContext context) async {
+    UserController user_controller =
+        GeneralNetworkingMethodManager(context).getUserController();
     widget.user.gender == "male"
         ? widget.user.profileUrl =
             "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/James.jpg?alt=media&token=123f37e9-e7a8-4823-b6a6-ee86e4cc7e59"
         : widget.user.profileUrl = getGirlPhoto();
     print(widget.user.toString());
-    User newUser = await userController.createUser(widget.user);
+    User newUser = await user_controller.createUser(widget.user);
     if (newUser != null) {
       Navigator.push(
         context,
@@ -90,7 +92,7 @@ class _SessionDetailsState extends State<SessionDetails> {
     }
   }
 
-  Widget sessionBody() {
+  Widget activityBody() {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -121,7 +123,7 @@ class _SessionDetailsState extends State<SessionDetails> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text("Pick your session intensity level"),
+                  child: Text("Pick your activity intensity level"),
                 ),
                 SliderTheme(
                   data: SliderThemeData(),
@@ -252,7 +254,7 @@ class _SessionDetailsState extends State<SessionDetails> {
                   ],
                   isSelected: _selectionOptions,
                   onPressed: (int index) => {
-                    widget.user.videoOrInPerson = getSessionOption(index),
+                    widget.user.videoOrInPerson = getActivityOption(index),
                     setState(() {
                       for (int indexBtn = 0;
                           indexBtn < _selectionOptions.length;
@@ -270,12 +272,13 @@ class _SessionDetailsState extends State<SessionDetails> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("At Home"),
-                        SizedBox(width: 50),
-                        Text("Gym")
-                      ]),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("At Home"),
+                      SizedBox(width: 50),
+                      Text("Gym")
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
@@ -283,7 +286,7 @@ class _SessionDetailsState extends State<SessionDetails> {
                     child: Text("Finish"),
                     onPressed: () => {
                       // print(widget.user.toString()),
-                      _setUpUser()
+                      _setUpUser(context)
                     },
                   ),
                 )
@@ -295,8 +298,8 @@ class _SessionDetailsState extends State<SessionDetails> {
     );
   }
 
-  String getSessionOption(int index) {
-    return sessionOptions[index];
+  String getActivityOption(int index) {
+    return activityOptions[index];
   }
 
   String getLabel(double percLevel, String mode) {

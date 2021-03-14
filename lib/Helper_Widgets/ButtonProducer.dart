@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 
 // Page Imports
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 
 // Class Declaration for Button Producer to give back styled buttons used in app
 class ButtonProducer {

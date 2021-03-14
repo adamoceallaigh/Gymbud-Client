@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ViewSession extends StatefulWidget {
+class ViewActivity extends StatefulWidget {
   @override
-  _ViewSessionState createState() => _ViewSessionState();
+  _ViewActivityState createState() => _ViewActivityState();
 }
 
-class _ViewSessionState extends State<ViewSession> {
+class _ViewActivityState extends State<ViewActivity> {
   @override
   Widget build(BuildContext context) {
     return Container(

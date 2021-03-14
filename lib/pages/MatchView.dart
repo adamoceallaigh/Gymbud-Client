@@ -1,9 +1,9 @@
-import 'package:Client/Helper_Widgets/hex_color.dart';
-import 'package:Client/Models/Session.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
+import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/SingleSessionView.dart';
+import 'package:Client/pages/SingleActivityView.dart';
 import 'package:flutter/material.dart';
-import 'package:Client/Controllers/SessionController.dart';
+import 'package:Client/Controllers/ActivityController.dart';
 //Importing TinderSwipeCard here allowing me to have same functionality easily as tinder cards
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,26 +18,26 @@ class MatchView extends StatefulWidget {
 }
 
 class _MatchViewState extends State<MatchView> {
-  List<Session> sessions = List<Session>();
+  List<Activity> activities = List<Activity>();
 
   //Declaring my tinderCardController to be able to indicate when we swipe left or right easily
   CardController tinderCardController;
 
-  void setupSessions() async {
-    SessionController sessionController = new SessionController();
-    sessionController.getSessions().then((session) => setState(() {
-          sessions.addAll(session);
-        }));
-  }
+  // void setupActivities() async {
+  //   ActivityController activityController = new ActivityController();
+  //   activityController.getActivities().then((activity) => setState(() {
+  //         activities.addAll(activity);
+  //       }));
+  // }
 
   List<Widget> getAttendeeCircles(int index) {
     List<Widget> widgetList = new List<Widget>();
     double left = 0;
-    if (sessions[index].participants.length == 1)
+    if (activities[index].participants.length == 1)
       left = 0;
     else
       left = -18;
-    for (var user in sessions[index].participants) {
+    for (var user in activities[index].participants) {
       left += 18;
       widgetList.add(
         Positioned(
@@ -55,7 +55,7 @@ class _MatchViewState extends State<MatchView> {
   @override
   void initState() {
     super.initState();
-    setupSessions();
+    // setupActivities();
   }
 
   // Using TinderSwipeCard here - library from pub.dev which allows you very easily to have cards with same functionality as tinder cards
@@ -77,15 +77,15 @@ class _MatchViewState extends State<MatchView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SingleSessionView(
-                      session: sessions[index],
+                    builder: (context) => SingleActivityView(
+                      activity: activities[index],
                       user: widget.user,
                     ),
                   ),
                 ),
               },
               child: Hero(
-                tag: 'Activity ${sessions[index].hashCode}',
+                tag: 'Activity ${activities[index].hashCode}',
                 child: Card(
                   margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
                   elevation: 8,
@@ -103,7 +103,7 @@ class _MatchViewState extends State<MatchView> {
                           height: 220,
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
-                            sessions[index].activityImageUrl,
+                            activities[index].activityImageUrl,
                             alignment: Alignment.lerp(
                                 Alignment.center, Alignment.topCenter, .3),
                             fit: BoxFit.cover,
@@ -140,7 +140,7 @@ class _MatchViewState extends State<MatchView> {
                                       //     fontFamily: 'Merienda One',
                                       //   ),
                                     ),
-                                    Text(sessions[index].activityDescription),
+                                    Text(activities[index].activityDescription),
                                   ],
                                 ),
                               ),
@@ -160,7 +160,7 @@ class _MatchViewState extends State<MatchView> {
                                       ),
                                     ),
                                     Text(
-                                      '${sessions[index].participants.length.toString()} / 6',
+                                      '${activities[index].participants.length.toString()} / 6',
                                       style: GoogleFonts.meriendaOne(
                                         color: HexColor("#000000"),
                                         fontSize: 18,
@@ -196,7 +196,7 @@ class _MatchViewState extends State<MatchView> {
                                     //   fontSize: 16,
                                     // ),
                                   ),
-                                  Text(sessions[index].resources.toString()),
+                                  Text(activities[index].resources.toString()),
                                 ],
                               ),
                             ),
@@ -231,7 +231,7 @@ class _MatchViewState extends State<MatchView> {
                                         //   fontSize: 16,
                                         // ),
                                       ),
-                                      Text(sessions[index]
+                                      Text(activities[index]
                                           .activityIntensityLevel),
                                     ],
                                   ),
@@ -260,7 +260,7 @@ class _MatchViewState extends State<MatchView> {
                                               child: CircleAvatar(
                                                 radius: 25,
                                                 backgroundImage: NetworkImage(
-                                                    sessions[index]
+                                                    activities[index]
                                                         .creator
                                                         .profileUrl),
                                               ),
@@ -283,7 +283,7 @@ class _MatchViewState extends State<MatchView> {
             );
           },
           cardController: tinderCardController = CardController(),
-          totalNum: sessions.length,
+          totalNum: activities.length,
         ),
       ),
     );

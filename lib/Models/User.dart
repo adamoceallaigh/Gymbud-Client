@@ -1,6 +1,7 @@
 //Class Declaration of the Class Model
 
 class User {
+  // Variables to hold all user values
   String id,
       username,
       email,
@@ -14,8 +15,15 @@ class User {
       preferredDistanceRange,
       videoOrInPerson,
       fitnessLevel;
-  List resources, messages, buds, sessions, activitiesEnjoyed;
-  User(
+  List resources, messages, buds, activities, activitiesEnjoyed;
+
+  // Variable to hold instance variable of user
+  static Future<User> getUserInstance() async {
+    return new User();
+  }
+
+  // Optional Named Constructor for User
+  User({
     this.id,
     this.username,
     this.email,
@@ -30,11 +38,11 @@ class User {
     this.videoOrInPerson,
     this.fitnessLevel,
     this.buds,
-    this.sessions,
+    this.activities,
     this.resources,
     this.activitiesEnjoyed,
     this.messages,
-  );
+  });
 
   User.register(
     this.username,
@@ -50,7 +58,7 @@ class User {
     this.videoOrInPerson,
     this.fitnessLevel,
     this.buds,
-    this.sessions,
+    this.activities,
     this.resources,
     this.activitiesEnjoyed,
     this.messages,
@@ -61,8 +69,7 @@ class User {
     this.password,
   );
 
-  ///Constructor to pull json data values and make up a User model
-  /// and return User to UserManager class to pass to page to be displayed
+  //Constructor to pull json data values and make up a User model
   User.fromJSON(Map<String, dynamic> data) {
     this.id = data["_id"];
     this.username = data['Username'];
@@ -78,59 +85,35 @@ class User {
     this.videoOrInPerson = data["Video_Or_In_Person"];
     this.fitnessLevel = data["Fitness_Level"];
     this.buds = data["Buds"];
-    this.sessions = data["Sessions"];
+    this.activities = data["Activities"];
     this.resources = data["Resources"];
     this.activitiesEnjoyed = data["Activities_Enjoyed"];
     this.messages = data["Messages"];
   }
 
-  Map<String, dynamic> toJson() => {
-        '_id': this.id,
-        'Username': this.username,
-        'Email': this.email,
-        'Password': this.password,
-        'Profile_Url': this.profileUrl,
-        'Name': this.name,
-        'Gender': this.gender,
-        'DOB': this.dob,
-        'Preferred_Intensity': this.preferredIntensity,
-        'Fitness_Level': this.fitnessLevel,
-        'Resources': this.resources,
-        'Preferred_Age_Range': this.preferredAgeRange,
-        'Preferred_Distance_Range': this.preferredDistanceRange,
-        'Video_Or_In_Person': this.videoOrInPerson,
-        'Messages': this.messages,
-        'Activities_Enjoyed': this.activitiesEnjoyed,
-        'Buds': this.buds,
-        'Sessions': this.sessions
+  static Map<String, dynamic> toJson(User user) => {
+        '_id': user.id,
+        'Username': user.username,
+        'Email': user.email,
+        'Password': user.password,
+        'Profile_Url': user.profileUrl,
+        'Name': user.name,
+        'Gender': user.gender,
+        'DOB': user.dob,
+        'Preferred_Intensity': user.preferredIntensity,
+        'Fitness_Level': user.fitnessLevel,
+        'Resources': user.resources,
+        'Preferred_Age_Range': user.preferredAgeRange,
+        'Preferred_Distance_Range': user.preferredDistanceRange,
+        'Video_Or_In_Person': user.videoOrInPerson,
+        'Messages': user.messages,
+        'Activities_Enjoyed': user.activitiesEnjoyed,
+        'Buds': user.buds,
+        'Activities': user.activities
       };
 
   @override
   String toString() {
-    return this.toJson().toString();
-  }
-
-  // Making the Default user to start off from
-  static User newUser() {
-    return new User(
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      [],
-      [],
-      [],
-      [],
-      [],
-    );
+    return User.toJson(this).toString();
   }
 }

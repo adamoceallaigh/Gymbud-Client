@@ -1,5 +1,5 @@
 import 'package:Client/Controllers/UserController.dart';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
 
@@ -14,17 +14,17 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   List<User> users = List<User>();
 
-  void setupUsers() async {
-    UserController userController = new UserController();
-    userController.getUsers().then((user) => setState(() {
-          users.addAll(user);
-        }));
-  }
+  // void setupUsers() async {
+  //   UserController userController = new UserController();
+  //   userController.getUsers().then((user) => setState(() {
+  //         users.addAll(user);
+  //       }));
+  // }
 
   @override
   void initState() {
     super.initState();
-    setupUsers();
+    // setupUsers();
     // this._tabPages = [
     //   HomeView(users: users),
     //   MatchView(),
@@ -41,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
             color: Colors.white,
             height: 50,
             child: Center(
-              child: Text("Past Users / Sessions"),
+              child: Text("Past Users / Activities"),
             ),
           ),
         ),

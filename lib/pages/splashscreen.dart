@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //____Helper Widget Imports_________
-import '../Helper_Widgets/hex_color.dart';
+import '../Helper_Widgets/HexColor.dart';
 
 //_______Page Imports_______
 
@@ -16,7 +16,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  
   // Overriding the initiliazation state to be able to set up a timer once this
   //page has been initialized which will run and then move to the onboarding screen
   // When finished
@@ -27,12 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(
-      Duration(seconds: 10) , 
-      // This anonymous function is responsible for moving to next page
-      () => {
-        Navigator.pushReplacementNamed(context, '/OnBoarding')
-      }
-    );
+        Duration(seconds: 10),
+        // This anonymous function is responsible for moving to next page
+        () => {Navigator.pushReplacementNamed(context, '/OnBoarding')});
   }
 
   @override
@@ -43,12 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              margin: EdgeInsets.only(bottom: 20.0),
-              width: 180,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100))
-              ),
-              child: Image.asset('Resources/Images/logoGymbud.png'),
+            margin: EdgeInsets.only(bottom: 20.0),
+            width: 180,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(100))),
+            child: Image.asset('Resources/Images/logoGymbud.png'),
           ),
           Row(
               mainAxisAlignment: MainAxisAlignment.center,

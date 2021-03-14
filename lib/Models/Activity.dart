@@ -1,7 +1,14 @@
-// Class Declaration of the Session Model
+// Imports
+
+// Library Imports
+
+// Page Imports
+import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/User.dart';
 
-class Session {
+// Class Declaration of the Activity Model
+class Activity {
+  // Variables to hold all activity values
   String id,
       time,
       date,
@@ -19,7 +26,13 @@ class Session {
   List resources;
   List<User> participants;
 
-  Session({
+  // Variable to hold instance variable of user
+  static Future<Activity> getActivityInstance() async {
+    return new Activity();
+  }
+
+  // Optional Named Constructor for Activity
+  Activity({
     this.id,
     this.creator,
     this.time,
@@ -38,7 +51,8 @@ class Session {
     this.participants,
   });
 
-  Session.fromJSON(Map<String, dynamic> data) {
+  // Constructor to pull json data values and make up an Activity model
+  Activity.fromJSON(Map<String, dynamic> data) {
     this.id = data['_id'];
     this.creator = User.fromJSON(data['Creator']);
     this.time = data['Time'];
@@ -54,38 +68,31 @@ class Session {
     this.activityFitnessLevel = data['Fitness_Level'];
     this.activityImageUrl = data['Activity_Image_Url'];
     this.resources = data['Resources'];
-    this.participants = getUsersFromList(data['Participants']);
+    this.participants = UserController.decodeUserStringToUserList(
+      data['Participants'].toString(),
+    );
   }
 
-  List<User> getUsersFromList(users) {
-    List<User> userList = new List<User>();
-    for (var user in users) {
-      userList.add(User.fromJSON(user));
-    }
-
-    return userList;
-  }
-
-  Map<String, dynamic> toJson() => {
-        'Creator': this.creator,
-        'Time': this.time,
-        'Date': this.date,
-        'Location': this.location,
-        'Duration': this.duration,
-        'Activity_Type': this.activityType,
-        'Activity_Name': this.activityName,
-        'Activity_Description': this.activityDescription,
-        'Activity_Gender_Preference': this.activityGenderPreference,
-        'Intensity_Level': this.activityIntensityLevel,
-        'Fitness_Level': this.activityFitnessLevel,
-        'Budget_Level': this.activityBudgetLevel,
-        'Activity_Image_Url': this.activityImageUrl,
-        'Resources': this.resources,
-        'Participants': this.participants
+  static Map<String, dynamic> toJson(Activity activity) => {
+        'Creator': User.toJson(activity.creator),
+        'Time': activity.time,
+        'Date': activity.date,
+        'Location': activity.location,
+        'Duration': activity.duration,
+        'Activity_Type': activity.activityType,
+        'Activity_Name': activity.activityName,
+        'Activity_Description': activity.activityDescription,
+        'Activity_Gender_Preference': activity.activityGenderPreference,
+        'Intensity_Level': activity.activityIntensityLevel,
+        'Fitness_Level': activity.activityFitnessLevel,
+        'Budget_Level': activity.activityBudgetLevel,
+        'Activity_Image_Url': activity.activityImageUrl,
+        'Resources': activity.resources,
+        'Participants': activity.participants
       };
 
   @override
   String toString() {
-    return this.toJson().toString();
+    return Activity.toJson(this).toString();
   }
 }

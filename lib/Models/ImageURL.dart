@@ -3,5 +3,5 @@ class ImageURL {
 
   ImageURL(this.path);
 
-  ImageURL.fromJson(Map<String, dynamic> json) : path = json["path"];
+  ImageURL.fromJson(Map<String, dynamic> json) : this.path = json["path"];
 }

@@ -1,24 +1,25 @@
-import 'package:Client/Controllers/SessionController.dart';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Controllers/ActivityController.dart';
+import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/InformationPopUp.dart';
-import 'package:Client/Models/Session.dart';
+import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
 // import 'package:Client/pages/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SingleSessionView extends StatefulWidget {
-  final Session session;
+class SingleActivityView extends StatefulWidget {
+  final Activity activity;
   final User user;
 
-  SingleSessionView({Key key, @required this.session, @required this.user})
+  SingleActivityView({Key key, @required this.activity, @required this.user})
       : super(key: key);
 
   @override
-  _SingleSessionViewState createState() => _SingleSessionViewState();
+  _SingleActivityViewState createState() => _SingleActivityViewState();
 }
 
-class _SingleSessionViewState extends State<SingleSessionView> {
+class _SingleActivityViewState extends State<SingleActivityView> {
   InformationPopUp infoPopUp;
 
   @override
@@ -40,13 +41,13 @@ class _SingleSessionViewState extends State<SingleSessionView> {
         ),
         backgroundColor: HexColor("FEFEFE"),
       ),
-      body: getSingleSessionBody(),
+      body: getSingleActivityBody(),
     );
   }
 
   List<Widget> getAttendeeCircles() {
     List<Widget> widgetList = new List<Widget>();
-    for (var user in widget.session.participants) {
+    for (var user in widget.activity.participants) {
       widgetList.add(
         CircleAvatar(
           backgroundImage: NetworkImage(user.profileUrl),
@@ -57,13 +58,14 @@ class _SingleSessionViewState extends State<SingleSessionView> {
     return widgetList;
   }
 
-  void addUserToSession(sessionId, userId) {
-    SessionController sessionController = new SessionController();
+  void addUserToActivity(activityId, userId, BuildContext context) {
+    ActivityController activityController =
+        GeneralNetworkingMethodManager(context).getActivityController();
     Future<String> result =
-        sessionController.addUserToSession(sessionId, userId);
+        activityController.addUserToActivity(activityId, userId);
   }
 
-  Widget getSingleSessionBody() {
+  Widget getSingleActivityBody() {
     return SingleChildScrollView(
       child: Container(
           height: 1330,
@@ -74,9 +76,9 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                 width: MediaQuery.of(context).size.width,
                 height: 470,
                 child: Hero(
-                  tag: 'Activity ${widget.session.hashCode}',
+                  tag: 'Activity ${widget.activity.hashCode}',
                   child: Image.network(
-                    widget.session.activityImageUrl,
+                    widget.activity.activityImageUrl,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -107,7 +109,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                   letterSpacing: -1.5,
                                 ),
                               ),
-                              Text(widget.session.activityName),
+                              Text(widget.activity.activityName),
                             ],
                           ),
                         ],
@@ -132,7 +134,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                   letterSpacing: -1.5,
                                 ),
                               ),
-                              Text(widget.session.activityType),
+                              Text(widget.activity.activityType),
                             ],
                           ),
                         ],
@@ -157,7 +159,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                   letterSpacing: -1.5,
                                 ),
                               ),
-                              Text(widget.session.activityGenderPreference),
+                              Text(widget.activity.activityGenderPreference),
                             ],
                           ),
                         ],
@@ -240,7 +242,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                '${widget.session.date}',
+                                                '${widget.activity.date}',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -250,7 +252,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
 //                                           SizedBox(width: 15.0),
                                             Expanded(
                                               child: Text(
-                                                '${widget.session.time}',
+                                                '${widget.activity.time}',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -296,7 +298,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                       ),
                                       TextSpan(
                                           text:
-                                              '${widget.session.participants.length}'),
+                                              '${widget.activity.participants.length}'),
                                     ],
                                   ),
                                 ),
@@ -331,7 +333,7 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                                   letterSpacing: -1.5,
                                 ),
                               ),
-                              Text(widget.session.resources.toString()),
+                              Text(widget.activity.resources.toString()),
                             ],
                           ),
                         ],
@@ -339,7 +341,8 @@ class _SingleSessionViewState extends State<SingleSessionView> {
                     ),
                     FlatButton(
                       onPressed: () => {
-                        addUserToSession(widget.session.id, widget.user.id),
+                        addUserToActivity(
+                            widget.activity.id, widget.user.id, context),
                       },
                       child: Text("I want to do this/I'm Available"),
                     )

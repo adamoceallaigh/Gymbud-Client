@@ -1,6 +1,6 @@
 //Imports and Variable Declarations
 // import 'package:Client/Controllers/UserController.dart';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

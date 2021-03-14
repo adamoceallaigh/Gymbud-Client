@@ -1,25 +1,25 @@
-import 'package:Client/Models/Session.dart';
+import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/Session_Management/AddSession.dart';
+import 'package:Client/pages/Activity_Management/AddActivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AddSessionOnboarding extends StatefulWidget {
+class AddActivityOnboarding extends StatefulWidget {
   final User user;
-  AddSessionOnboarding({Key key, this.user}) : super(key: key);
+  AddActivityOnboarding({Key key, this.user}) : super(key: key);
 
   @override
-  _AddSessionOnboardingState createState() => _AddSessionOnboardingState();
+  _AddActivityOnboardingState createState() => _AddActivityOnboardingState();
 }
 
-class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
+class _AddActivityOnboardingState extends State<AddActivityOnboarding> {
   final _formKey = GlobalKey<FormBuilderState>();
-  final sessionOptions = ["Home Workout", "Gym Workout", "Outdoor Activity"];
+  final activityOptions = ["Home Workout", "Gym Workout", "Outdoor Activity"];
 
   @override
   Widget build(BuildContext context) {
-    final newSession = new Session(
+    final newActivity = new Activity(
       time: null,
       date: null,
       location: null,
@@ -110,7 +110,7 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
                                 name: 'Activity_Type',
                                 validator: FormBuilderValidators.compose(
                                     [FormBuilderValidators.required(context)]),
-                                options: sessionOptions
+                                options: activityOptions
                                     .map(
                                       (lang) => FormBuilderFieldOption(
                                         value: lang,
@@ -137,13 +137,13 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
                         if (_formKey.currentState.saveAndValidate())
                           {
                             print(_formKey.currentState.value['Activity_Type']),
-                            newSession.activityType =
+                            newActivity.activityType =
                                 _formKey.currentState.value['Activity_Type'],
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AddSession(
-                                    user: widget.user, session: newSession),
+                                builder: (context) => AddActivity(
+                                    user: widget.user, activity: newActivity),
                               ),
                             ),
                           }
@@ -162,7 +162,7 @@ class _AddSessionOnboardingState extends State<AddSessionOnboarding> {
     );
   }
 
-  String getSessionOption(int index) {
-    return sessionOptions[index];
+  String getActivityOption(int index) {
+    return activityOptions[index];
   }
 }

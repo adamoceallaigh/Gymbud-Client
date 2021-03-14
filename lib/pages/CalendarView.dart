@@ -1,7 +1,7 @@
 import 'dart:core';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/Session_Management/AddSessionOnboarding.dart';
+import 'package:Client/pages/Activity_Management/AddActivityOnboarding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -209,7 +209,7 @@ class _CalendarViewState extends State<CalendarView> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  AddSessionOnboarding(user: widget.user)),
+                                  AddActivityOnboarding(user: widget.user)),
                         ),
                       },
                       child: Container(

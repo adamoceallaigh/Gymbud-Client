@@ -1,12 +1,13 @@
 //Imports and Variable Declarations
 
 // Library Imports
+import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Page Imports
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/InformationPopUp.dart';
@@ -40,25 +41,34 @@ class _LoginState extends State<Login> {
   // Navigate to Home Page once validation passed
   _checkLoginValues(
       Map<String, dynamic> formValues, BuildContext context) async {
-    // Setting up the
-    UserController userController = new UserController();
+    // Setting up new instance of user controller
+    UserController userController =
+        GeneralNetworkingMethodManager(context).getUserController();
+
     try {
-      dynamic userValidated = await userController.loginUser(
+      // Result from logging in user could either be a error or boolean saying true
+      dynamic userValidated = await userController.readSingleUser(
         formValues["Username"],
         formValues["Password"],
         context,
       );
+
+      // Checking if the result is a error
       if (userValidated.runtimeType == InformationPopUp) {
         if (userValidated.message != null) {
+          // Displaying error in pop up by setting the state
           setState(() {
             infoPopUp = userValidated;
           });
         }
       } else {
+        // Navigating to the Home page if user logged in is returned
         if (userValidated.username != null) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Home(user: userValidated)),
+            MaterialPageRoute(
+              builder: (context) => Home(user: userValidated),
+            ),
           );
         }
       }
@@ -79,7 +89,7 @@ class _LoginState extends State<Login> {
   Widget retrieveLogInBody() {
     return SingleChildScrollView(
       child: Container(
-        height: 580,
+        height: 680,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: _buildChildren(),
@@ -178,7 +188,6 @@ class _LoginState extends State<Login> {
                     validator: FormBuilderValidators.compose(
                       [
                         FormBuilderValidators.required(context),
-                        FormBuilderValidators.minLength(context, 8)
                       ],
                     ),
                   ),
@@ -217,7 +226,7 @@ class _LoginState extends State<Login> {
         GestureDetector(
           onTap: () {
             // Default user to use in the sign up process
-            var newUser = User.newUser();
+            var newUser = User();
             Navigator.push(
               context,
               MaterialPageRoute(

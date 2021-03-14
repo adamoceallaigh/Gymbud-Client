@@ -1,5 +1,5 @@
 import 'package:Client/Models/User.dart';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:flutter/material.dart';
 import 'Details_Success.dart';
 

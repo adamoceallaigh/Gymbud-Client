@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'package:Client/Controllers/SessionController.dart';
-import 'package:Client/Helper_Widgets/hex_color.dart';
+import 'package:Client/Controllers/ActivityController.dart';
+import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/ImageURL.dart';
-import 'package:Client/Models/Session.dart';
+import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/pages/Home.dart';
 import 'package:dio/dio.dart';
@@ -15,16 +16,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 
-class AddSession extends StatefulWidget {
+class AddActivity extends StatefulWidget {
   final User user;
-  final Session session;
-  AddSession({Key key, this.user, this.session}) : super(key: key);
+  final Activity activity;
+  AddActivity({Key key, this.user, this.activity}) : super(key: key);
 
   @override
-  _AddSessionState createState() => _AddSessionState();
+  _AddActivityState createState() => _AddActivityState();
 }
 
-class _AddSessionState extends State<AddSession> {
+class _AddActivityState extends State<AddActivity> {
   final _formKey = GlobalKey<FormBuilderState>();
   final genderOptions = ["Male", "Female", "No Preference"];
   double _defaultIntensity = 20.0;
@@ -87,7 +88,7 @@ class _AddSessionState extends State<AddSession> {
       var imageJSON;
       if (response.statusCode == 200) {
         imageJSON = response.data;
-        widget.session.activityImageUrl = ImageURL.fromJson(imageJSON).path;
+        widget.activity.activityImageUrl = ImageURL.fromJson(imageJSON).path;
       }
     } catch (e) {
       print(e);
@@ -103,30 +104,31 @@ class _AddSessionState extends State<AddSession> {
     return activityTypes[type];
   }
 
-  void setUpSession(
+  void setUpActivity(
       Map<String, dynamic> formValues, BuildContext context) async {
     final formattedDate =
         DateFormat('yyyy-MM-dd kk:mm').format(formValues['Activity_Date_Time']);
     // ['id'] = widget.user._id;
-    widget.session.activityName = formValues['Workout_Name'];
-    widget.session.activityDescription = formValues['Workout_Description'];
-    widget.session.activityGenderPreference = formValues['Gender_Preference'];
-    widget.session.date = formattedDate.split(" ")[0];
-    widget.session.time = formattedDate.split(" ")[1];
-    widget.session.activityIntensityLevel =
+    widget.activity.activityName = formValues['Workout_Name'];
+    widget.activity.activityDescription = formValues['Workout_Description'];
+    widget.activity.activityGenderPreference = formValues['Gender_Preference'];
+    widget.activity.date = formattedDate.split(" ")[0];
+    widget.activity.time = formattedDate.split(" ")[1];
+    widget.activity.activityIntensityLevel =
         getLabel(formValues['Activity_Intensity_Level'], "Intensity");
-    widget.session.duration = formValues['Activity_Duration'];
-    widget.session.creator = widget.user;
-    widget.session.participants = [widget.user];
-    widget.session.activityBudgetLevel =
+    widget.activity.duration = formValues['Activity_Duration'];
+    widget.activity.creator = widget.user;
+    widget.activity.participants = [widget.user];
+    widget.activity.activityBudgetLevel =
         getLabel(formValues['Activity_Budget_Level'], "Budget");
-    widget.session.activityFitnessLevel =
+    widget.activity.activityFitnessLevel =
         getLabel(formValues['Activity_Fitness_Level'], "Fitness");
-    widget.session.location = "4 Fraher Field, WestPort";
+    widget.activity.location = "4 Fraher Field, WestPort";
 
-    // Creating a Session
-    SessionController sessionController = new SessionController();
-    bool isCreated = await sessionController.createsession(widget.session);
+    // Creating a Activity
+    ActivityController activity_controller =
+        GeneralNetworkingMethodManager(context).getActivityController();
+    bool isCreated = await activity_controller.createactivity(widget.activity);
     if (isCreated == true)
       Navigator.push(
         context,
@@ -173,7 +175,7 @@ class _AddSessionState extends State<AddSession> {
                               height: 70,
                               width: 73,
                               child: SvgPicture.asset(
-                                "Resources/Images/${getActivitySVG(widget.session.activityType)}.svg",
+                                "Resources/Images/${getActivitySVG(widget.activity.activityType)}.svg",
                               ),
                             ),
                           ),
@@ -202,7 +204,7 @@ class _AddSessionState extends State<AddSession> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
-                            widget.session.activityType,
+                            widget.activity.activityType,
                             style: GoogleFonts.meriendaOne(
                               color: HexColor("#7A7A7A"),
                               fontSize: 17,
@@ -347,7 +349,7 @@ class _AddSessionState extends State<AddSession> {
                             label: getLabel(_defaultActivityLevel, "Fitness"),
                             initialValue: _defaultActivityLevel,
                             onChanged: (val) => {
-                              // widget.session.
+                              // widget.activity.
                               setState(() {
                                 _defaultActivityLevel = val;
                               })
@@ -376,7 +378,7 @@ class _AddSessionState extends State<AddSession> {
                             label: getLabel(_defaultIntensity, "Intensity"),
                             initialValue: _defaultIntensity,
                             onChanged: (val) => {
-                              widget.session.activityIntensityLevel =
+                              widget.activity.activityIntensityLevel =
                                   getLabel(_defaultIntensity, "Intensity"),
                               setState(() {
                                 _defaultIntensity = val;
@@ -549,7 +551,7 @@ class _AddSessionState extends State<AddSession> {
                               onPressed: () => {
                                 if (_formKey.currentState.saveAndValidate())
                                   {
-                                    setUpSession(
+                                    setUpActivity(
                                       _formKey.currentState.value,
                                       context,
                                     ),

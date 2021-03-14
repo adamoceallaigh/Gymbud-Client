@@ -2,12 +2,12 @@
 // import 'package:Client/Helper_Widgets/hex_color.dart';
 // import 'package:flutter/material.dart';
 
-// class SessionDetailsOnboarding extends StatelessWidget {
+// class ActivityDetailsOnboarding extends StatelessWidget {
 //   final User user;
 
 //   // We are going to instantiate a NewTripLocation with a required Trip instance
 //   // This is the way we are going to save the values across the pages
-//   SessionDetailsOnboarding({Key key, @required this.user}) : super(key: key);
+//   ActivityDetailsOnboarding({Key key, @required this.user}) : super(key: key);
 //   @override
 //   Widget build(BuildContext context) {
 
@@ -22,7 +22,7 @@
 //           ),
 //       backgroundColor: Colors.white,
 //       body: Align(
-//         alignment: Alignment.center, 
+//         alignment: Alignment.center,
 //         child: Column(
 //           mainAxisAlignment: MainAxisAlignment.center,
 //           children: [
@@ -42,7 +42,7 @@
 //               child: Text('Sign Up'),
 //               onPressed: () => {
 //                 Navigator.push(
-//                   context , 
+//                   context ,
 //                   MaterialPageRoute(builder: (context) => BasicSignUp(user:newUser)),
 //                 )
 //                 // Navigator.pushReplacementNamed(context, '/signup')
