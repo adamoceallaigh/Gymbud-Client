@@ -3,6 +3,7 @@
 // Library Imports
 import 'dart:io';
 import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
+import 'package:Client/pages/New_User/Upload_Photo_Success.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,20 +45,30 @@ class _UploadPhotoState extends State<UploadPhoto> {
     final pickedImage = await picker.getImage(source: imgSource);
 
     if (pickedImage != null) {
-      dealWithUploadImageBtnClick(File(pickedImage.path), context: context);
-      // setState(() {
-      //   _image = File(pickedImage.path);
-      // });
+      dealWithUploadImageBtnClick(pickedImage.path, context: context);
     } else {
       print("No image selected");
     }
   }
 
-  dealWithUploadImageBtnClick(File image, {BuildContext context = null}) async {
+  dealWithUploadImageBtnClick(String imagePath,
+      {BuildContext context = null}) async {
     try {
-      await GeneralNetworkingMethodManager(context)
+      // Image Url for image picked
+      String _image_url = await GeneralNetworkingMethodManager(context)
           .getImageController()
-          .uploadImage(_image);
+          .uploadImage(imagePath);
+      if (_image_url != null) {
+        widget.user.profileUrl = _image_url;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UploadPhotoSucess(
+              user: widget.user,
+            ),
+          ),
+        );
+      }
     } catch (e) {
       print('caught error $e');
     }

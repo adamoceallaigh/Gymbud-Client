@@ -78,60 +78,88 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
   }
 
   Widget retrieveBody() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(
-            "Pick an Image for your profile picture",
-            style: GoogleFonts.meriendaOne(
-              color: HexColor("#000000"),
-              fontSize: 18,
-              letterSpacing: -1.5,
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            GestureDetector(
-              onTap: () => {
-                getImageFromSource(ImageSource.gallery),
-              },
-              child: Container(
-                width: 240,
-                height: 240,
-                padding: _image == null ? EdgeInsets.all(5) : null,
-                color: Colors.black12,
-                child: _image == null ? Icon(Icons.add) : Image.file(_image),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          height: 580,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    // onTap: () => {
+                    //   getImageFromSource(ImageSource.gallery),
+                    // },
+                    child: Container(
+                      width: 240,
+                      height: 240,
+                      padding: widget.user.profileUrl == null
+                          ? EdgeInsets.all(5)
+                          : null,
+                      color: Colors.black12,
+                      child: widget.user.profileUrl == null
+                          ? Icon(Icons.add)
+                          : Image.network(
+                              widget.user.profileUrl,
+                              fit: BoxFit.fill,
+                            ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-              child: _image == null
-                  ? Text("No image Selected. Please pick one to continue")
-                  : Text("Nice Picture 👍"),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: widget.user.profileUrl == null
+                        ? Text("No image Selected. Please pick one to continue")
+                        : Text(
+                            "That’s Perfect 👌 \n On We GO!!",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.meriendaOne(
+                              color: HexColor("#000000"),
+                              fontSize: 15,
+                              // letterSpacing: -1.5,
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+              if (widget.user.profileUrl != null)
+                GestureDetector(
+                  onTap: () async {},
+                  child: createContinueToBasicDetailsPageBtn(),
+                )
+            ],
           ),
         ),
-        if (_image != null)
-          GestureDetector(
-            onTap: () async {
-              // dealWithUploadImageBtnClick(context);
-            },
-            child: createContinueToBasicDetailsPageBtn(),
-          )
-      ],
+      ),
     );
   }
 
   // Create the button to navigate to the basic details page
   Widget createContinueToBasicDetailsPageBtn() {
-    return ButtonProducer.getOrangeGymbudBtn();
+    return Container(
+      width: 300,
+      height: 60,
+      child: ElevatedButton(
+        style: ButtonProducer.getOrangeGymbudBtn(),
+        onPressed: () {},
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Continue",
+            style: GoogleFonts.concertOne(
+              fontSize: 30,
+              // letterSpacing: -1.5,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

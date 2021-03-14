@@ -1,11 +1,11 @@
 // Imports
 
 // Library Imports
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 
 // Page Imports
 
@@ -21,28 +21,38 @@ class ImageController {
   Dio dio = new Dio();
 
   ImageController(String url) {
-    this.url_in_use = '$url/image/upload';
+    this.url_in_use = '$url/image/';
   }
 
   // Upload Image file to server
-  Future<String> uploadImage(File _image) async {
+  Future<String> uploadImage(String imagePath) async {
     try {
-      Response response = await dio.post(
-        '${this.url_in_use}',
-        options: Options(
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'credentials': 'include'
-          },
+      String filename = imagePath.split("/").last;
+      final mimeTypeData =
+          lookupMimeType(imagePath, headerBytes: [0xFF, 0xD8]).split("/");
+
+      FormData formData = new FormData.fromMap({
+        'uploadingImage': await MultipartFile.fromFile(
+          imagePath,
+          filename: filename,
+          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
         ),
-        data: jsonEncode(
-          {'uploadingImage': _image},
+        "type": "image/png"
+      });
+
+      Response response = await dio.post(
+        '${this.url_in_use}upload',
+        data: formData,
+        options: Options(
+          headers: {"accept": "*/*", "Content-Type": "multipart/form-data"},
         ),
       );
+
       if (response.statusCode == 200) {
-        var userJSON = response.data;
-        // return Image.fromJSON(userJSON);
+        if (response.data["imagePath"] != null) {
+          // this.url_in_use = this.url_in_use.split("/").first;
+          return '${this.url_in_use}${response.data["imagePath"]}';
+        }
       }
       return null;
     } catch (e) {
@@ -50,6 +60,4 @@ class ImageController {
     }
     return null;
   }
-
-  Future<Image> createImage(Image user) async {}
 }

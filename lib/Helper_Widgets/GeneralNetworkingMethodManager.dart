@@ -37,6 +37,7 @@ class GeneralNetworkingMethodManager {
     this.user_controller = new UserController(this.url_in_use);
     this.activity_controller = new ActivityController(this.url_in_use);
     this.conversation_controller = new ConversationController(this.url_in_use);
+    this.image_controller = new ImageController(this.url_in_use);
   }
 
   ImageController getImageController() {
