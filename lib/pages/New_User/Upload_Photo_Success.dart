@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 // Page Imports
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
-import 'package:Client/Helper_Widgets/GeneralHelperMethodManager.dart';
+import 'package:Client/pages/New_User/Details_Page.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
 
@@ -132,7 +132,7 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
               if (widget.user.profileUrl != null)
                 GestureDetector(
                   onTap: () async {},
-                  child: createContinueToBasicDetailsPageBtn(),
+                  child: createContinueToBasicDetailsPageBtn(context),
                 )
             ],
           ),
@@ -142,13 +142,22 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
   }
 
   // Create the button to navigate to the basic details page
-  Widget createContinueToBasicDetailsPageBtn() {
+  Widget createContinueToBasicDetailsPageBtn(BuildContext context) {
     return Container(
       width: 300,
       height: 60,
       child: ElevatedButton(
         style: ButtonProducer.getOrangeGymbudBtn(),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailsPage(
+                user: widget.user,
+              ),
+            ),
+          );
+        },
         child: Align(
           alignment: Alignment.center,
           child: Text(

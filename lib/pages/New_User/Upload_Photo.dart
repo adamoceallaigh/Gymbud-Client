@@ -36,8 +36,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
   // Styling for upload and take picture Buttons
   ButtonStyle upload_pic_btn_style = ButtonProducer.getOrangeGymbudBtn();
 
-  // File and image picker necessary for this page
-  File _image;
+  // Image picker necessary for this page
   final picker = ImagePicker();
 
   // Logic Functions
