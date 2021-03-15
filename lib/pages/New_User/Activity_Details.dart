@@ -1,22 +1,37 @@
-import 'package:Client/Controllers/UserController.dart';
-import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
-import 'package:Client/Models/User.dart';
-import 'package:Client/Helper_Widgets/HexColor.dart';
+// Imports
+
+// Library Imports
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math';
 
-import '../home.dart';
+// Page Imports
+import 'package:Client/Controllers/UserController.dart';
+import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
+import 'package:Client/Models/User.dart';
+import 'package:Client/Helper_Widgets/HexColor.dart';
+import 'package:Client/pages/Home.dart';
 
+// Template to make Activity Details Page
 class ActivityDetails extends StatefulWidget {
-  final User user;
+  /*
+    Setting the variable for this page
+  */
 
+  // User object to be required to transfer values across pages
+  final User user;
   ActivityDetails({Key key, @required this.user}) : super(key: key);
+
   @override
   _ActivityDetailsState createState() => _ActivityDetailsState();
 }
 
 class _ActivityDetailsState extends State<ActivityDetails> {
+  /*
+    Setting the variable for this page
+  */
+
+  // Array to hold the resources
   final resources = [
     "Bicycle",
     "Assault Bike",
@@ -31,6 +46,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     "Kettle Bells"
   ];
 
+  // Array to hold the outdoor activities
   final activities = [
     "Swim",
     "Run",
@@ -41,11 +57,12 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     "Hike",
     "Cycle"
   ];
+
+  // Variables to distinguish the different activity preferences
   final activityOptions = ["At Home", "Gym", "Outdoor Activity"];
   final _selectionOptions = List.generate(3, (_) => false);
   double _defaultIntensity = 20.0;
   double _defaultActivityLevel = 20.0;
-  // var pressed = false ; // This is the press variable
 
   @override
   Widget build(BuildContext context) {
@@ -324,151 +341,3 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     return modes[mode][percLevel];
   }
 }
-
-// body: Column(
-//           children: [
-//             Container(
-//               padding: EdgeInsets.all(40.0),
-//               child: Text(
-//                 "Pick the resources you have",
-//               ),
-//             ),
-//             GridView(
-//               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                 crossAxisCount: 3
-//               ),
-//               children: resources.map((resource) {
-//                 return GestureDetector(
-//                   child: Card(
-//                     margin: EdgeInsets.all(20.0),
-//                     child: ResourceOption()
-//                   ),
-//                   onTap: () => {
-//                     if (!widget.user.resources.contains(resource)){
-//                       widget.user.resources.add(resource)
-//                     } else {
-//                       widget.user.resources.remove(resource)
-//                     },
-//                     setState(() => {})
-//                   },
-//                 );
-//               }).toList(),
-//               //   return Container(
-//               //         decoration: BoxDecoration(
-//               //             border: Border.all(color: HexColor('#C8C8C8'))
-//               //         ),
-//               //         child: FlatButton(
-//               //           child: Column(
-//               //               mainAxisAlignment: MainAxisAlignment.center,
-//               //               children: [Text(resource)]
-//               //           ),
-//               //           color: widget.user.resources.contains(resource)
-//               //               ? HexColor('#EB9661')
-//               //               : Colors.transparent,
-//               //           onPressed: () => {
-//               //               if (!widget.user.resources.contains(resource)){
-//               //                 widget.user.resources.add(resource)
-//               //               } else {
-//               //                 widget.user.resources.remove(resource)
-//               //               },
-//               //             setState(() => {})
-//               //           },
-//               //         ),
-//               //       );
-//               // }).toList(),
-//               // shrinkWrap: true,
-//             ),
-//     return Container(
-//           decoration: BoxDecoration(
-//               border: Border.all(color: HexColor('#C8C8C8'))
-//           ),
-//           child: FlatButton(
-//             child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [Text(resources[resource])]),
-//             color: widget.user.resources
-//                     .contains(resources[resource])
-//                 ? HexColor('#EB9661')
-//                 : Colors.transparent,
-//             onPressed: () => {
-//               if (!widget.user.resources
-//                   .contains(resources[resource]))
-//                 {
-//                   widget.user.resources
-//                       .add(resources[resource])
-//                 }
-//               else
-//                 {
-//                   widget.user.resources
-//                       .remove(resources[resource])
-//                 },
-//               setState(() => {})
-//             },
-//           ),
-//         );
-//   }),
-// ),
-//             // children: List.generate(
-//             //     resources.length,
-//             //     (resource) => Container(
-//             //           decoration: BoxDecoration(
-//             //               border: Border.all(color: HexColor('#C8C8C8'))
-//             //           ),
-//             //           child: FlatButton(
-//             //             child: Column(
-//             //                 mainAxisAlignment: MainAxisAlignment.center,
-//             //                 children: [Text(resources[resource])]),
-//             //             color: widget.user.resources
-//             //                     .contains(resources[resource])
-//             //                 ? HexColor('#EB9661')
-//             //                 : Colors.transparent,
-//             //             onPressed: () => {
-//             //               if (!widget.user.resources
-//             //                   .contains(resources[resource]))
-//             //                 {
-//             //                   widget.user.resources
-//             //                       .add(resources[resource])
-//             //                 }
-//             //               else
-//             //                 {
-//             //                   widget.user.resources
-//             //                       .remove(resources[resource])
-//             //                 },
-//             //               setState(() => {})
-//             //             },
-//             //           ),
-//             //         ))
-//             // ),
-//             Container(
-//               padding: EdgeInsets.all(40.0),
-//               child: Text(
-//                 "Pick the activities you enjoy",
-//               ),
-//             ),
-//             // GridView.count(
-//             //         crossAxisCount: 3,
-//             //         scrollDirection: Axis.vertical,
-//             //         primary: false,
-//             //         children: List.generate(
-//             //             activities.length,
-//             //             (activity) => Container(
-//             //               decoration: BoxDecoration(
-//             //                       border: Border.all(color: HexColor('#C8C8C8'))
-//             //                   ),
-//             //               child: FlatButton(
-//             //                     child: Column(
-//             //                         mainAxisAlignment: MainAxisAlignment.center,
-//             //                         children: [Text(activities[activity])]),
-//             //                     color: widget.user.activitiesEnjoyed.contains(activities[activity])
-//             //                         ? HexColor('#EB9661')
-//             //                         : Colors.transparent,
-//             //                     onPressed: () => {
-//             //                       if (!widget.user.activitiesEnjoyed.contains(activities[activity])){
-//             //                           widget.user.activitiesEnjoyed.add(activities[activity])
-//             //                         }else{
-//             //                           widget.user.activitiesEnjoyed.remove(activities[activity])
-//             //                         },
-//             //                       setState(() => {})
-//             //                     },
-//             //                   ),
-//             //             )))
