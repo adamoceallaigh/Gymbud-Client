@@ -38,7 +38,7 @@ class UserController {
         .toList();
   }
 
-  Future<User> createUser(User user) async {
+  Future<dynamic> createUser(User user) async {
     Response response = await dio.post(
       '${this.url_in_use}',
       options: Options(
@@ -52,9 +52,12 @@ class UserController {
         User.toJson(user),
       ),
     );
+
+    var userJSON = response.data;
     if (response.statusCode == 200) {
-      var userJSON = response.data;
-      return User.fromJSON(userJSON);
+      if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
+      if (userJSON["cause"] != null)
+        return new InformationPopUp(message: userJSON["cause"][0]);
     }
     return null;
   }

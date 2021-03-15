@@ -13,8 +13,10 @@ class Activity_Option {
   String description;
   String imageName;
   bool isSelected;
+  String hiddenText;
 
-  Activity_Option(this.description, this.imageName, this.isSelected);
+  Activity_Option(
+      this.description, this.hiddenText, this.imageName, this.isSelected);
 }
 
 class ActivityOptionRadio extends StatelessWidget {
