@@ -1,15 +1,19 @@
-// Imports
+// // Imports
 
 // Library Imports
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Page Imports
+import 'package:Client/pages/DrawerScreen.dart';
+import 'package:Client/pages/HomeScreen.dart';
+
 import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
 // import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/pages/CalendarView.dart';
-import 'package:Client/pages/HomeView.dart';
+// import 'package:Client/pages/HomeView.dart';
 import 'package:Client/pages/MatchView.dart';
 import 'package:Client/pages/ProfilePage.dart';
 
@@ -81,48 +85,46 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: getAppBar(),
-      endDrawer: Drawer(
-        child: Text("Well"),
-      ),
-      body: _tabPages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        showUnselectedLabels: false,
-        activeBackgroundColor: Colors.white,
-        onTap: onTabTapped,
-        selectedItemColor: Colors.white,
-        backgroundColor: HexColor("EB9661"),
-        currentIndex:
-            _currentIndex, // this will be set when a new tab is tapped
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset("Resources/Images/House_Icon.png"),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("Resources/Images/Buds_Icon.png"),
-            label: 'Buds',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("Resources/Images/Calendar_Icon.png"),
-            label: 'Calendar',
-          )
-        ],
+    return Container(
+      child: Scaffold(
+        body: Stack(children: [_tabPages[_currentIndex]]),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   showUnselectedLabels: false,
+        //   onTap: onTabTapped,
+        //   selectedItemColor: Colors.white,
+        //   backgroundColor: HexColor("EB9661"),
+        //   currentIndex:
+        //       _currentIndex, // this will be set when a new tab is tapped
+        //   items: [
+        //     BottomNavigationBarItem(
+        //       icon: Image.asset("Resources/Images/House_Icon.png"),
+        //       label: 'Home',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Image.asset("Resources/Images/Buds_Icon.png"),
+        //       label: 'Buds',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Image.asset("Resources/Images/Calendar_Icon.png"),
+        //       label: 'Calendar',
+        //     )
+        //   ],
+        // ),
       ),
     );
   }
 
   // Making the home page top bar
   List<Widget> getTopBarActions() {
-    List<Widget> actionsList = new List<Widget>();
+    List<Widget> actionsList = [];
     actionsList = [
       GestureDetector(
         onTap: () => {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ProfilePage(user: widget.user)),
+              builder: (context) => ProfilePage(user: widget.user),
+            ),
           ),
         },
         child: CircleAvatar(
@@ -267,7 +269,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        actions: getTopBarActions(),
+        // actions: getTopBarActions(),
         backgroundColor: HexColor("FEFEFE"),
       );
     }
@@ -278,8 +280,25 @@ class _HomeState extends State<Home> {
           'Resources/Images/logoGymbud.png',
         ),
       ),
-      actions: getTopBarActions(),
+      // actions: getTopBarActions(),
       backgroundColor: HexColor("FEFEFE"),
+      iconTheme: IconThemeData(
+        color: HexColor("EB9661"),
+      ),
+    );
+  }
+}
+
+class HomeView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          DrawerScreen(),
+          HomeScreen(),
+        ],
+      ),
     );
   }
 }

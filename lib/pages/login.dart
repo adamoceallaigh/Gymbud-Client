@@ -1,7 +1,6 @@
 //Imports and Variable Declarations
 
 // Library Imports
-import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +10,8 @@ import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/InformationPopUp.dart';
+import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
+// import 'package:Client/pages/DrawerScreen.dart';
 import 'package:Client/pages/Home.dart';
 import 'package:Client/pages/New_User/BasicSignUp.dart';
 import 'package:Client/Models/User.dart';
@@ -67,7 +68,8 @@ class _LoginState extends State<Login> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(user: userValidated),
+              builder: (context) => Home(),
+              // builder: (context) => Home(user: userValidated),
             ),
           );
         }
