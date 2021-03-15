@@ -1,23 +1,26 @@
-//Imports and Variable Declarations
-// import 'package:Client/Controllers/UserController.dart';
-import 'package:Client/Helper_Widgets/HexColor.dart';
-import 'package:Client/Models/User.dart';
+// Imports
+
+// Library Imports
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'CalendarView.dart';
-import 'HomeView.dart';
-import 'MatchView.dart';
-import 'ProfilePage.dart';
+// Page Imports
+import 'package:Client/Helper_Widgets/HexColor.dart';
+import 'package:Client/Models/User.dart';
+// import 'package:Client/Controllers/UserController.dart';
+import 'package:Client/pages/CalendarView.dart';
+import 'package:Client/pages/HomeView.dart';
+import 'package:Client/pages/MatchView.dart';
+import 'package:Client/pages/ProfilePage.dart';
 
-///Setting my Page up as a Stateful Widget
-///so I can change the state of the list of users
-
+// Template for Home Page
 class Home extends StatefulWidget {
-  final User user;
+  /*
+    Setting up variables for this page
+  */
 
-  // We are going to instantiate a NewTripLocation with a required Trip instance
   // This is the way we are going to save the values across the pages
+  final User user;
   Home({Key key, @required this.user}) : super(key: key);
 
   @override
@@ -25,14 +28,44 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  /*
+    Setting up variables for this page
+  */
+
+  // Setting up variables to track my location across the three tabs
   int _currentIndex = 0;
   List<Widget> _tabPages = [];
+
+  // Setting up variables to make filter dropdown
   Widget filterWidget;
   bool isDropped = false;
   GlobalKey filterKey;
   double widthOfFilterContainer, heightOfContainer, xPos, yPos;
   OverlayEntry _filterContainer;
+
+  // Setting up variables for my filters
   RangeValues _ageValues = RangeValues(5, 90);
+
+  // Logic Functions
+
+  void onTabTapped(int index) {
+    setState(() => {_currentIndex = index});
+  }
+
+  // Filling the dropdown filter with data
+  void fillDropDownData() {
+    RenderBox renderBox = filterKey.currentContext.findRenderObject();
+    widthOfFilterContainer = MediaQuery.of(context).size.width;
+    heightOfContainer = renderBox.size.height;
+    Offset offset = renderBox.localToGlobal(Offset.zero);
+    xPos = offset.dx;
+    yPos = offset.dy;
+    print(
+      "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
+    );
+  }
+
+  // UI Functions
 
   // Using Initiliazation method to set the state once with the list of users
   @override
@@ -46,12 +79,38 @@ class _HomeState extends State<Home> {
     filterKey = LabeledGlobalKey("filterDropdown");
   }
 
-  // final _tabPages = [HomeView(), MatchView(), CalendarView()];
-
-  void onTabTapped(int index) {
-    setState(() => {_currentIndex = index});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(),
+      appBar: getAppBar(),
+      endDrawer: Drawer(
+        child: Text("Well"),
+      ),
+      body: _tabPages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        backgroundColor: HexColor("EB9661"),
+        currentIndex:
+            _currentIndex, // this will be set when a new tab is tapped
+        items: [
+          BottomNavigationBarItem(
+            icon: Image.asset("Resources/Images/House_Icon.png"),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset("Resources/Images/Buds_Icon.png"),
+            label: 'Buds',
+          ),
+          BottomNavigationBarItem(
+              icon: Image.asset("Resources/Images/Calendar_Icon.png"),
+              label: 'Calendar')
+        ],
+      ),
+    );
   }
 
+  // Making the home page top bar
   List<Widget> getTopBarActions() {
     List<Widget> actionsList = new List<Widget>();
     actionsList = [
@@ -75,18 +134,7 @@ class _HomeState extends State<Home> {
     return actionsList;
   }
 
-  void fillDropDownData() {
-    RenderBox renderBox = filterKey.currentContext.findRenderObject();
-    widthOfFilterContainer = MediaQuery.of(context).size.width;
-    heightOfContainer = renderBox.size.height;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
-    xPos = offset.dx;
-    yPos = offset.dy;
-    print(
-      "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
-    );
-  }
-
+  // Creating the dropdown filter Widget
   OverlayEntry _createDropDown() {
     return OverlayEntry(
       builder: (context) => Positioned(
@@ -157,6 +205,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // Creating the Top App bar
   Widget getAppBar() {
     if (_currentIndex == 1) {
       return AppBar(
@@ -232,37 +281,6 @@ class _HomeState extends State<Home> {
       ),
       // actions: getTopBarActions(),
       backgroundColor: HexColor("FEFEFE"),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(),
-      appBar: getAppBar(),
-      endDrawer: Drawer(
-        child: Text("Well"),
-      ),
-      body: _tabPages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        backgroundColor: HexColor("EB9661"),
-        currentIndex:
-            _currentIndex, // this will be set when a new tab is tapped
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset("Resources/Images/House_Icon.png"),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset("Resources/Images/Buds_Icon.png"),
-            label: 'Buds',
-          ),
-          BottomNavigationBarItem(
-              icon: Image.asset("Resources/Images/Calendar_Icon.png"),
-              label: 'Calendar')
-        ],
-      ),
     );
   }
 }

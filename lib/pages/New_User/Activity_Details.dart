@@ -2,11 +2,9 @@
 
 // Library Imports
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Page Imports
-import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/Models/Custom_Models/Activity_Option.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
