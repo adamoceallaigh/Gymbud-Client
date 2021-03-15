@@ -22,7 +22,13 @@ class _OnBoardingState extends State<OnBoarding> {
   ButtonStyle login_button_style = ButtonProducer.getWhiteGymbudBtn("eeeeee");
 
   // Setting up the default user to use in the sign up process
-  final newUser = User();
+  final newUser = User(
+    resources: [],
+    messages: [],
+    buds: [],
+    activities: [],
+    activitiesEnjoyed: [],
+  );
 
   // Build Process - Everything in here is rendered everytime app reloads
   @override

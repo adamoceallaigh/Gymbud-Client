@@ -53,6 +53,7 @@ class _DetailsPageState extends State<DetailsPage> {
     widget.user.name = formValues["Name"];
     widget.user.dob = formValues["DOB"].toString().split(" ").first;
     widget.user.gender = formValues["Gender"];
+    print(widget.user);
     Navigator.push(
       context,
       MaterialPageRoute(

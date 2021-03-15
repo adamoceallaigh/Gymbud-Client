@@ -226,7 +226,13 @@ class _LoginState extends State<Login> {
         GestureDetector(
           onTap: () {
             // Default user to use in the sign up process
-            var newUser = User();
+            var newUser = User(
+              resources: [],
+              messages: [],
+              buds: [],
+              activities: [],
+              activitiesEnjoyed: [],
+            );
             Navigator.push(
               context,
               MaterialPageRoute(
