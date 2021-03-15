@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
-// import 'package:Client/pages/New_User/Details_Success.dart';
+import 'package:Client/pages/New_User/Details_Success.dart';
 
 // Template for Details Page
 class DetailsPage extends StatefulWidget {
@@ -53,14 +53,12 @@ class _DetailsPageState extends State<DetailsPage> {
     widget.user.name = formValues["Name"];
     widget.user.dob = formValues["DOB"].toString().split(" ").first;
     widget.user.gender = formValues["Gender"];
-
-    print(widget.user);
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: (context) =>
-    //           DetailsPageSuccess(user: widget.user),),
-    // ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailsPageSuccess(user: widget.user),
+      ),
+    );
   }
 
   // UI Functions
