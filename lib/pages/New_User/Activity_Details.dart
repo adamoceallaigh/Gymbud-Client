@@ -84,31 +84,6 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     );
   }
 
-  // String getGirlPhoto() {
-  //   var girlUrls = [
-  //     "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/Stephanie.jpg?alt=media&token=6f2bdcf1-f45e-4a08-96f3-6e7acf07ffc6",
-  //     "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/Britanny.jpg?alt=media&token=ec32091b-0229-4d0b-b0ec-cde359e781c0"
-  //   ];
-  //   return girlUrls[new Random().nextInt(1)];
-  // }
-
-  // void _setUpUser(BuildContext context) async {
-  //   UserController user_controller =
-  //       GeneralNetworkingMethodManager(context).getUserController();
-  //   widget.user.gender == "male"
-  //       ? widget.user.profileUrl =
-  //           "https://firebasestorage.googleapis.com/v0/b/gymbud-58be5.appspot.com/o/James.jpg?alt=media&token=123f37e9-e7a8-4823-b6a6-ee86e4cc7e59"
-  //       : widget.user.profileUrl = getGirlPhoto();
-  //   print(widget.user.toString());
-  //   User newUser = await user_controller.createUser(widget.user);
-  //   if (newUser != null) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => Home(user: widget.user)),
-  //     );
-  //   }
-  // }
-
   Widget activityDetailsBody() {
     return SingleChildScrollView(
       child: Column(
