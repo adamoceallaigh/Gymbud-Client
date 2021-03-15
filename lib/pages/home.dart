@@ -82,14 +82,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
       appBar: getAppBar(),
       endDrawer: Drawer(
         child: Text("Well"),
       ),
       body: _tabPages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: false,
+        activeBackgroundColor: Colors.white,
         onTap: onTabTapped,
+        selectedItemColor: Colors.white,
         backgroundColor: HexColor("EB9661"),
         currentIndex:
             _currentIndex, // this will be set when a new tab is tapped
@@ -103,8 +105,9 @@ class _HomeState extends State<Home> {
             label: 'Buds',
           ),
           BottomNavigationBarItem(
-              icon: Image.asset("Resources/Images/Calendar_Icon.png"),
-              label: 'Calendar')
+            icon: Image.asset("Resources/Images/Calendar_Icon.png"),
+            label: 'Calendar',
+          )
         ],
       ),
     );
@@ -122,13 +125,13 @@ class _HomeState extends State<Home> {
                 builder: (context) => ProfilePage(user: widget.user)),
           ),
         },
-        // child: CircleAvatar(
-        //   radius: 50.0,
-        //   backgroundImage: widget.user.profileUrl != null
-        //       ? new NetworkImage(widget.user.profileUrl)
-        //       : null,
-        //   backgroundColor: Colors.transparent,
-        // ),
+        child: CircleAvatar(
+          radius: 50.0,
+          backgroundImage: widget.user.profileUrl != null
+              ? new NetworkImage(widget.user.profileUrl)
+              : null,
+          backgroundColor: Colors.transparent,
+        ),
       ),
     ];
     return actionsList;
@@ -264,22 +267,18 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        // actions: getTopBarActions(),
+        actions: getTopBarActions(),
         backgroundColor: HexColor("FEFEFE"),
       );
     }
     return AppBar(
+      leadingWidth: 100,
       leading: Container(
-        height: 120,
-        padding: const EdgeInsets.all(0),
-        child: Expanded(
-          child: Image.asset(
-            'Resources/Images/logoGymbud.png',
-            fit: BoxFit.fill,
-          ),
+        child: Image.asset(
+          'Resources/Images/logoGymbud.png',
         ),
       ),
-      // actions: getTopBarActions(),
+      actions: getTopBarActions(),
       backgroundColor: HexColor("FEFEFE"),
     );
   }
