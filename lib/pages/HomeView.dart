@@ -72,28 +72,12 @@ class _HomeViewState extends State<HomeView> {
                           Text(
                             "Preferred Intensity: " +
                                 users[index].preferredIntensity,
-                            // style: TextStyle(
-                            //   color: HexColor("EB9661")
-                            // ),
-                          ),
-                          Text(
-                            "Video / In Person: " +
-                                users[index].videoOrInPerson,
-                            // style: TextStyle(
-                            //   color: HexColor("EB9661")
-                            // ),
                           ),
                           Text(
                             "Fitness Level: " + users[index].fitnessLevel,
-                            // style: TextStyle(
-                            //   color: HexColor("EB9661")
-                            // ),
                           ),
                           Text(
                             "Resources: " + users[index].resources.toString(),
-                            // style: TextStyle(
-                            //   color: HexColor("EB9661")
-                            // ),
                           ),
                         ],
                       ),

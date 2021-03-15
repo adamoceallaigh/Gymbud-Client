@@ -13,7 +13,7 @@ class User {
       preferredIntensity,
       preferredAgeRange,
       preferredDistanceRange,
-      videoOrInPerson,
+      preferredActivity,
       fitnessLevel;
   List resources, messages, buds, activities, activitiesEnjoyed;
 
@@ -35,7 +35,7 @@ class User {
     this.preferredIntensity,
     this.preferredAgeRange,
     this.preferredDistanceRange,
-    this.videoOrInPerson,
+    this.preferredActivity,
     this.fitnessLevel,
     this.buds,
     this.activities,
@@ -55,7 +55,7 @@ class User {
     this.preferredIntensity,
     this.preferredAgeRange,
     this.preferredDistanceRange,
-    this.videoOrInPerson,
+    this.preferredActivity,
     this.fitnessLevel,
     this.buds,
     this.activities,
@@ -82,7 +82,7 @@ class User {
     this.preferredIntensity = data["Preferred_Intensity"];
     this.preferredAgeRange = data["Preferred_Age_Range"];
     this.preferredDistanceRange = data["Preferred_Distance_Range"];
-    this.videoOrInPerson = data["Video_Or_In_Person"];
+    this.preferredActivity = data["Preferred_Activity"];
     this.fitnessLevel = data["Fitness_Level"];
     this.buds = data["Buds"];
     this.activities = data["Activities"];
@@ -105,7 +105,7 @@ class User {
         'Resources': user.resources,
         'Preferred_Age_Range': user.preferredAgeRange,
         'Preferred_Distance_Range': user.preferredDistanceRange,
-        'Video_Or_In_Person': user.videoOrInPerson,
+        'Preferred_Activity': user.preferredActivity,
         'Messages': user.messages,
         'Activities_Enjoyed': user.activitiesEnjoyed,
         'Buds': user.buds,
