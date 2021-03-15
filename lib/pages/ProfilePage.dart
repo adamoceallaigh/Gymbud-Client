@@ -121,10 +121,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: const EdgeInsets.all(4.0),
                           child: Text(widget.user.preferredIntensity),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(widget.user.videoOrInPerson),
-                        ),
                       ],
                     ),
                   ),
