@@ -29,7 +29,7 @@ class DetailsPageSuccess extends StatelessWidget {
                 width: 180,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: Image.asset('Resources/Images/ActivitySVGS.png')),
+                child: Image.asset('Resources/Images/ .png')),
             Column(children: [Text("Lets pick your activity preferences")]),
             SizedBox(
               height: 20.0,

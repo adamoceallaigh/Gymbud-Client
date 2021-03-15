@@ -31,31 +31,7 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
     Setting up variables for this page
    */
 
-  // File and image picker necessary for this page
-  File _image;
-  final picker = ImagePicker();
-
   // Logic Functions
-
-  Future getImageFromSource(ImageSource imgSource) async {
-    final pickedImage = await picker.getImage(source: imgSource);
-
-    if (pickedImage != null) {
-      setState(() {
-        _image = File(pickedImage.path);
-      });
-    } else {
-      print("No image selected");
-    }
-  }
-
-  // dealWithUploadImageBtnClick(BuildContext context) async {
-  //   try {
-  //     await ImageUploader.upload(_image);
-  //   } catch (e) {
-  //     print('caught error $e');
-  //   }
-  // }
 
   // UI Functions
 
