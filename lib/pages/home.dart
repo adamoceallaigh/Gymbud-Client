@@ -36,10 +36,6 @@ class _HomeState extends State<Home> {
     Setting up variables for this page
   */
 
-  // Setting up variables to track my location across the three tabs
-  int _currentIndex = 0;
-  List<Widget> _tabPages = [];
-
   // Setting up variables to make filter dropdown
   Widget filterWidget;
   bool isDropped = false;
@@ -51,10 +47,6 @@ class _HomeState extends State<Home> {
   RangeValues _ageValues = RangeValues(5, 90);
 
   // Logic Functions
-
-  void onTabTapped(int index) {
-    setState(() => {_currentIndex = index});
-  }
 
   // Filling the dropdown filter with data
   void fillDropDownData() {
@@ -88,28 +80,6 @@ class _HomeState extends State<Home> {
     return Container(
       child: Scaffold(
         body: Stack(children: [_tabPages[_currentIndex]]),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   showUnselectedLabels: false,
-        //   onTap: onTabTapped,
-        //   selectedItemColor: Colors.white,
-        //   backgroundColor: HexColor("EB9661"),
-        //   currentIndex:
-        //       _currentIndex, // this will be set when a new tab is tapped
-        //   items: [
-        //     BottomNavigationBarItem(
-        //       icon: Image.asset("Resources/Images/House_Icon.png"),
-        //       label: 'Home',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Image.asset("Resources/Images/Buds_Icon.png"),
-        //       label: 'Buds',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Image.asset("Resources/Images/Calendar_Icon.png"),
-        //       label: 'Calendar',
-        //     )
-        //   ],
-        // ),
       ),
     );
   }
