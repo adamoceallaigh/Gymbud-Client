@@ -1,8 +1,8 @@
 // Imports
 
 //____General Imports______
-import 'package:Client/Models/Conversation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ___Page Imports________
 import 'package:Client/pages/onboardingScreen.dart';
@@ -11,6 +11,8 @@ import 'package:Client/Models/User.dart';
 import 'package:Client/pages/splashscreen.dart';
 import 'package:Client/Helper_Widgets/GeneralHelperMethodManager.dart';
 import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
+import 'package:Client/Models/Providers/DrawerChangeProvider.dart';
+import 'package:Client/Models/Conversation.dart';
 
 // Main Method
 void main() async {
@@ -24,13 +26,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Setting up the app
     setUpApp(context);
-    return MaterialApp(
+    return ChangeNotifierProvider<DrawerChanger>(
+      create: (_) => DrawerChanger(),
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
           '/OnBoarding': (context) => OnBoarding(),
-        });
+        },
+      ),
+    );
   }
 
   // Initializes and sets up all data in preferences

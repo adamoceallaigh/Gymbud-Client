@@ -23,6 +23,7 @@ dependencies:
   dio: ^4.0.0-beta7
   shared_preferences: ^2.0.4
   mime: ^1.0.0
+  provider:
   # requests: ^3.3.0
 
 dependency_overrides:

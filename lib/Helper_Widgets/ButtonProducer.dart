@@ -3,6 +3,8 @@
 */
 
 // Library Imports
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 // Page Imports
@@ -14,6 +16,34 @@ class ButtonProducer {
   static getOrangeGymbudBtn() {
     return ElevatedButton.styleFrom(
       primary: HexColor("EB9661"),
+    );
+  }
+
+  static getFollowGymbudBtn() {
+    return ElevatedButton.styleFrom(
+      primary: HexColor("EB9661"),
+      elevation: 2,
+      fixedSize: Size(
+        170,
+        50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+  }
+
+  static getMessageGymbudBtn() {
+    return ElevatedButton.styleFrom(
+      primary: Colors.white,
+      elevation: 2,
+      fixedSize: Size(
+        170,
+        50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
     );
   }
 

@@ -126,18 +126,18 @@ class _AddActivityState extends State<AddActivity> {
     widget.activity.location = "4 Fraher Field, WestPort";
 
     // Creating a Activity
-    // ActivityController activity_controller =
-    //     GeneralNetworkingMethodManager(context).getActivityController();
-    // bool isCreated = await activity_controller.createactivity(widget.activity);
-    // if (isCreated == true)
-    //   // Navigator.push(
-    //   //   context,
-    //   //   MaterialPageRoute(
-    //   //     builder: (context) => Home(
-    //   //       user: widget.user,
-    //   //     ),
-    //   //   ),
-    //   // );
+    ActivityController activity_controller =
+        GeneralNetworkingMethodManager(context).getActivityController();
+    bool isCreated = await activity_controller.createactivity(widget.activity);
+    if (isCreated == true)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(
+            user: widget.user,
+          ),
+        ),
+      );
   }
 
   @override

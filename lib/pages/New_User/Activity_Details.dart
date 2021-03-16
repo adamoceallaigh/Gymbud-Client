@@ -144,12 +144,12 @@ class _ActivityDetailsState extends State<ActivityDetails> {
       } else {
         // Navigating to the Home page if user logged in is returned
         if (createdUser.username != null) {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => Home(user: createdUser),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(user: createdUser),
+            ),
+          );
         } else {
           infoPopUp.message =
               "An error occurred while registering. Please try again";

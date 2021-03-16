@@ -67,11 +67,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    this._tabPages = [
-      HomeView(),
-      MatchView(user: widget.user),
-      CalendarView(user: widget.user)
-    ];
     filterKey = LabeledGlobalKey("filterDropdown");
   }
 
@@ -79,7 +74,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        body: Stack(children: [_tabPages[_currentIndex]]),
+        body: Stack(
+          children: [
+            DrawerScreen(
+              user: widget.user,
+            ),
+            HomeScreen(
+              user: widget.user,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -181,94 +185,80 @@ class _HomeState extends State<Home> {
   }
 
   // Creating the Top App bar
-  Widget getAppBar() {
-    if (_currentIndex == 1) {
-      return AppBar(
-        title: GestureDetector(
-          key: filterKey,
-          onTap: () => {
-            setState(() {
-              if (isDropped)
-                _filterContainer.remove();
-              else {
-                fillDropDownData();
-                _filterContainer = _createDropDown();
-                Overlay.of(context).insert(_filterContainer);
-              }
-              isDropped = !isDropped;
-            })
-          },
-          child: Container(
-            margin: EdgeInsets.only(left: 4, right: 4),
-            height: 40,
-            decoration: BoxDecoration(
-              color: HexColor('#FFFFFF'),
-              border: Border.all(
-                width: 1.0,
-                color: HexColor('#C4C4C4'),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "FILTER BY",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: HexColor("#000000"),
-                  ),
-                ),
-                SizedBox(width: 10),
-                SvgPicture.asset("Resources/Images/arrowFilter.svg"),
-              ],
-            ),
-          ),
-        ),
-        leading: Container(
-          height: 120,
-          padding: const EdgeInsets.all(0),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Image.asset(
-                  'Resources/Images/logoGymbud.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ],
-          ),
-        ),
-        // actions: getTopBarActions(),
-        backgroundColor: HexColor("FEFEFE"),
-      );
-    }
-    return AppBar(
-      leadingWidth: 100,
-      leading: Container(
-        child: Image.asset(
-          'Resources/Images/logoGymbud.png',
-        ),
-      ),
-      // actions: getTopBarActions(),
-      backgroundColor: HexColor("FEFEFE"),
-      iconTheme: IconThemeData(
-        color: HexColor("EB9661"),
-      ),
-    );
-  }
-}
-
-class HomeView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          DrawerScreen(),
-          HomeScreen(),
-        ],
-      ),
-    );
-  }
+  // Widget getAppBar() {
+  //   if (_currentIndex == 1) {
+  //     return AppBar(
+  //       title: GestureDetector(
+  //         key: filterKey,
+  //         onTap: () => {
+  //           setState(() {
+  //             if (isDropped)
+  //               _filterContainer.remove();
+  //             else {
+  //               fillDropDownData();
+  //               _filterContainer = _createDropDown();
+  //               Overlay.of(context).insert(_filterContainer);
+  //             }
+  //             isDropped = !isDropped;
+  //           })
+  //         },
+  //         child: Container(
+  //           margin: EdgeInsets.only(left: 4, right: 4),
+  //           height: 40,
+  //           decoration: BoxDecoration(
+  //             color: HexColor('#FFFFFF'),
+  //             border: Border.all(
+  //               width: 1.0,
+  //               color: HexColor('#C4C4C4'),
+  //             ),
+  //           ),
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Text(
+  //                 "FILTER BY",
+  //                 textAlign: TextAlign.center,
+  //                 style: TextStyle(
+  //                   color: HexColor("#000000"),
+  //                 ),
+  //               ),
+  //               SizedBox(width: 10),
+  //               SvgPicture.asset("Resources/Images/arrowFilter.svg"),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       leading: Container(
+  //         height: 120,
+  //         padding: const EdgeInsets.all(0),
+  //         child: Row(
+  //           children: [
+  //             Expanded(
+  //               flex: 2,
+  //               child: Image.asset(
+  //                 'Resources/Images/logoGymbud.png',
+  //                 fit: BoxFit.fill,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       // actions: getTopBarActions(),
+  //       backgroundColor: HexColor("FEFEFE"),
+  //     );
+  //   }
+  //   return AppBar(
+  //     leadingWidth: 100,
+  //     leading: Container(
+  //       child: Image.asset(
+  //         'Resources/Images/logoGymbud.png',
+  //       ),
+  //     ),
+  //     // actions: getTopBarActions(),
+  //     backgroundColor: HexColor("FEFEFE"),
+  //     iconTheme: IconThemeData(
+  //       color: HexColor("EB9661"),
+  //     ),
+  //   );
+  // }
 }

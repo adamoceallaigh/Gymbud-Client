@@ -2,12 +2,26 @@
 
 // Library Imports
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 // Page Imports
+import 'package:Client/pages/ProfilePage.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
+import 'package:Client/Models/User.dart';
+import 'package:Client/Models/Providers/DrawerChangeProvider.dart';
+import 'package:Client/pages/CalendarView.dart';
 
 // Template for the Drawer Screen
 class DrawerScreen extends StatefulWidget {
+  /*
+    Setting up variables for this page
+  */
+
+  // This is the way we are going to save the values across the pages
+  final User user;
+  DrawerScreen({Key key, @required this.user}) : super(key: key);
+
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -22,6 +36,22 @@ class _DrawerScreenState extends State<DrawerScreen> {
     {
       'icon': Icons.person,
       'title': 'Profile',
+    },
+    {
+      'icon': SvgPicture.asset(
+        "Resources/Images/Buds_Icon.svg",
+        height: 30,
+      ),
+      'title': 'Buds',
+      'type': 'SVG'
+    },
+    {
+      'icon': SvgPicture.asset(
+        "Resources/Images/Calendar_Icon.svg",
+        height: 30,
+      ),
+      'title': 'Calendar',
+      'type': 'SVG'
     },
     {
       'icon': Icons.mail,
@@ -39,13 +69,44 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   // Logic Functions
 
+  _checkWhereToNavigateByNavBarItemClick(
+      String identifier, BuildContext context) {
+    dynamic page = "";
+    switch (identifier) {
+      case "Profile":
+        page = ProfilePage(user: widget?.user);
+        break;
+      case "Buds":
+        page = BudsView(user: widget?.user);
+        break;
+      case "Calendar":
+        page = CalendarView(
+          user: widget?.user,
+        );
+        break;
+      case "Messages":
+        page = MessagesView(user: widget?.user);
+        break;
+      case "Favourites":
+        page = FavouritesView(user: widget?.user);
+        break;
+      case "Gymbud Plus":
+        page = GymbudPlusView(user: widget?.user);
+        break;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
+
   // UI Functions
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: HexColor("EB9661"),
-      padding: EdgeInsets.only(top: 40, left: 10, bottom: 70),
+      padding: EdgeInsets.only(top: 40, left: 10, bottom: 85),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -53,28 +114,63 @@ class _DrawerScreenState extends State<DrawerScreen> {
           SafeArea(
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Adam O\' Ceallaigh',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Active Status',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: HexColor("eeeeee"),
+                Expanded(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: widget?.user?.profileUrl != null
+                            ? new NetworkImage(widget.user.profileUrl)
+                            : null,
                       ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          widget?.user?.name != null
+                              ? Text(
+                                  widget?.user?.name,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : Container(
+                                  child: Text(
+                                      "There was a problem gathering your info. Try log in again"),
+                                ),
+                          Text(
+                            'Active Status',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: HexColor("eeeeee"),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    Consumer<DrawerChanger>(
+                      builder: (context, drawerChanger, child) =>
+                          GestureDetector(
+                        onTap: () => {drawerChanger.resetDrawer()},
+                        child: Text(
+                          "Close",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
                     )
                   ],
                 )
@@ -86,21 +182,29 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
           Column(
               children: drawerItems.map((element) {
-            return Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    element["icon"],
-                    color: Colors.white,
-                    size: 30,
+            return GestureDetector(
+              onTap: () => {
+                _checkWhereToNavigateByNavBarItemClick(
+                    element["title"], context),
+              },
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: element["type"] == null
+                        ? Icon(
+                            element["icon"],
+                            color: Colors.white,
+                            size: 30,
+                          )
+                        : element["icon"],
                   ),
-                ),
-                Text(
-                  element["title"],
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                )
-              ],
+                  Text(
+                    element["title"],
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  )
+                ],
+              ),
             );
           }).toList()),
 
