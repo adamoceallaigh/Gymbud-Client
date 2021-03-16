@@ -32,15 +32,19 @@ class _ProfilePageState extends State<ProfilePage> {
   // Logic Functions
 
   checkGender() {
+    widget.user.gender = widget.user.gender.replaceAll(" ", "_");
+    if (widget.user.gender == null) widget.user.gender = "Prefer Not To Say";
     switch (widget.user.gender) {
-      case "Prefer Not To Say":
+      case "Prefer_Not_To_Say":
       case "Non-Binary":
         return "All_Gender";
         break;
       case "Male":
+      case "male":
         return "Male";
         break;
       case "Female":
+      case "female":
         return "Female";
         break;
     }
