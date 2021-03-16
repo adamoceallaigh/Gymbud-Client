@@ -24,7 +24,7 @@ class Activity {
       activityImageUrl;
   User creator;
   List resources;
-  List<User> participants;
+  List<dynamic> participants;
 
   // Variable to hold instance variable of user
   static Future<Activity> getActivityInstance() async {
@@ -68,9 +68,10 @@ class Activity {
     this.activityFitnessLevel = data['Fitness_Level'];
     this.activityImageUrl = data['Activity_Image_Url'];
     this.resources = data['Resources'];
-    this.participants = UserController.decodeUserStringToUserList(
-      data['Participants'].toString(),
-    );
+    this.participants = data['Participants'];
+    // this.participants = UserController.decodeUserStringToUserList(
+    //   data['Participants'].toString(),
+    // );
   }
 
   static Map<String, dynamic> toJson(Activity activity) => {

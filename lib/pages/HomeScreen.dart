@@ -1,9 +1,11 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Models/Activity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Page Imports
@@ -30,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Setting up variables for this page 
   */
 
+  List<Activity> userLoggedInActivities = [];
+
   // Variable to hold box shadow on boxes
   List<BoxShadow> shadowList = [
     BoxShadow(
@@ -41,7 +45,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Logic functions
 
+  getUserLoggedInActivites() async {
+    widget?.user?.activities?.map(
+      (activity) => {
+        userLoggedInActivities.add(Activity.fromJSON(activity)),
+      },
+    );
+  }
+
   // UI Functions
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserLoggedInActivites();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +180,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 // Widget to make the horizontal scroll view
+                Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10.0, bottom: 5, left: 20),
+                      child: Text(
+                        "Recommended Users".toUpperCase(),
+                        style: GoogleFonts.delius(
+                          color: HexColor("EB9661"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Container(
                   height: 120,
                   child: ListView.builder(
@@ -169,12 +204,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) {
                       return Container(
                         child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(left: 20),
+                              margin: EdgeInsets.only(left: 10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: shadowList,
@@ -187,7 +221,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.grey[700],
                               ),
                             ),
-                            Text("GymWeights"),
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text("GymWeights"),
+                            ),
                           ],
                         ),
                       );
@@ -195,48 +233,76 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                // Widget to make the Cards
-                Container(
-                  height: 240,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: HexColor("EB9661"),
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: shadowList,
-                              ),
-                              margin: EdgeInsets.only(top: 50),
-                            ),
-                            Align(
-                              child: SvgPicture.asset(
-                                "Resources/Images/Male.svg",
-                                height: 150,
-                              ),
-                            )
-                          ],
+                Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 15.0, bottom: 5, left: 20),
+                      child: Text(
+                        "Past Sessions".toUpperCase(),
+                        style: GoogleFonts.delius(
+                          color: HexColor("EB9661"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 60, bottom: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: shadowList,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
+                    ),
+                  ],
+                ),
+
+                Column(
+                    children: widget?.user?.activities
+                        ?.map((activity) => Row(
+                              children: [
+                                Container(
+                                  height: 240,
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: HexColor("EB9661"),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                boxShadow: shadowList,
+                                              ),
+                                              margin: EdgeInsets.only(top: 50),
+                                            ),
+                                            Align(
+                                              child: SvgPicture.asset(
+                                                activity != null
+                                                    ? activity?.activityType
+                                                    : "Resources/Images/Male.svg",
+                                                height: 150,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              top: 60, bottom: 20),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: shadowList,
+                                            borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ))
+                        .toList()),
+                // Widget to make the Cards
               ],
             ),
           ),
