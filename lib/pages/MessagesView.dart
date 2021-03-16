@@ -184,9 +184,9 @@ class _MessagesViewState extends State<MessagesView> {
           ),
 
           // Widget to make my conversations List
-          Row(
-            children: ,
-          ),
+          // Row(
+          //   children: ,
+          // ),
         ],
       ),
     ));

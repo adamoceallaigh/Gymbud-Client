@@ -2,6 +2,7 @@
 
 // Library Imports
 import 'dart:io';
+import 'package:Client/Controllers/ConversationController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Page Imports
@@ -28,6 +29,9 @@ class GeneralHelperMethodManager {
       case "activities":
         return ActivityController.encodeActivityListToActivitiesString(
             dynamicListValues);
+      case "conversations":
+        return ConversationController
+            .encodeConversationListToConversationsString(dynamicListValues);
     }
     return null;
   }

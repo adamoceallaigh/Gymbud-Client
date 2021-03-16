@@ -54,14 +54,16 @@ class MyApp extends StatelessWidget {
         .getActivityController()
         .readActivities();
 
-    // Reading the conversations into the app
-    // List<Conversation> conversations = await generalNetworkingMethodManager
-    //     .getConversationController()
-    //     .readConversations();
+    //Reading the conversations into the app
+    List<Conversation> conversations = await generalNetworkingMethodManager
+        .getConversationController()
+        .readConversations();
 
     // Storing all data values needed in app into preferences
     await GeneralHelperMethodManager.storeValuesInPreferences({'users': users});
     await GeneralHelperMethodManager.storeValuesInPreferences(
         {'activities': activities});
+    await GeneralHelperMethodManager.storeValuesInPreferences(
+        {'conversations': conversations});
   }
 }

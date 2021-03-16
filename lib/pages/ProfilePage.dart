@@ -281,6 +281,17 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
+              child: Icon(Icons.person),
+            ),
+            Text(widget?.user?.username != null
+                ? widget?.user?.username
+                : "Well"),
+          ],
+        ),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Icon(Icons.mail),
             ),
             Text(widget?.user?.email != null ? widget?.user?.email : "Well"),
