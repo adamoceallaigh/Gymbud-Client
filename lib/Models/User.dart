@@ -15,7 +15,7 @@ class User {
       preferredDistanceRange,
       preferredActivity,
       fitnessLevel;
-  List resources, messages, buds, activities, activitiesEnjoyed;
+  List resources, conversations, buds, activities, activitiesEnjoyed;
 
   // Variable to hold instance variable of user
   static Future<User> getUserInstance() async {
@@ -41,7 +41,7 @@ class User {
     this.activities,
     this.resources,
     this.activitiesEnjoyed,
-    this.messages,
+    this.conversations,
   });
 
   User.register(
@@ -61,7 +61,7 @@ class User {
     this.activities,
     this.resources,
     this.activitiesEnjoyed,
-    this.messages,
+    this.conversations,
   );
 
   User.login(
@@ -88,7 +88,7 @@ class User {
     this.activities = data["Activities"];
     this.resources = data["Resources"];
     this.activitiesEnjoyed = data["Activities_Enjoyed"];
-    this.messages = data["Messages"];
+    this.conversations = data["Conversations"];
   }
 
   static Map<String, dynamic> toJson(User user) => {
@@ -106,7 +106,7 @@ class User {
         'Preferred_Age_Range': user.preferredAgeRange,
         'Preferred_Distance_Range': user.preferredDistanceRange,
         'Preferred_Activity': user.preferredActivity,
-        'Messages': user.messages,
+        'Conversations': user.conversations,
         'Activities_Enjoyed': user.activitiesEnjoyed,
         'Buds': user.buds,
         'Activities': user.activities

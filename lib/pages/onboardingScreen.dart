@@ -24,7 +24,7 @@ class _OnBoardingState extends State<OnBoarding> {
   // Setting up the default user to use in the sign up process
   final newUser = User(
     resources: [],
-    messages: [],
+    conversations: [],
     buds: [],
     activities: [],
     activitiesEnjoyed: [],

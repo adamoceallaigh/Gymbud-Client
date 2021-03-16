@@ -229,7 +229,7 @@ class _LoginState extends State<Login> {
             // Default user to use in the sign up process
             var newUser = User(
               resources: [],
-              messages: [],
+              conversations: [],
               buds: [],
               activities: [],
               activitiesEnjoyed: [],
