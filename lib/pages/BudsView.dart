@@ -2,6 +2,7 @@
 
 // Library Imports
 import 'package:Client/Helper_Widgets/HexColor.dart';
+import 'package:Client/pages/MatchView.dart';
 import 'package:flutter/material.dart';
 
 // Page Imports
@@ -180,7 +181,7 @@ class _BudsViewState extends State<BudsView> {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  "Messages".toUpperCase(),
+                  "Buds".toUpperCase(),
                   style: GoogleFonts.delius(
                     color: HexColor("EB9661"),
                     fontWeight: FontWeight.bold,
@@ -190,6 +191,31 @@ class _BudsViewState extends State<BudsView> {
               ),
             ],
           ),
+
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Expanded(
+                  child: Container(
+                      height: 40,
+                      color: HexColor("EB9661"),
+                      child: ElevatedButton(
+                        child: Text("Find Some Buds"),
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MatchView(
+                                      user: widget.user,
+                                    )),
+                          )
+                        },
+                      )),
+                ),
+              )
+            ],
+          )
 
           // Widget to make my conversations List
           // Row(

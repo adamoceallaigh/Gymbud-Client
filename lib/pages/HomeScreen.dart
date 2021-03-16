@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding:
                           const EdgeInsets.only(top: 15.0, bottom: 5, left: 20),
                       child: Text(
-                        "Past Sessions".toUpperCase(),
+                        "Past Activities".toUpperCase(),
                         style: GoogleFonts.delius(
                           color: HexColor("EB9661"),
                           fontWeight: FontWeight.bold,
@@ -256,33 +256,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   return activity?.activityImageUrl != null
                       ? Row(
                           children: [
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: HexColor("EB9661"),
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: shadowList,
-                                    ),
-                                    margin: EdgeInsets.only(top: 50),
+                            Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: HexColor("EB9661"),
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: shadowList,
                                   ),
-                                  Align(
-                                    child: Image.network(
-                                      activity != null
-                                          ? activity?.activityImageUrl
-                                          : "",
-                                      height: 150,
-                                    ),
-                                  )
-                                ],
-                              ),
+                                  margin: EdgeInsets.only(left: 150),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 30),
+                                  child: Image.network(
+                                    activity != null
+                                        ? activity?.activityImageUrl
+                                        : "",
+                                    height: 150,
+                                    width: 120,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                )
+                              ],
                             ),
                             Expanded(
                               child: Container(
-                                margin: EdgeInsets.only(top: 60, bottom: 20),
+                                height: 130,
+                                // color: Colors.amberAccent,
+                                width: 130,
+                                margin: EdgeInsets.only(
+                                    top: 20, bottom: 20, right: 25),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: Colors.white,
                                   boxShadow: shadowList,
                                   borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(20),
