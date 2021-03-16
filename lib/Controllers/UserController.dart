@@ -62,6 +62,30 @@ class UserController {
     return null;
   }
 
+  Future<dynamic> updateUser(User user) async {
+    Response response = await dio.put(
+      '${this.url_in_use}/${user.id}',
+      options: Options(
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'credentials': 'include'
+        },
+      ),
+      data: jsonEncode(
+        User.toJson(user),
+      ),
+    );
+
+    var userJSON = response.data;
+    if (response.statusCode == 200) {
+      if (userJSON["user"] != null) return User.fromJSON(userJSON["user"]);
+      if (userJSON["cause"] != null)
+        return new InformationPopUp(message: userJSON["cause"][0]);
+    }
+    return null;
+  }
+
   Future<List<User>> readUsers() async {
     Response response = await dio.get('${this.url_in_use}');
     if (response.statusCode == 200) {

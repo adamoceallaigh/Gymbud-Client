@@ -7,6 +7,10 @@ import 'package:provider/provider.dart';
 
 // Page Imports
 import 'package:Client/pages/ProfilePage.dart';
+import 'package:Client/pages/FavouritesView.dart';
+import 'package:Client/pages/GymbudPlusView.dart';
+import 'package:Client/pages/MessagesView.dart';
+import 'package:Client/pages/BudsView.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/Models/Providers/DrawerChangeProvider.dart';

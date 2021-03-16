@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:Client/Helper_Widgets/ButtonProducer.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
+import 'package:Client/pages/UpdateProfilePage.dart';
+import 'package:flutter_svg/svg.dart';
 
 // Template for Profile Page
 class ProfilePage extends StatefulWidget {
@@ -15,7 +17,8 @@ class ProfilePage extends StatefulWidget {
   */
 
   final User user;
-  ProfilePage({Key key, this.user}) : super(key: key);
+  final User secondUser;
+  ProfilePage({Key key, this.user, this.secondUser}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -27,6 +30,21 @@ class _ProfilePageState extends State<ProfilePage> {
   */
 
   // Logic Functions
+
+  checkGender() {
+    switch (widget.user.gender) {
+      case "Prefer Not To Say":
+      case "Non-Binary":
+        return "All_Gender";
+        break;
+      case "Male":
+        return "Male";
+        break;
+      case "Female":
+        return "Female";
+        break;
+    }
+  }
 
   // UI Functions
   @override
@@ -44,7 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
             getTopButtonsBar(),
             getFollowersAndPicSection(),
             getNameAndLocation(),
-            getFollowAndMessageBtns(),
+            widget?.user != null ? Container() : getFollowAndMessageBtns(),
+            getProfileDetailsSection(),
           ],
         ),
       ),
@@ -58,7 +77,43 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Row(
           children: [
-            Icon(Icons.arrow_back),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => {Navigator.pop(context)},
+                    child: Icon(Icons.arrow_back),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          UpdateProfilePage(user: widget?.user),
+                    ),
+                  )
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.edit),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text("Edit"),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
         SizedBox(
@@ -79,7 +134,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Column(
               children: [
                 Text(
-                  "4356K",
+                  widget?.user?.buds != null
+                      ? '${widget?.user?.buds?.length}K'
+                      : "4356K",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
@@ -96,7 +153,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Column(
               children: [
                 Text(
-                  "743",
+                  widget?.user?.activities != null
+                      ? '${widget?.user?.activities?.length}'
+                      : "743",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
@@ -208,6 +267,43 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           style: ButtonProducer.getMessageGymbudBtn(),
         )
+      ],
+    );
+  }
+
+  getProfileDetailsSection() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 40,
+        ),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(Icons.mail),
+            ),
+            Text(widget?.user?.email != null ? widget?.user?.email : "Well"),
+          ],
+        ),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(Icons.calendar_today),
+            ),
+            Text(widget?.user?.dob != null ? widget?.user?.dob : "Well"),
+          ],
+        ),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SvgPicture.asset("Resources/Images/${checkGender()}.svg"),
+            ),
+            Text(widget?.user?.gender != null ? widget?.user?.gender : "Well"),
+          ],
+        ),
       ],
     );
   }
