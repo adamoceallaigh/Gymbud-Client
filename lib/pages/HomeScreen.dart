@@ -46,11 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
   // Logic functions
 
   getUserLoggedInActivites() async {
-    widget?.user?.activities?.map(
-      (activity) => {
-        userLoggedInActivities.add(Activity.fromJSON(activity)),
-      },
-    );
+    for (var activity in widget?.user?.activities) {
+      setState(() {
+        userLoggedInActivities.add(Activity.fromJSON(activity));
+      });
+    }
   }
 
   // UI Functions
@@ -250,59 +250,57 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
 
+                // Widget to make the Cards
                 Column(
-                    children: widget?.user?.activities
-                        ?.map((activity) => Row(
-                              children: [
-                                Container(
-                                  height: 240,
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: HexColor("EB9661"),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                boxShadow: shadowList,
-                                              ),
-                                              margin: EdgeInsets.only(top: 50),
-                                            ),
-                                            Align(
-                                              child: SvgPicture.asset(
-                                                activity != null
-                                                    ? activity?.activityType
-                                                    : "Resources/Images/Male.svg",
-                                                height: 150,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              top: 60, bottom: 20),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            boxShadow: shadowList,
-                                            borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              bottomRight: Radius.circular(20),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                    children: userLoggedInActivities.map((activity) {
+                  return activity?.activityImageUrl != null
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: HexColor("EB9661"),
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: shadowList,
+                                    ),
+                                    margin: EdgeInsets.only(top: 50),
+                                  ),
+                                  Align(
+                                    child: Image.network(
+                                      activity != null
+                                          ? activity?.activityImageUrl
+                                          : "",
+                                      height: 150,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 60, bottom: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  boxShadow: shadowList,
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
                                   ),
                                 ),
-                              ],
-                            ))
-                        .toList()),
-                // Widget to make the Cards
+                              ),
+                            )
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Container(
+                                child: Image.network(
+                                    "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80")),
+                          ],
+                        );
+                }).toList()),
               ],
             ),
           ),
