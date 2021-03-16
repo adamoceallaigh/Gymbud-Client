@@ -12,9 +12,6 @@ import 'package:Client/pages/HomeScreen.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
 // import 'package:Client/Controllers/UserController.dart';
-import 'package:Client/pages/CalendarView.dart';
-// import 'package:Client/pages/HomeView.dart';
-import 'package:Client/pages/MatchView.dart';
 import 'package:Client/pages/ProfilePage.dart';
 
 // Template for Home Page

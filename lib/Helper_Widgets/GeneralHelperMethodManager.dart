@@ -36,4 +36,24 @@ class GeneralHelperMethodManager {
     }
     return null;
   }
+
+  static Future<Map<String, List<dynamic>>> retrieveValuesFromPreferences(
+      String datatypeWanted) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, List<dynamic>> decodedata =
+        whichDataWanted(await prefs.getString(datatypeWanted), datatypeWanted);
+    return decodedata;
+  }
+
+  static whichDataWanted(String data, String keyToData) {
+    switch (keyToData) {
+      case "users":
+        return UserController.decodeUserStringToUserList(data);
+      case "activities":
+        return ActivityController.decodeActivitiesStringToActivityList(data);
+      case "conversations":
+        return ConversationController.decodeUserStringToUserList(data);
+    }
+    return null;
+  }
 }
