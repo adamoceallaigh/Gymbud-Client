@@ -19,6 +19,7 @@ class GeneralHelperMethodManager {
     await prefs.setString(dataList.keys.elementAt(0), encodedData);
     print(encodedData);
     print(dataList);
+    print(prefs);
   }
 
   static String identifyValuesPassedIntoPreferences(
