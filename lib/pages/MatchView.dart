@@ -137,14 +137,6 @@ class _MatchViewState extends State<MatchView> {
                                           fontSize: 18,
                                           letterSpacing: -1.5,
                                         ),
-
-                                        // Text(
-                                        //   "Activity Description",
-                                        //   style: TextStyle(
-                                        //     fontWeight: FontWeight.w600,
-                                        //     fontSize: 18,
-                                        //     fontFamily: 'Merienda One',
-                                        //   ),
                                       ),
                                       Text(activities[index]
                                           .activityDescription),

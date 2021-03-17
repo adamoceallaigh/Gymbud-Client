@@ -53,6 +53,35 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  List<Widget> getAttendeeCircles(int index) {
+    List<Widget> widgetList = [];
+    double left = 0;
+    if (widget.user.activities[index]["Participants"].length == 1)
+      left = 0;
+    else
+      left = -18;
+    for (var user in widget.user.activities[index]["Participants"]) {
+      left += 18;
+      widgetList.add(
+        Positioned(
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(user["Profile_Url"]),
+          ),
+          left: left,
+        ),
+      );
+    }
+    widgetList.add(Container());
+    return widgetList;
+  }
+
+  // Simple function to loop and return iterator for use
+  getIterator() {
+    for (var activity in userLoggedInActivities) {
+      return activity;
+    }
+  }
+
   // UI Functions
 
   @override
@@ -282,10 +311,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             Expanded(
                               child: Container(
                                 height: 130,
-                                // color: Colors.amberAccent,
                                 width: 130,
                                 margin: EdgeInsets.only(
-                                    top: 20, bottom: 20, right: 25),
+                                  top: 20,
+                                  bottom: 20,
+                                  right: 25,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: shadowList,
@@ -293,6 +324,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20),
                                   ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          activity?.activityType,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      activity?.activityName,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    Text(activity?.activityDescription),
+                                    Text(activity?.date),
+                                    Text(activity?.time),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 2),
+                                        height: 70,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: Stack(
+                                                  children: getAttendeeCircles(
+                                                      userLoggedInActivities
+                                                          .indexOf(
+                                                              getIterator()))),
+                                            ),
+                                            Text(
+                                              '${activity.participants.length.toString()} / 6',
+                                              style: GoogleFonts.meriendaOne(
+                                                color: HexColor("#000000"),
+                                                fontSize: 18,
+                                                letterSpacing: -1.5,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             )
