@@ -1,6 +1,6 @@
 import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/Activity_Management/AddActivity.dart';
+// import 'package:Client/pages/Activity_Management/AddActivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
@@ -132,20 +132,20 @@ class _AddActivityOnboardingState extends State<AddActivityOnboarding> {
                 Container(
                   child: Align(
                     alignment: Alignment.center,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () => {
                         if (_formKey.currentState.saveAndValidate())
                           {
                             print(_formKey.currentState.value['Activity_Type']),
                             newActivity.activityType =
                                 _formKey.currentState.value['Activity_Type'],
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddActivity(
-                                    user: widget.user, activity: newActivity),
-                              ),
-                            ),
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => AddActivity(
+                            //         user: widget.user, activity: newActivity),
+                            //   ),
+                            // ),
                           }
                       },
                       child: Text(

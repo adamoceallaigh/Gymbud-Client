@@ -1,7 +1,6 @@
 // Imports
 
 // Library Imports
-import 'dart:io';
 import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
 import 'package:Client/pages/New_User/Upload_Photo_Success.dart';
 import 'package:flutter/material.dart';

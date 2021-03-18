@@ -21,7 +21,7 @@ class Activity_Option {
 
 class ActivityOptionRadio extends StatelessWidget {
   // Variable to store instance of my activity radio button type
-  Activity_Option _activity_option;
+  final Activity_Option _activity_option;
 
   ActivityOptionRadio(this._activity_option);
 

@@ -3,7 +3,6 @@
 // Library Imports
 
 // Page Imports
-import 'package:Client/Models/User.dart';
 
 class Message {
   //Variable to hold the id of the message
@@ -15,13 +14,20 @@ class Message {
   // Variable to hold the sender of the message
   Sender sender;
 
+  // Variable to hold the timestamps
+  String createdAt;
+  String updatedAt;
+
   // Optional Named Constructor for Message
   Message({this.content, this.sender});
 
   // Constructor to pull json data values and make up a Message model
   Message.fromJSON(Map<String, dynamic> data) {
+    this.id = data["_id"];
     this.content = data["Content"];
-    this.sender = data["Sender"];
+    this.sender = Sender.fromJSON(data["Sender"]);
+    this.createdAt = data['createdAt'];
+    this.updatedAt = data['updatedAt'];
   }
 
   // Constructor to push data values and make up a json Message object

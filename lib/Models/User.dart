@@ -1,5 +1,10 @@
 //Class Declaration of the Class Model
 
+import 'dart:convert';
+
+import 'package:Client/Models/Activity.dart';
+import 'package:Client/Models/Conversation.dart';
+
 class User {
   // Variables to hold all user values
   String id,
@@ -15,7 +20,10 @@ class User {
       preferredDistanceRange,
       preferredActivity,
       fitnessLevel;
-  List resources, conversations, buds, activities, activitiesEnjoyed;
+  List<String> resources, activitiesEnjoyed;
+  List<User> buds;
+  List<Activity> activities;
+  List<Conversation> conversations;
 
   // Variable to hold instance variable of user
   static Future<User> getUserInstance() async {
@@ -84,11 +92,15 @@ class User {
     this.preferredDistanceRange = data["Preferred_Distance_Range"];
     this.preferredActivity = data["Preferred_Activity"];
     this.fitnessLevel = data["Fitness_Level"];
-    this.buds = data["Buds"];
-    this.activities = data["Activities"];
-    this.resources = data["Resources"];
-    this.activitiesEnjoyed = data["Activities_Enjoyed"];
-    this.conversations = data["Conversations"];
+    this.buds = List<User>.from(data["Buds"].map((bud) => User.fromJSON(bud)));
+    this.activities = List<Activity>.from(
+        data["Activities"].map((activity) => Activity.fromJSON(activity)));
+    this.resources = List<String>.from(
+        data["Resources"].map((resource) => json.decode(resource)));
+    this.activitiesEnjoyed = List<String>.from(data["Activities_Enjoyed"]
+        .map((activity_enjoyed) => json.decode(activity_enjoyed)));
+    this.conversations = List<Conversation>.from(data["Conversations"]
+        .map((conversation) => Conversation.fromJSON(conversation)));
   }
 
   static Map<String, dynamic> toJson(User user) => {

@@ -6,7 +6,6 @@ import 'package:Client/Models/InformationPopUp.dart';
 import 'package:Client/pages/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Page Imports
@@ -231,7 +230,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     children: [
                       Text("Username:"),
                       FormBuilderTextField(
-                        initialValue: widget?.user.username,
+                        initialValue: widget?.user?.username,
                         name: "Username",
                         validator: FormBuilderValidators.compose(
                           [

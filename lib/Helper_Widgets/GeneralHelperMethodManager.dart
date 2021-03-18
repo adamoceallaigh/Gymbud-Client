@@ -1,7 +1,6 @@
 // Imports
 
 // Library Imports
-import 'dart:io';
 import 'package:Client/Controllers/ConversationController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

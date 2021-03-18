@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   getUserLoggedInActivites() async {
     for (var activity in widget?.user?.activities) {
       setState(() {
-        userLoggedInActivities.add(Activity.fromJSON(activity));
+        userLoggedInActivities.add(activity);
       });
     }
   }
@@ -56,16 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> getAttendeeCircles(int index) {
     List<Widget> widgetList = [];
     double right = 0;
-    if (widget.user.activities[index]["Participants"].length == 1)
+    if (widget.user.activities[index].participants.length == 1)
       right = 0;
     else
       right = -18;
-    for (var user in widget.user.activities[index]["Participants"]) {
+    for (var user in widget.user.activities[index].participants) {
       right += 18;
       widgetList.add(
         Positioned(
           child: CircleAvatar(
-            backgroundImage: NetworkImage(user["Profile_Url"]),
+            backgroundImage: NetworkImage(user.profileUrl),
           ),
           bottom: 0,
           // right: 0,
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           right: right,
         ),
       );
-      if (widget.user.activities[index]["Participants"].indexOf(user) > 2) {
+      if (widget.user.activities[index].participants.indexOf(user) > 2) {
         break;
       }
     }
@@ -92,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserLoggedInActivites();
   }
@@ -334,6 +333,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -346,7 +348,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 5,
@@ -357,21 +364,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ],
                                     ),
-                                    // Text(activity?.activityDescription),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(activity?.date),
-                                      ],
+                                    SizedBox(
+                                      height: 2,
                                     ),
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 5,
                                         ),
                                         Text(activity?.time),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(activity?.date),
                                       ],
                                     ),
 
@@ -403,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           .symmetric(
                                                       vertical: 10.0),
                                                   child: Text(
-                                                    '${activity.participants[0]["Username"]} and others',
+                                                    '${activity.participants[0].username} and others',
                                                     style:
                                                         GoogleFonts.meriendaOne(
                                                       color: HexColor("4B4848"),

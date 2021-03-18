@@ -342,18 +342,19 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),
-                    child: FlatButton(
+                    child: TextButton(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              resource,
-                              style: TextStyle(fontSize: 11.0),
-                            )
+                            Text(resource,
+                                style: TextStyle(
+                                  fontSize: 11.0,
+                                  color:
+                                      widget.user.resources.contains(resource)
+                                          ? HexColor('#EB9661')
+                                          : Colors.transparent,
+                                ))
                           ]),
-                      color: widget.user.resources.contains(resource)
-                          ? HexColor('#EB9661')
-                          : Colors.transparent,
                       onPressed: () => {
                         if (!widget.user.resources.contains(resource))
                           {widget.user.resources.add(resource)}
@@ -398,19 +399,22 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),
-                    child: FlatButton(
+                    child: TextButton(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             activity,
-                            style: TextStyle(fontSize: 11.0),
+                            style: TextStyle(
+                              fontSize: 11.0,
+                              color: widget.user.activitiesEnjoyed
+                                      .contains(activity)
+                                  ? HexColor('#EB9661')
+                                  : Colors.transparent,
+                            ),
                           )
                         ],
                       ),
-                      color: widget.user.activitiesEnjoyed.contains(activity)
-                          ? HexColor('#EB9661')
-                          : Colors.transparent,
                       onPressed: () => {
                         if (!widget.user.activitiesEnjoyed.contains(activity))
                           {widget.user.activitiesEnjoyed.add(activity)}

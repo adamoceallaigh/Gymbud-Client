@@ -46,7 +46,7 @@ class _SingleActivityViewState extends State<SingleActivityView> {
   }
 
   List<Widget> getAttendeeCircles() {
-    List<Widget> widgetList = new List<Widget>();
+    List<Widget> widgetList = [];
     for (var user in widget.activity.participants) {
       widgetList.add(
         CircleAvatar(
@@ -61,8 +61,8 @@ class _SingleActivityViewState extends State<SingleActivityView> {
   void addUserToActivity(activityId, userId, BuildContext context) {
     ActivityController activityController =
         GeneralNetworkingMethodManager(context).getActivityController();
-    Future<String> result =
-        activityController.addUserToActivity(activityId, userId);
+    // Future<String> result =
+    activityController.addUserToActivity(activityId, userId);
   }
 
   Widget getSingleActivityBody() {
@@ -339,7 +339,7 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                         ],
                       ),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () => {
                         addUserToActivity(
                             widget.activity.id, widget.user.id, context),

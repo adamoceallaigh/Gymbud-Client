@@ -1,11 +1,11 @@
-import 'package:Client/Helper_Widgets/GeneralHelperMethodManager.dart';
+// import 'package:Client/Helper_Widgets/GeneralHelperMethodManager.dart';
 import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/pages/SingleActivityView.dart';
 import 'package:flutter/material.dart';
-import 'package:Client/Controllers/ActivityController.dart';
+// import 'package:Client/Controllers/ActivityController.dart';
 //Importing TinderSwipeCard here allowing me to have same functionality easily as tinder cards
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -2,6 +2,8 @@
 
 // Library Imports
 import 'package:Client/Helper_Widgets/HexColor.dart';
+import 'package:Client/Models/Conversation.dart';
+import 'package:Client/pages/SingleMessageView.dart';
 import 'package:flutter/material.dart';
 
 // Page Imports
@@ -29,6 +31,8 @@ class _MessagesViewState extends State<MessagesView> {
     Setting up variables for this page
   */
 
+  List<Conversation> userLoggedInConversations = [];
+
   // Variable to hold box shadow on boxes
   List<BoxShadow> shadowList = [
     BoxShadow(
@@ -41,7 +45,21 @@ class _MessagesViewState extends State<MessagesView> {
 
   // Logic Functions
 
+  getUserLoggedInMessages() async {
+    for (var conversation in widget?.user?.conversations) {
+      setState(() {
+        userLoggedInConversations.add(conversation);
+      });
+    }
+  }
+
   // UI Functions
+
+  @override
+  void initState() {
+    super.initState();
+    getUserLoggedInMessages();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,9 +202,153 @@ class _MessagesViewState extends State<MessagesView> {
           ),
 
           // Widget to make my conversations List
-          // Row(
-          //   children: ,
-          // ),
+          Column(
+            children: userLoggedInConversations.map((conversation) {
+              return conversation?.sender != null
+                  ? GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SingleMessageView(
+                              conversation: conversation,
+                              user: widget.user,
+                            ),
+                          ),
+                        )
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            width: MediaQuery.of(context).size.width - 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: shadowList,
+                            ),
+                            height: 140,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircleAvatar(
+                                    radius: 50,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            top: 20, bottom: 20, right: 10),
+                                        height: 100,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  conversation
+                                                      ?.messages[conversation
+                                                              .messages.length -
+                                                          1]
+                                                      .sender
+                                                      .senderName,
+                                                  style: GoogleFonts.delius(
+                                                    color: HexColor("2E2B2B"),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Flexible(
+                                                  child: Text(
+                                                    conversation
+                                                        ?.messages[conversation
+                                                                .messages
+                                                                .length -
+                                                            1]
+                                                        .content,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: GoogleFonts.delius(
+                                                      color: HexColor("2E2B2B"),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  conversation
+                                                      ?.messages[conversation
+                                                              .messages.length -
+                                                          1]
+                                                      .createdAt
+                                                      .split("T")[1]
+                                                      .split(".")[0],
+                                                  style: GoogleFonts.delius(
+                                                    color: HexColor("2E2B2B"),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                          // Text(conversation?.createdAt),
+                          // Text("Well"),
+                        ],
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        Container(
+                            child: Image.network(
+                                "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80")),
+                      ],
+                    );
+            }).toList(),
+          ),
         ],
       ),
     ));

@@ -1,4 +1,3 @@
-import 'package:Client/Controllers/UserController.dart';
 import 'package:Client/Helper_Widgets/HexColor.dart';
 import 'package:Client/Models/User.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<User> users = List<User>();
+  List<User> users = [];
 
   // void setupUsers() async {
   //   UserController userController = new UserController();
