@@ -55,23 +55,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> getAttendeeCircles(int index) {
     List<Widget> widgetList = [];
-    double left = 0;
+    double right = 0;
     if (widget.user.activities[index]["Participants"].length == 1)
-      left = 0;
+      right = 0;
     else
-      left = -18;
+      right = -18;
     for (var user in widget.user.activities[index]["Participants"]) {
-      left += 18;
+      right += 18;
       widgetList.add(
         Positioned(
           child: CircleAvatar(
             backgroundImage: NetworkImage(user["Profile_Url"]),
           ),
-          left: left,
+          bottom: 0,
+          // right: 0,
+          // left: 20,
+          right: right,
         ),
       );
+      if (widget.user.activities[index]["Participants"].indexOf(user) > 2) {
+        break;
+      }
     }
-    widgetList.add(Container());
+    // widgetList.add(Text("And Others"));
     return widgetList;
   }
 
@@ -310,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Expanded(
                               child: Container(
-                                height: 130,
+                                height: 142,
                                 width: 130,
                                 margin: EdgeInsets.only(
                                   top: 20,
@@ -340,42 +346,84 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      activity?.activityName,
-                                      textAlign: TextAlign.start,
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          activity?.activityName,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
                                     ),
-                                    Text(activity?.activityDescription),
-                                    Text(activity?.date),
-                                    Text(activity?.time),
+                                    // Text(activity?.activityDescription),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(activity?.date),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(activity?.time),
+                                      ],
+                                    ),
+
+                                    // Adding Expanded here gave me a height to the row down below or else flutter gets messed up
                                     Expanded(
                                       flex: 1,
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 2),
-                                        height: 70,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: Stack(
-                                                  children: getAttendeeCircles(
-                                                      userLoggedInActivities
-                                                          .indexOf(
-                                                              getIterator()))),
-                                            ),
-                                            Text(
-                                              '${activity.participants.length.toString()} / 6',
-                                              style: GoogleFonts.meriendaOne(
-                                                color: HexColor("#000000"),
-                                                fontSize: 18,
-                                                letterSpacing: -1.5,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            width: 80,
+                                            child: Stack(
+                                              children: getAttendeeCircles(
+                                                userLoggedInActivities.indexOf(
+                                                  getIterator(),
+                                                ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 10.0),
+                                                  child: Text(
+                                                    '${activity.participants[0]["Username"]} and others',
+                                                    style:
+                                                        GoogleFonts.meriendaOne(
+                                                      color: HexColor("4B4848"),
+                                                      fontSize: 15,
+                                                      letterSpacing: -1.5,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          )
+                                        ],
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: 10,
+                                    )
                                   ],
                                 ),
                               ),
