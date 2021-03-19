@@ -220,8 +220,8 @@ class _MessagesViewState extends State<MessagesView> {
                       child: Row(
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            width: MediaQuery.of(context).size.width - 40,
+                            // margin: EdgeInsets.symmetric(horizontal: 20),
+                            width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               boxShadow: shadowList,
@@ -298,7 +298,7 @@ class _MessagesViewState extends State<MessagesView> {
                                               ],
                                             ),
                                             SizedBox(
-                                              height: 5,
+                                              height: 18,
                                             ),
                                             Row(
                                               mainAxisAlignment:

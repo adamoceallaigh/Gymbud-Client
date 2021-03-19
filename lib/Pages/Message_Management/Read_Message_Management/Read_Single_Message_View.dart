@@ -126,7 +126,56 @@ class _SingleMessageViewState extends State<SingleMessageView> {
             },
             itemCount: widget?.conversation?.messages?.length,
           ),
-        ))
+        )),
+
+        // Widget to make the bottom text input bar
+        Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 10,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: shadowList,
+            ),
+            child: SafeArea(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.mic,
+                    color: HexColor("EB9661"),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20 * .75),
+                      decoration: BoxDecoration(
+                        color: HexColor("EB9661").withOpacity(.09),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.sentiment_satisfied_alt_outlined),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Type message",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )),
       ],
     ));
   }
