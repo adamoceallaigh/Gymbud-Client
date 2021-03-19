@@ -21,9 +21,9 @@ class Activity {
       activityBudgetLevel,
       activityFitnessLevel,
       activityImageUrl;
-  User creator;
+  dynamic creator;
   List resources;
-  List<User> participants;
+  List<dynamic> participants;
 
   // Variable to hold instance variable of user
   static Future<Activity> getActivityInstance() async {
@@ -53,7 +53,9 @@ class Activity {
   // Constructor to pull json data values and make up an Activity model
   Activity.fromJSON(Map<String, dynamic> data) {
     this.id = data['_id'];
-    this.creator = User.fromJSON(data['Creator']);
+    this.creator = data['Creator'].runtimeType == String
+        ? data['Creator']
+        : User.fromJSON(data['Creator']);
     this.time = data['Time'];
     this.date = data['Date'];
     this.location = data['Location'];
@@ -67,8 +69,13 @@ class Activity {
     this.activityFitnessLevel = data['Fitness_Level'];
     this.activityImageUrl = data['Activity_Image_Url'];
     this.resources = data['Resources'];
-    this.participants = List<User>.from(
-        data['Participants'].map((user) => User.fromJSON(user)));
+    this.participants = List<dynamic>.from(
+      data['Participants'].map(
+        (user) => user.runtimeType == String
+            ? data["Participants"]
+            : User.fromJSON(user),
+      ),
+    );
   }
 
   static Map<String, dynamic> toJson(Activity activity) => {

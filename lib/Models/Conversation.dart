@@ -11,11 +11,11 @@ class Conversation {
   String id;
 
   // Variable to hold the amount of messages going to be in each conversation
-  List<Message> messages = [];
+  List<dynamic> messages = [];
 
   // Variable to hold the Sender and Reciever Message Objects
-  User receiver;
-  User sender;
+  dynamic receiver;
+  dynamic sender;
 
   // Variable to hold the timestamps
   String createdAt;
@@ -27,10 +27,19 @@ class Conversation {
   // Constructor to pull json data values and make up a Conversation model
   Conversation.fromJSON(Map<String, dynamic> data) {
     this.id = data["_id"];
-    this.messages = List<Message>.from(
-        data['Messages'].map((message) => Message.fromJSON(message)));
-    this.receiver = User.fromJSON(data["Receiver"]);
-    this.sender = User.fromJSON(data["Sender"]);
+    this.messages = List<dynamic>.from(
+      data['Messages'].map(
+        (message) => message.runtimeType == String
+            ? data["Messages"]
+            : Message.fromJSON(message),
+      ),
+    );
+    this.receiver = data["Receiver"].runtimeType == String
+        ? data["Receiver"]
+        : User.fromJSON(data["Receiver"]);
+    this.sender = data["Sender"].runtimeType == String
+        ? data["Sender"]
+        : User.fromJSON(data["Sender"]);
     this.createdAt = data['createdAt'];
     this.updatedAt = data['updatedAt'];
   }

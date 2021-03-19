@@ -1,9 +1,7 @@
 //Class Declaration of the Class Model
 
-import 'dart:convert';
-
-import 'package:Client/Models/Activity.dart';
-import 'package:Client/Models/Conversation.dart';
+// Model Imports
+import 'package:Client/Models/Models_Required.dart';
 
 class User {
   // Variables to hold all user values
@@ -20,10 +18,10 @@ class User {
       preferredDistanceRange,
       preferredActivity,
       fitnessLevel;
-  List<String> resources, activitiesEnjoyed;
-  List<User> buds;
-  List<Activity> activities;
-  List<Conversation> conversations;
+  List resources, activitiesEnjoyed;
+  List<dynamic> buds;
+  List<dynamic> activities;
+  List<dynamic> conversations;
 
   // Variable to hold instance variable of user
   static Future<User> getUserInstance() async {
@@ -92,15 +90,27 @@ class User {
     this.preferredDistanceRange = data["Preferred_Distance_Range"];
     this.preferredActivity = data["Preferred_Activity"];
     this.fitnessLevel = data["Fitness_Level"];
-    this.buds = List<User>.from(data["Buds"].map((bud) => User.fromJSON(bud)));
-    this.activities = List<Activity>.from(
-        data["Activities"].map((activity) => Activity.fromJSON(activity)));
-    this.resources = List<String>.from(
-        data["Resources"].map((resource) => json.decode(resource)));
-    this.activitiesEnjoyed = List<String>.from(data["Activities_Enjoyed"]
-        .map((activity_enjoyed) => json.decode(activity_enjoyed)));
-    this.conversations = List<Conversation>.from(data["Conversations"]
-        .map((conversation) => Conversation.fromJSON(conversation)));
+    this.resources = data["Resources"];
+    this.activitiesEnjoyed = data["Activities_Enjoyed"];
+    this.buds = List<dynamic>.from(
+      data["Buds"].map(
+        (bud) => bud.runtimeType == String ? data["Buds"] : User.fromJSON(bud),
+      ),
+    );
+    this.activities = List<dynamic>.from(
+      data["Activities"].map(
+        (activity) => activity.runtimeType == String
+            ? data["Activities"]
+            : Activity.fromJSON(activity),
+      ),
+    );
+    this.conversations = List<dynamic>.from(
+      data["Conversations"].map(
+        (conversation) => conversation.runtimeType == String
+            ? data["Conversations"]
+            : Conversation.fromJSON(conversation),
+      ),
+    );
   }
 
   static Map<String, dynamic> toJson(User user) => {
