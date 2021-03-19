@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/Message_Management/Read_Message_Management/Read_Single_Message_View.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 // Page Imports
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Models/Conversation.dart';
-import 'package:Client/pages/SingleMessageView.dart';
 import 'package:Client/Models/User.dart';
 
 // Template to make the Messages View Page

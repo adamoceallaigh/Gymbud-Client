@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/General_Pages/Home_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +12,6 @@ import 'package:Client/Models/User.dart';
 import 'package:Client/Helpers/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Pages/Activity_Management/Components/Activity_Option.dart';
-import 'package:Client/pages/Home.dart';
 
 // Template to make Activity Details Page
 class ActivityDetails extends StatefulWidget {

@@ -2,11 +2,11 @@
 
 // Library Imports
 
+import 'package:Client/Pages/General_Pages/Drawer_Stack_Screen.dart';
+import 'package:Client/Pages/General_Pages/Home_Stack_Screen.dart';
 import 'package:flutter/material.dart';
 
 // Page Imports
-import 'package:Client/pages/DrawerScreen.dart';
-import 'package:Client/pages/HomeScreen.dart';
 
 import 'package:Client/Models/User.dart';
 // import 'package:Client/Controllers/UserController.dart';

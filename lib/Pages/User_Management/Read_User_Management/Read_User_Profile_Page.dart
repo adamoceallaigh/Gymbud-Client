@@ -1,13 +1,13 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/User_Management/Update_User_Management/Update_User_Profile_Page.dart';
 import 'package:flutter/material.dart';
 
 // Page Imports
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/UpdateProfilePage.dart';
 import 'package:flutter_svg/svg.dart';
 
 // Template for Profile Page

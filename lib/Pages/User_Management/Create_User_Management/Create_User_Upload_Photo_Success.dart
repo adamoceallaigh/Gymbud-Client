@@ -1,13 +1,13 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/User_Management/Create_User_Management/Create_User_Details_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Page Imports
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/pages/New_User/Details_Page.dart';
 import 'package:Client/Models/User.dart';
 
 // Upload Profile Pic Success Page

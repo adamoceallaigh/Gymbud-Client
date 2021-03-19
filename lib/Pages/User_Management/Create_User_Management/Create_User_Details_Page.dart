@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/User_Management/Create_User_Management/Create_User_Details_Success.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:Client/Models/User.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/pages/New_User/Details_Success.dart';
 
 // Template for Details Page
 class DetailsPage extends StatefulWidget {

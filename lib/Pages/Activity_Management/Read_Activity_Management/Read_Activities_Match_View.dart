@@ -2,7 +2,7 @@
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Models/Activity.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/SingleActivityView.dart';
+import 'package:Client/Pages/Activity_Management/Read_Activity_Management/Read_Single_Activity_View.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 // import 'package:Client/Controllers/ActivityController.dart';
@@ -285,6 +285,7 @@ class _MatchViewState extends State<MatchView> {
               );
             },
             cardController: tinderCardController = CardController(),
+            totalNum: 5,
             // totalNum: context.read(activityProvider).readAllActivities().length,
           ),
         ),

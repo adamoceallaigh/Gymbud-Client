@@ -6,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Page Imports
 import 'package:Client/Models/User.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
-import 'package:Client/pages/New_User/Upload_Photo_Success.dart';
 
 // Upload Profile Pic Page
 class UploadPhoto extends StatefulWidget {

@@ -1,6 +1,12 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/General_Pages/Calendar_View.dart';
+import 'package:Client/Pages/General_Pages/Favourites_View.dart';
+import 'package:Client/Pages/General_Pages/Gymbud_Plus_View.dart';
+import 'package:Client/Pages/Message_Management/Read_Message_Management/Read_Messages_View.dart';
+import 'package:Client/Pages/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
+import 'package:Client/Pages/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -8,13 +14,7 @@ import 'package:provider/provider.dart';
 // Page Imports
 import 'package:Client/Managers/Providers/DrawerChangeProvider.dart';
 import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/pages/ProfilePage.dart';
-import 'package:Client/pages/FavouritesView.dart';
-import 'package:Client/pages/GymbudPlusView.dart';
-import 'package:Client/pages/MessagesView.dart';
-import 'package:Client/pages/BudsView.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/CalendarView.dart';
 
 // Template for the Drawer Screen
 class DrawerScreen extends StatefulWidget {

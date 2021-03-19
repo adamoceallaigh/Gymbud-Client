@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Pages/User_Management/Create_User_Management/Create_User_Activity_Details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Models/User.dart';
-import 'package:Client/pages/New_User/Activity_Details.dart';
 
 class DetailsPageSuccess extends StatelessWidget {
   // This is the way we are going to save the values across the pages

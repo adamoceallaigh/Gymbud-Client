@@ -2,6 +2,7 @@
 
 // Library Imports
 
+import 'package:Client/Pages/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +12,6 @@ import 'package:Client/Models/User.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Models/InformationPopUp.dart';
-import 'package:Client/pages/ProfilePage.dart';
 
 // Template to make the UpdateProfile View Page
 class UpdateProfilePage extends StatefulWidget {
