@@ -233,6 +233,22 @@ class _MessagesViewState extends State<MessagesView> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: CircleAvatar(
                                     radius: 50,
+                                    backgroundImage: conversation
+                                                ?.messages[conversation
+                                                        .messages.length -
+                                                    1]
+                                                .sender
+                                                .senderId
+                                                .runtimeType !=
+                                            String
+                                        ? NetworkImage(conversation
+                                            ?.messages[
+                                                conversation.messages.length -
+                                                    1]
+                                            .sender
+                                            .senderId
+                                            .profileUrl)
+                                        : NetworkImage(widget.user.profileUrl),
                                   ),
                                 ),
                                 Expanded(
