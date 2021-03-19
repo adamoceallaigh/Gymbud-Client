@@ -234,20 +234,10 @@ class _MessagesViewState extends State<MessagesView> {
                                   child: CircleAvatar(
                                     radius: 50,
                                     backgroundImage: conversation
-                                                ?.messages[conversation
-                                                        .messages.length -
-                                                    1]
-                                                .sender
-                                                .senderId
-                                                .runtimeType !=
-                                            String
-                                        ? NetworkImage(conversation
-                                            ?.messages[
-                                                conversation.messages.length -
-                                                    1]
-                                            .sender
-                                            .senderId
-                                            .profileUrl)
+                                                ?.sender?.profileUrl !=
+                                            null
+                                        ? NetworkImage(
+                                            conversation?.sender?.profileUrl)
                                         : NetworkImage(widget.user.profileUrl),
                                   ),
                                 ),
