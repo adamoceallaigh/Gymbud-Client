@@ -1,7 +1,7 @@
 // Imports
 
 // Library Imports
-import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
+import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pusher/pusher.dart';
@@ -18,14 +18,8 @@ import 'package:Client/Infrastructure/Models/User.dart';
 
 // Templaet to make a single message view page
 class SingleMessageView extends HookWidget {
-  // Passing our conversation over from the messages view page
-  final Conversation conversation;
-
-  // Instantiating the Single Message View Page
-  SingleMessageView({this.conversation});
-
   // Variable to hold box shadow on boxes
-  List<BoxShadow> shadowList = [
+  final List<BoxShadow> shadowList = [
     BoxShadow(
       color: Colors.grey[300],
       blurRadius: 30,
@@ -43,9 +37,30 @@ class SingleMessageView extends HookWidget {
     // Obtaining the current logged in user
     final logged_in_user = useProvider(user_notifier_provider.state);
 
-    // Make new GeneralMethodsManager Instance
-    final generalHelperMethodManager =
-        GeneralHelperMethodManager(user: logged_in_user);
+    final content_controller = useTextEditingController();
+
+    // Obtainning the current conversation
+    final current_conversation =
+        useProvider(conversation_notifier_provider.state);
+
+    _initPusher(context, logged_in_user, current_conversation);
+
+    sendMessage(String value) async {
+      try {
+        // Get value first
+        value = value ??
+            Exception(
+                "There was an error sending your message, please try again");
+        var sender = Sender(
+            senderId: logged_in_user.id, senderName: logged_in_user.name);
+        var newMessage = Message(content: value, sender: sender);
+        await context
+            .read(conversations_provider)
+            .createMessage(newMessage, current_conversation);
+      } catch (e) {
+        print(e);
+      }
+    }
 
     return Scaffold(
         body: Column(
@@ -112,18 +127,19 @@ class SingleMessageView extends HookWidget {
 
         // Widget to make the main text input body
         Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return MessageTemplate(
-                message: conversation?.messages[index],
-                user: logged_in_user,
-              );
-            },
-            itemCount: conversation?.messages?.length,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return MessageTemplate(
+                  message: current_conversation?.messages[index],
+                  user: logged_in_user,
+                );
+              },
+              itemCount: current_conversation?.messages?.length,
+            ),
           ),
-        )),
+        ),
 
         // Widget to make the bottom text input bar
         Container(
@@ -160,6 +176,11 @@ class SingleMessageView extends HookWidget {
                           ),
                           Expanded(
                             child: TextField(
+                              controller: content_controller,
+                              onSubmitted: (value) => {
+                                sendMessage(value),
+                                content_controller.clear()
+                              },
                               decoration: InputDecoration(
                                 hintText: "Type message",
                                 border: InputBorder.none,
@@ -177,10 +198,11 @@ class SingleMessageView extends HookWidget {
     ));
   }
 
-  Future<void> _initPusher() async {
+  Future<void> _initPusher(BuildContext context, User logged_in_user,
+      Conversation current_conversation) async {
     Channel _channel = new Channel();
     try {
-      await Pusher.init('b7513c22bbecf883d9a7', PusherOptions(cluster: 'eu'));
+      await Pusher.init('9b49b4db0306d14a2271', PusherOptions(cluster: 'eu'));
     } catch (e) {
       print(e);
     }
@@ -196,11 +218,42 @@ class SingleMessageView extends HookWidget {
     _channel = await Pusher.subscribe('messages');
 
     // Bind
-    _channel.bind('newMessage', (onEvent) {
-      // setState(() {
-      //   widget?.conversation.messages
-      // });
-    });
+    _channel.bind(
+      'newMessage',
+      (onEvent) async {
+        print(onEvent.data);
+        try {
+          // Result from logging in user could either be a error or boolean saying true
+          dynamic user_updated = await context
+              .read(user_provider)
+              .readSingleUserByID(logged_in_user);
+
+          dynamic updated_conversation = await context
+              .read(conversations_provider)
+              .readConversationById(current_conversation);
+
+          // Checking if the result is a error
+          if (user_updated.runtimeType == InformationPopUp) {
+            if (user_updated.message != null) {
+              // Displaying error in pop up by setting the state
+
+            }
+          } else {
+            // Navigating to the Home page if user logged in is returned
+            if (user_updated.username != null) {
+              await context
+                  .read(conversation_notifier_provider)
+                  .updateConversation(updated_conversation);
+              await context
+                  .read(user_notifier_provider)
+                  .updateUser(user_updated);
+            }
+          }
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
   }
 }
 

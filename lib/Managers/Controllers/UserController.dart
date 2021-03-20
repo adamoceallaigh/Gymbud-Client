@@ -123,4 +123,31 @@ class UserController {
       print('caught error $e');
     }
   }
+
+  Future<dynamic> readSingleUserByID(User user) async {
+    try {
+      Response response = await dio.get(
+        '${this.url_in_use}/${user.id}',
+        options: Options(
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'credentials': 'include'
+          },
+        ),
+      );
+      var userJSON = response.data;
+      if (response.statusCode == 200) {
+        if (userJSON != null) {
+          return User.fromJSON(userJSON);
+        }
+        if (userJSON["cause"] != null) {
+          this.infopPopUp = InformationPopUp(message: userJSON["cause"][0]);
+          return infopPopUp;
+        }
+      }
+    } catch (e) {
+      print('caught error $e');
+    }
+  }
 }

@@ -182,12 +182,13 @@ class MessagesView extends HookWidget {
               return conversation?.sender != null
                   ? GestureDetector(
                       onTap: () => {
+                        context
+                            .read(conversation_notifier_provider)
+                            .createConversation(conversation),
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SingleMessageView(
-                              conversation: conversation,
-                            ),
+                            builder: (context) => SingleMessageView(),
                           ),
                         )
                       },

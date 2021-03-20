@@ -1,6 +1,9 @@
 // Imports
 
 // Library Imports
+import 'dart:convert';
+
+import 'package:Client/Infrastructure/Models/Message.dart';
 import 'package:dio/dio.dart';
 
 // Page Imports
@@ -31,5 +34,59 @@ class ConversationController {
     }
 
     return conversations;
+  }
+
+  Future<Conversation> readConversationById(Conversation conversation) async {
+    try {
+      Response response = await dio.get(
+        '${this.url_in_use}/${conversation.id}',
+        options: Options(
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'credentials': 'include'
+          },
+        ),
+      );
+      var conversationJSON = response.data;
+      if (response.statusCode == 200) {
+        if (conversationJSON != null) {
+          return Conversation.fromJSON(conversationJSON);
+        }
+        if (conversationJSON["cause"] != null) {
+          // this.infopPopUp = InformationPopUp(message: conversationJSON["cause"][0]);
+          // return infopPopUp;
+        }
+      }
+    } catch (e) {
+      print('caught error $e');
+    }
+  }
+
+  void createMessage(
+      Message newMessage, Conversation current_conversation) async {
+    try {
+      await dio.post(
+        '${this.url_in_use}/${current_conversation.id}/new_message',
+        options: Options(
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'credentials': 'include'
+          },
+        ),
+        data: jsonEncode(
+          {
+            "Content": newMessage.content,
+            'Sender': {
+              'senderName': newMessage.sender.senderName,
+              'senderId': newMessage.sender.senderId
+            }
+          },
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }

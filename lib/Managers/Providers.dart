@@ -7,6 +7,7 @@ import 'package:Client/Managers/Controllers/AppController.dart';
 import 'package:Client/Managers/Controllers/ConversationController.dart';
 import 'package:Client/Managers/Controllers/UserController.dart';
 import 'package:Client/Managers/Notifiers/ActivitiesNotifier.dart';
+import 'package:Client/Managers/Notifiers/ConversationNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationsNotifier.dart';
 import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
 import 'package:Client/Managers/Notifiers/UserNotifier.dart';
@@ -45,7 +46,7 @@ final users_notifier_provider = StateNotifierProvider(
   (ref) => UsersNotifier(),
 );
 
-// Conversation Controller Configuration
+// Conversations Controller Configuration
 final conversations_provider = Provider<ConversationController>(
   (ref) => ConversationController(
     ref.watch(app_notifier_provider.state),
@@ -53,6 +54,11 @@ final conversations_provider = Provider<ConversationController>(
 );
 
 // Conversation Notifier Provider
+final conversation_notifier_provider = StateNotifierProvider(
+  (ref) => ConversationNotifier(),
+);
+
+// Conversations Notifier Provider
 final conversations_notifier_provider = StateNotifierProvider(
   (ref) => ConversationsNotifier(),
 );
