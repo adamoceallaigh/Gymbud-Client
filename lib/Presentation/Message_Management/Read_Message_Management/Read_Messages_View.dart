@@ -1,40 +1,22 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
+import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/Message_Management/Read_Message_Management/Read_Single_Message_View.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/Infrastructure/Models/Conversation.dart';
-import 'package:Client/Infrastructure/Models/User.dart';
 
-// Template to make the Messages View Page
-class MessagesView extends StatefulWidget {
-  /*
-    Setting up variables for this page
-  */
-
-  // This is the way we are going to save the values across the pages
-  final User user;
-  MessagesView({Key key, this.user}) : super(key: key);
-
-  @override
-  _MessagesViewState createState() => _MessagesViewState();
-}
-
-// State to manage the template for this page
-class _MessagesViewState extends State<MessagesView> {
-  /*
-    Setting up variables for this page
-  */
-
-  List<Conversation> userLoggedInConversations = [];
-
+class MessagesView extends HookWidget {
   // Variable to hold box shadow on boxes
-  List<BoxShadow> shadowList = [
+  final List<BoxShadow> shadowList = [
     BoxShadow(
       color: Colors.grey[300],
       blurRadius: 30,
@@ -45,24 +27,17 @@ class _MessagesViewState extends State<MessagesView> {
 
   // Logic Functions
 
-  getUserLoggedInMessages() async {
-    for (var conversation in widget?.user?.conversations) {
-      setState(() {
-        userLoggedInConversations.add(conversation);
-      });
-    }
-  }
-
   // UI Functions
 
   @override
-  void initState() {
-    super.initState();
-    getUserLoggedInMessages();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Obtaining the current logged in user
+    final logged_in_user = useProvider(user_notifier_provider.state);
+
+    // Make new GeneralMethodsManager Instance
+    final generalHelperMethodManager =
+        GeneralHelperMethodManager(user: logged_in_user);
+
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -118,8 +93,8 @@ class _MessagesViewState extends State<MessagesView> {
                 ),
                 CircleAvatar(
                   radius: 30.0,
-                  backgroundImage: widget?.user?.profileUrl != null
-                      ? new NetworkImage(widget.user.profileUrl)
+                  backgroundImage: logged_in_user?.profileUrl != null
+                      ? new NetworkImage(logged_in_user.profileUrl)
                       : null,
                   // backgroundColor: Colors.orange,
                 ),
@@ -203,7 +178,7 @@ class _MessagesViewState extends State<MessagesView> {
 
           // Widget to make my conversations List
           Column(
-            children: userLoggedInConversations.map((conversation) {
+            children: logged_in_user.conversations.map((conversation) {
               return conversation?.sender != null
                   ? GestureDetector(
                       onTap: () => {
@@ -212,7 +187,6 @@ class _MessagesViewState extends State<MessagesView> {
                           MaterialPageRoute(
                             builder: (context) => SingleMessageView(
                               conversation: conversation,
-                              user: widget.user,
                             ),
                           ),
                         )
@@ -238,7 +212,8 @@ class _MessagesViewState extends State<MessagesView> {
                                             null
                                         ? NetworkImage(
                                             conversation?.sender?.profileUrl)
-                                        : NetworkImage(widget.user.profileUrl),
+                                        : NetworkImage(
+                                            logged_in_user.profileUrl),
                                   ),
                                 ),
                                 Expanded(

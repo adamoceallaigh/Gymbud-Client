@@ -1,9 +1,14 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
+import 'package:Client/Managers/Providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pusher/pusher.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 import 'package:Client/Helpers/HexColor.dart';
@@ -12,30 +17,12 @@ import 'package:Client/Infrastructure/Models/Message.dart';
 import 'package:Client/Infrastructure/Models/User.dart';
 
 // Templaet to make a single message view page
-class SingleMessageView extends StatefulWidget {
-  /*
-    Setting up our variables
-  */
-
+class SingleMessageView extends HookWidget {
   // Passing our conversation over from the messages view page
   final Conversation conversation;
 
-  // Passing our user logged in over from messages view page
-  final User user;
-
   // Instantiating the Single Message View Page
-  SingleMessageView({this.conversation, this.user});
-
-  @override
-  _SingleMessageViewState createState() => _SingleMessageViewState();
-}
-
-class _SingleMessageViewState extends State<SingleMessageView> {
-  /*
-    Setting up our variables
-  */
-
-  Channel _channel;
+  SingleMessageView({this.conversation});
 
   // Variable to hold box shadow on boxes
   List<BoxShadow> shadowList = [
@@ -52,14 +39,14 @@ class _SingleMessageViewState extends State<SingleMessageView> {
   // UI Functions
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _initPusher();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Obtaining the current logged in user
+    final logged_in_user = useProvider(user_notifier_provider.state);
+
+    // Make new GeneralMethodsManager Instance
+    final generalHelperMethodManager =
+        GeneralHelperMethodManager(user: logged_in_user);
+
     return Scaffold(
         body: Column(
       children: [
@@ -114,8 +101,8 @@ class _SingleMessageViewState extends State<SingleMessageView> {
               ),
               CircleAvatar(
                 radius: 30.0,
-                backgroundImage: widget?.user?.profileUrl != null
-                    ? new NetworkImage(widget.user.profileUrl)
+                backgroundImage: logged_in_user?.profileUrl != null
+                    ? new NetworkImage(logged_in_user.profileUrl)
                     : null,
                 // backgroundColor: Colors.orange,
               ),
@@ -130,11 +117,11 @@ class _SingleMessageViewState extends State<SingleMessageView> {
           child: ListView.builder(
             itemBuilder: (context, index) {
               return MessageTemplate(
-                message: widget?.conversation?.messages[index],
-                user: widget?.user,
+                message: conversation?.messages[index],
+                user: logged_in_user,
               );
             },
-            itemCount: widget?.conversation?.messages?.length,
+            itemCount: conversation?.messages?.length,
           ),
         )),
 
@@ -191,6 +178,7 @@ class _SingleMessageViewState extends State<SingleMessageView> {
   }
 
   Future<void> _initPusher() async {
+    Channel _channel = new Channel();
     try {
       await Pusher.init('b7513c22bbecf883d9a7', PusherOptions(cluster: 'eu'));
     } catch (e) {
