@@ -1,23 +1,15 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Managers/Controllers/AppController.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:convert';
 
 // Page Imports
-import 'package:Client/Models/InformationPopUp.dart';
-import 'package:Client/Models/User.dart';
+import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
+import 'package:Client/Infrastructure/Models/User.dart';
 
-// User Controller Class Definition to conduct user management operations
 class UserController {
-  // Variable to hold the list of users throughout the methods
-  List<User> users = [];
-
-  // Variable to handle the loggedInUser
-  User loggedInUser;
-
   // Variable to handle the error infopPopUp
   InformationPopUp infopPopUp;
 
@@ -25,12 +17,13 @@ class UserController {
   String url_in_use;
 
   // Variable to hold instance of dio used for networking
-  Dio dio = new Dio(BaseOptions());
+  Dio dio = new Dio();
 
-  UserController(String platformUrl) {
-    this.url_in_use = '$platformUrl/users';
-    loggedInUser = User();
-    infopPopUp = InformationPopUp();
+  UserController(AppState appState) {
+    if (appState is AppLoaded) {
+      this.url_in_use = '${appState.url}/users';
+      infopPopUp = InformationPopUp();
+    }
   }
 
   Future<dynamic> createUser(User user) async {
@@ -51,11 +44,11 @@ class UserController {
     var userJSON = response.data;
     if (response.statusCode == 200) {
       if (userJSON["user"] != null) {
-        this.loggedInUser = User.fromJSON(userJSON["user"]);
+        return User.fromJSON(userJSON["user"]);
         // notifyListeners();
       }
       if (userJSON["cause"] != null) {
-        this.infopPopUp = InformationPopUp(message: userJSON["cause"][0]);
+        return InformationPopUp(message: userJSON["cause"][0]);
       }
     }
   }
@@ -78,28 +71,28 @@ class UserController {
     var userJSON = response.data;
     if (response.statusCode == 200) {
       if (userJSON["user"] != null) {
-        this.loggedInUser = User.fromJSON(userJSON["user"]);
+        return User.fromJSON(userJSON["user"]);
       }
       if (userJSON["cause"] != null) {
-        this.infopPopUp = InformationPopUp(message: userJSON["cause"][0]);
+        return InformationPopUp(message: userJSON["cause"][0]);
       }
     }
   }
 
   Future<List<User>> readUsers() async {
     Response response = await dio.get('${this.url_in_use}');
+    List<User> users = [];
     if (response.statusCode == 200) {
       var usersJSON = response.data;
       for (var userJSON in usersJSON) {
-        this.users.add(User.fromJSON(userJSON));
+        users.add(User.fromJSON(userJSON));
         return users;
       }
     }
     return null;
   }
 
-  Future<dynamic> readSingleUser(
-      String username, String password, BuildContext context) async {
+  Future<dynamic> readSingleUser(String username, String password) async {
     try {
       Response response = await dio.post(
         '${this.url_in_use}/login',
@@ -120,8 +113,7 @@ class UserController {
       var userJSON = response.data;
       if (response.statusCode == 200) {
         if (userJSON["user"] != null) {
-          this.loggedInUser = User.fromJSON(userJSON["user"]);
-          return loggedInUser;
+          return User.fromJSON(userJSON["user"]);
         }
         if (userJSON["cause"] != null) {
           this.infopPopUp = InformationPopUp(message: userJSON["cause"][0]);

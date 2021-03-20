@@ -2,19 +2,19 @@
 
 //____General Imports______
 import 'package:Client/Helpers/GeneralNetworkingMethodManager.dart';
-import 'package:Client/Managers/Providers/DrawerChangeProvider.dart';
-import 'package:Client/Pages/General_Pages/Splashscreen.dart';
+import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
+import 'package:Client/Presentation/General_Pages/Splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 
 // ___Page Imports________
-import 'package:Client/Pages/General_Pages/Onboarding_Screen.dart';
-// import 'package:Client/Models/Activity.dart';
-// import 'package:Client/Models/User.dart';
+import 'package:Client/Presentation/General_Pages/Onboarding_Screen.dart';
+// import 'package:Client/Infrastructure/Models/Activity.dart';
+// import 'package:Client/Infrastructure/Models/User.dart';
 // import 'package:Client/Helper_Widgets/GeneralHelperMethodManager.dart';
 // import 'package:Client/Helper_Widgets/GeneralNetworkingMethodManager.dart';
-// import 'package:Client/Models/Conversation.dart';
+// import 'package:Client/Infrastructure/Models/Conversation.dart';
 
 // Main Method
 void main() async {
@@ -26,7 +26,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    GeneralNetworkingMethodManager(context);
+    // GeneralNetworkingMethodManager(context);
     // Setting up the app
     // setUpApp(context);
     return provider.ChangeNotifierProvider<DrawerChanger>(

@@ -2,15 +2,16 @@
 
 // Library Imports
 import 'dart:convert';
+import 'package:Client/Infrastructure/Models/Models_Required.dart';
+import 'package:Client/Managers/Controllers/AppController.dart';
 import 'package:dio/dio.dart';
 
 // Page Imports
-import 'package:Client/Models/Activity.dart';
+import 'package:Client/Infrastructure/Models/Activity.dart';
 
-// Activity Controller Class Definition to conduct activity management operations
 class ActivityController {
-  // Variable to hold the list of activities throughout the methods
-  List<Activity> activities = [];
+  // Variable to handle the error infopPopUp
+  InformationPopUp infopPopUp;
 
   // Variable to hold the url in use
   String url_in_use;
@@ -18,33 +19,17 @@ class ActivityController {
   // Variable to hold instance of dio used for networking
   Dio dio = new Dio();
 
-  ActivityController(String url) {
-    this.url_in_use = url;
+  ActivityController(AppState appState) {
+    if (appState is AppLoaded) {
+      this.url_in_use = '${appState.url}/activities';
+      infopPopUp = InformationPopUp();
+    }
   }
 
-  // Encoding and decoding the list of users
-  static String encodeActivityListToActivitiesString(
-      List<Activity> activities) {
-    return json.encode(
-      activities
-          .map<Map<String, dynamic>>(
-            (activity) => Activity.toJson(activity),
-          )
-          .toList(),
-    );
-  }
-
-  static List<Activity> decodeActivitiesStringToActivityList(
-      String activities) {
-    return (json.decode(activities) as List<dynamic>)
-        .map<Activity>((item) => Activity.fromJSON(item))
-        .toList();
-  }
-
-  Future<bool> createactivity(Activity activity) async {
+  Future<dynamic> createactivity(Activity activity) async {
     try {
       Response response = await dio.post(
-        '${this.url_in_use}/activities',
+        '${this.url_in_use}',
         options: Options(
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -55,7 +40,13 @@ class ActivityController {
         data: jsonEncode(Activity.toJson(activity)),
       );
       if (response.statusCode == 200) {
-        return true;
+        var activityJSON = response.data;
+        if (activityJSON["user"] != null) {
+          return Activity.fromJSON(activityJSON["user"]);
+        }
+        if (activityJSON["cause"] != null) {
+          return InformationPopUp(message: activityJSON["cause"][0]);
+        }
       }
     } catch (e) {
       print('caught error $e');
@@ -64,20 +55,22 @@ class ActivityController {
   }
 
   Future<List<Activity>> readActivities() async {
-    Response response = await dio.get('${this.url_in_use}/activities');
+    List<Activity> activities = [];
+    Response response = await dio.get('${this.url_in_use}');
     if (response.statusCode == 200) {
       var activitiesJSON = response.data;
       for (var activityJSON in activitiesJSON) {
         activities.add(Activity.fromJSON(activityJSON));
+        return activities;
       }
     }
 
-    return activities;
+    return null;
   }
 
-  Future<String> addUserToActivity(String activityId, String userId) async {
+  Future<dynamic> addUserToActivity(String activityId, String userId) async {
     Response response = await dio.post(
-      '${this.url_in_use}/activities/addUser?activityId=$activityId&userId=$userId',
+      '${this.url_in_use}/addUser?activityId=$activityId&userId=$userId',
       options: Options(
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -85,12 +78,16 @@ class ActivityController {
           'credentials': 'include'
         },
       ),
-      // withCredentials: true,
       data: jsonEncode({activityId: activityId}),
     );
     if (response.statusCode == 200) {
-      var responseJSON = jsonDecode(response.data);
-      return responseJSON[0];
+      var activityJSON = response.data;
+      if (activityJSON["user"] != null) {
+        return Activity.fromJSON(activityJSON["user"]);
+      }
+      if (activityJSON["cause"] != null) {
+        return InformationPopUp(message: activityJSON["cause"][0]);
+      }
     }
     return null;
   }

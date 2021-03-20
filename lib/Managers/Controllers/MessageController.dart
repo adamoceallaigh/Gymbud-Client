@@ -2,13 +2,11 @@
 
 // Library Imports
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:convert';
 
 // Page Imports
-import 'package:Client/Models/InformationPopUp.dart';
-import 'package:Client/Models/Message.dart';
+import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
+import 'package:Client/Infrastructure/Models/Message.dart';
 
 // Message Controller Class Definition to conduct message management operations
 class MessageController {
@@ -97,41 +95,8 @@ class MessageController {
       for (var messageJSON in messagesJSON) {
         messages.add(Message.fromJSON(messageJSON));
       }
-      //messagesJSON.map((message) => messages.add(Message.fromJSON(message)));
     }
 
     return messages;
-  }
-
-  Future<dynamic> readSingleMessage(
-      String messagename, String password, BuildContext context) async {
-    try {
-      Response response = await dio.post(
-        '${this.url_in_use}/login',
-        options: Options(
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'credentials': 'include'
-          },
-        ),
-        data: jsonEncode(
-          {
-            'messagename': messagename,
-            'password': password,
-          },
-        ),
-      );
-      var messageJSON = response.data;
-      if (response.statusCode == 200) {
-        if (messageJSON["message"] != null)
-          return Message.fromJSON(messageJSON["message"]);
-        if (messageJSON["cause"] != null)
-          return new InformationPopUp(message: messageJSON["cause"][0]);
-      }
-    } catch (e) {
-      print('caught error $e');
-    }
-    return null;
   }
 }
