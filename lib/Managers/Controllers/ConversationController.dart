@@ -21,16 +21,15 @@ class ConversationController {
   }
 
   Future<List<Conversation>> readConversations() async {
-    List<Conversation> conversations;
+    List<Conversation> conversations = [];
     Response response = await dio.get('${this.url_in_use}');
     if (response.statusCode == 200) {
       var conversationsJSON = response.data;
       for (var userJSON in conversationsJSON) {
         conversations.add(Conversation.fromJSON(userJSON));
-        return conversations;
       }
     }
 
-    return null;
+    return conversations;
   }
 }

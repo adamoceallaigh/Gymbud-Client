@@ -86,10 +86,9 @@ class UserController {
       var usersJSON = response.data;
       for (var userJSON in usersJSON) {
         users.add(User.fromJSON(userJSON));
-        return users;
       }
     }
-    return null;
+    return users;
   }
 
   Future<dynamic> readSingleUser(String username, String password) async {

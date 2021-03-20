@@ -1,113 +1,31 @@
 // Imports
 
 // Library Imports
-import 'package:Client/Presentation/General_Pages/Calendar_View.dart';
-import 'package:Client/Presentation/General_Pages/Favourites_View.dart';
-import 'package:Client/Presentation/General_Pages/Gymbud_Plus_View.dart';
-import 'package:Client/Presentation/Message_Management/Read_Message_Management/Read_Messages_View.dart';
-import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
-import 'package:Client/Presentation/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
-import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
+import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/Infrastructure/Models/User.dart';
 
-// Template for the Drawer Screen
-class DrawerScreen extends StatefulWidget {
-  /*
-    Setting up variables for this page
-  */
-
-  // This is the way we are going to save the values across the pages
-  final User user;
-  DrawerScreen({Key key, @required this.user}) : super(key: key);
-
-  @override
-  _DrawerScreenState createState() => _DrawerScreenState();
-}
-
-class _DrawerScreenState extends State<DrawerScreen> {
-  /*
-    Setting up our variables for this page
-  */
-
-  // Variable to hold all my drawerItems
-  List<Map> drawerItems = [
-    {
-      'icon': Icons.person,
-      'title': 'Profile',
-    },
-    {
-      'icon': SvgPicture.asset(
-        "Resources/Images/Buds_Icon.svg",
-        height: 30,
-      ),
-      'title': 'Buds',
-      'type': 'SVG'
-    },
-    {
-      'icon': SvgPicture.asset(
-        "Resources/Images/Calendar_Icon.svg",
-        height: 30,
-      ),
-      'title': 'Calendar',
-      'type': 'SVG'
-    },
-    {
-      'icon': Icons.mail,
-      'title': 'Messages',
-    },
-    {
-      'icon': Icons.favorite,
-      'title': 'Favourites',
-    },
-    {
-      'icon': Icons.add,
-      'title': 'Gymbud Plus',
-    },
-  ];
-
-  // Logic Functions
-
-  _checkWhereToNavigateByNavBarItemClick(
-      String identifier, BuildContext context) {
-    dynamic page = "";
-    switch (identifier) {
-      case "Profile":
-        page = ProfilePage(user: widget?.user);
-        break;
-      case "Buds":
-        page = BudsView(user: widget?.user);
-        break;
-      case "Calendar":
-        page = CalendarView(
-          user: widget?.user,
-        );
-        break;
-      case "Messages":
-        page = MessagesView(user: widget?.user);
-        break;
-      case "Favourites":
-        page = FavouritesView(user: widget?.user);
-        break;
-      case "Gymbud Plus":
-        page = GymbudPlusView(user: widget?.user);
-        break;
-    }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
+class DrawerScreen extends HookWidget {
   // UI Functions
 
   @override
   Widget build(BuildContext context) {
+    // Obtaining the drawer changer notifier provider for use here
+    final drawer_changer = useProvider(drawer_change_provider);
+
+    // Obtaining the current logged in user
+    final logged_in_user = useProvider(user_notifier_provider.state);
+
+    // Make new GeneralMethodsManager Instance
+    final generalHelperMethodManager =
+        GeneralHelperMethodManager(user: logged_in_user);
+
     return Container(
       color: HexColor("EB9661"),
       padding: EdgeInsets.only(top: 40, left: 10, bottom: 85),
@@ -122,8 +40,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: widget?.user?.profileUrl != null
-                            ? new NetworkImage(widget.user.profileUrl)
+                        backgroundImage: logged_in_user.profileUrl != null
+                            ? new NetworkImage(logged_in_user.profileUrl)
                             : null,
                       ),
                       SizedBox(
@@ -132,9 +50,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          widget?.user?.name != null
+                          logged_in_user.name != null
                               ? Text(
-                                  widget?.user?.name,
+                                  logged_in_user.name,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -159,17 +77,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
                 Row(
                   children: [
-                    Consumer<DrawerChanger>(
-                      builder: (context, drawerChanger, child) =>
-                          GestureDetector(
-                        onTap: () => {drawerChanger.resetDrawer()},
-                        child: Text(
-                          "Close",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    GestureDetector(
+                      onTap: () => {drawer_changer.resetDrawer()},
+                      child: Text(
+                        "Close",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -185,11 +100,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
           // Widget to make the middle part of the drawer
 
           Column(
-              children: drawerItems.map((element) {
+              children: generalHelperMethodManager.drawerItems.map((element) {
             return GestureDetector(
               onTap: () => {
-                _checkWhereToNavigateByNavBarItemClick(
-                    element["title"], context),
+                generalHelperMethodManager
+                    .checkWhereToNavigateByNavBarItemClick(
+                        element["title"], context),
               },
               child: Row(
                 children: [

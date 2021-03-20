@@ -8,6 +8,7 @@ import 'package:Client/Managers/Controllers/ConversationController.dart';
 import 'package:Client/Managers/Controllers/UserController.dart';
 import 'package:Client/Managers/Notifiers/ActivitiesNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationsNotifier.dart';
+import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
 import 'package:Client/Managers/Notifiers/UserNotifier.dart';
 import 'package:Client/Managers/Notifiers/UsersNotifier.dart';
 
@@ -23,6 +24,9 @@ final app_notifier_provider = StateNotifierProvider(
     ref.watch(app_provider),
   ),
 );
+
+// Drawer Change Notifier
+final drawer_change_provider = ChangeNotifierProvider((ref) => DrawerChanger());
 
 // User Controller Configuration
 final user_provider = Provider<UserController>(

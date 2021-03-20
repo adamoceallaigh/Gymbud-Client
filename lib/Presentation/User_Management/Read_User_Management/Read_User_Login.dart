@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(user: userValidated),
+              builder: (context) => Home(),
             ),
           );
         }

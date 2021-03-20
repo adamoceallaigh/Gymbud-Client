@@ -61,11 +61,10 @@ class ActivityController {
       var activitiesJSON = response.data;
       for (var activityJSON in activitiesJSON) {
         activities.add(Activity.fromJSON(activityJSON));
-        return activities;
       }
     }
 
-    return null;
+    return activities;
   }
 
   Future<dynamic> addUserToActivity(String activityId, String userId) async {

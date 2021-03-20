@@ -8,19 +8,7 @@ import 'package:flutter/material.dart';
 
 // Page Imports
 
-import 'package:Client/Infrastructure/Models/User.dart';
-// import 'package:Client/Controllers/UserController.dart';
-
-// Template for Home Page
 class Home extends StatefulWidget {
-  /*
-    Setting up variables for this page
-  */
-
-  // This is the way we are going to save the values across the pages
-  final User user;
-  Home({Key key, @required this.user}) : super(key: key);
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -31,10 +19,10 @@ class _HomeState extends State<Home> {
   */
 
   // Setting up variables to make filter dropdown
-  Widget filterWidget;
-  bool isDropped = false;
-  GlobalKey filterKey;
-  double widthOfFilterContainer, heightOfContainer, xPos, yPos;
+  // Widget filterWidget;
+  // bool isDropped = false;
+  // GlobalKey filterKey;
+  // double widthOfFilterContainer, heightOfContainer, xPos, yPos;
   // OverlayEntry _filterContainer;
 
   // Setting up variables for my filters
@@ -43,17 +31,17 @@ class _HomeState extends State<Home> {
   // Logic Functions
 
   // Filling the dropdown filter with data
-  void fillDropDownData() {
-    RenderBox renderBox = filterKey.currentContext.findRenderObject();
-    widthOfFilterContainer = MediaQuery.of(context).size.width;
-    heightOfContainer = renderBox.size.height;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
-    xPos = offset.dx;
-    yPos = offset.dy;
-    print(
-      "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
-    );
-  }
+  // void fillDropDownData() {
+  //   RenderBox renderBox = filterKey.currentContext.findRenderObject();
+  //   widthOfFilterContainer = MediaQuery.of(context).size.width;
+  //   heightOfContainer = renderBox.size.height;
+  //   Offset offset = renderBox.localToGlobal(Offset.zero);
+  //   xPos = offset.dx;
+  //   yPos = offset.dy;
+  //   print(
+  //     "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
+  //   );
+  // }
 
   // UI Functions
 
@@ -61,7 +49,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    filterKey = LabeledGlobalKey("filterDropdown");
+    // filterKey = LabeledGlobalKey("filterDropdown");
   }
 
   @override
@@ -70,12 +58,8 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         body: Stack(
           children: [
-            DrawerScreen(
-              user: widget.user,
-            ),
-            HomeScreen(
-              user: widget.user,
-            ),
+            DrawerScreen(),
+            HomeScreen(),
           ],
         ),
       ),
