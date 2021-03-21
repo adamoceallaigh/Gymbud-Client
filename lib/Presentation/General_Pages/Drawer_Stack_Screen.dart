@@ -24,7 +24,7 @@ class DrawerScreen extends HookWidget {
 
     // Make new GeneralMethodsManager Instance
     final generalHelperMethodManager =
-        GeneralHelperMethodManager(user: logged_in_user);
+        GeneralHelperMethodManager(logged_in_user: logged_in_user);
 
     return Container(
       color: HexColor("EB9661"),
@@ -104,8 +104,7 @@ class DrawerScreen extends HookWidget {
             return GestureDetector(
               onTap: () => {
                 generalHelperMethodManager
-                    .checkWhereToNavigateByNavBarItemClick(
-                        element["title"], context),
+                    .checkWhereToNavigateByNavBarItemClick(element["title"]),
               },
               child: Row(
                 children: [

@@ -3,47 +3,47 @@
 // // Library Imports
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/HexColor.dart';
+import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Infrastructure/Models/Models_Required.dart';
+import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/General_Pages/Calendar_View.dart';
 import 'package:Client/Presentation/General_Pages/Favourites_View.dart';
 import 'package:Client/Presentation/General_Pages/Gymbud_Plus_View.dart';
 import 'package:Client/Presentation/Message_Management/Read_Message_Management/Read_Messages_View.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
+import 'package:Client/Presentation/User_Management/Update_User_Management/Update_User_Profile_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 
 // // Page Imports
 
 class GeneralHelperMethodManager {
-  final User user;
+  final User logged_in_user;
   final int index;
-  GeneralHelperMethodManager({this.user, this.index});
+  final BuildContext context;
+  GeneralHelperMethodManager({this.logged_in_user, this.index, this.context});
 
-  List<Widget> getAttendeeCircles() {
-    List<Widget> widgetList = [];
-    double right = 0;
-    if (this.user.activities[index].participants.length == 1)
-      right = 0;
-    else
-      right = -18;
-    for (var user in this.user.activities[index].participants) {
-      right += 18;
-      widgetList.add(
-        Positioned(
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(user.profileUrl),
-          ),
-          bottom: 0,
-          right: right,
-        ),
-      );
-      if (this.user.activities[index].participants.indexOf(user) > 2) {
-        break;
-      }
-    }
-    return widgetList;
-  }
+  // Basic details up form key to be used for validation and on this page
+  final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
+
+  // Styling for Signup Button
+  final ButtonStyle update_btn_style = ButtonProducer.getOrangeGymbudBtn();
+
+  // Variable to hold my gender options
+  List<String> genderOptions = [
+    "Male",
+    "Female",
+    "Prefer Not To Say",
+    "Non-Binary"
+  ];
+
+  // Info  pop up to be used to alert user to a error within their input
+  InformationPopUp infoPopUp = new InformationPopUp();
+
+  // Image picker necessary for this page
+  final picker = ImagePicker();
 
   // Variable to hold all my drawerItems
   List<Map> drawerItems = [
@@ -81,10 +81,35 @@ class GeneralHelperMethodManager {
     },
   ];
 
+  List<Widget> getAttendeeCircles() {
+    List<Widget> widgetList = [];
+    double right = 0;
+    if (this.logged_in_user.activities[index].participants.length == 1)
+      right = 0;
+    else
+      right = -18;
+    for (var user in this.logged_in_user.activities[index].participants) {
+      right += 18;
+      widgetList.add(
+        Positioned(
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(user.profileUrl),
+          ),
+          bottom: 0,
+          right: right,
+        ),
+      );
+      if (this.logged_in_user.activities[index].participants.indexOf(user) >
+          2) {
+        break;
+      }
+    }
+    return widgetList;
+  }
+
   // Logic Functions
 
-  checkWhereToNavigateByNavBarItemClick(
-      String identifier, BuildContext context) {
+  checkWhereToNavigateByNavBarItemClick(String identifier) {
     dynamic page = "";
     switch (identifier) {
       case "Profile":
@@ -113,17 +138,19 @@ class GeneralHelperMethodManager {
   }
 
   // Retrieve Body
-  getProfilePageBody(User logged_in_user, BuildContext context) {
+  getProfilePageBody() {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.only(top: 40, left: 10),
         child: Column(
           children: [
-            getTopButtonsBar(context),
-            getFollowersAndPicSection(logged_in_user),
-            getNameAndLocation(logged_in_user),
-            logged_in_user != null ? Container() : getFollowAndMessageBtns(),
-            getProfileDetailsSection(logged_in_user),
+            getTopButtonsBar(),
+            getFollowersAndPicSection(),
+            getNameAndLocation(),
+            this.logged_in_user != null
+                ? Container()
+                : getFollowAndMessageBtns(),
+            getProfileDetailsSection(),
           ],
         ),
       ),
@@ -131,7 +158,7 @@ class GeneralHelperMethodManager {
   }
 
   // Get Top Buttons Bar
-  getTopButtonsBar(BuildContext context) {
+  getTopButtonsBar() {
     return // Back button and top bar widget
         Column(
       children: [
@@ -155,13 +182,11 @@ class GeneralHelperMethodManager {
               margin: EdgeInsets.only(right: 20),
               child: GestureDetector(
                 onTap: () => {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         UpdateProfilePage(user: logged_in_user),
-                  //   ),
-                  // )
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpdateProfilePage()),
+                  )
                 },
                 child: Row(
                   children: [
@@ -184,7 +209,7 @@ class GeneralHelperMethodManager {
   }
 
   // Get Followers and Pic Section
-  getFollowersAndPicSection(User logged_in_user) {
+  getFollowersAndPicSection() {
     // Widget for second Row with Picture
     return Column(
       children: [
@@ -233,7 +258,7 @@ class GeneralHelperMethodManager {
   }
 
   // Widget for third row with name and loaction
-  getNameAndLocation(User logged_in_user) {
+  getNameAndLocation() {
     return Column(
       children: [
         Container(
@@ -331,7 +356,7 @@ class GeneralHelperMethodManager {
     );
   }
 
-  getProfileDetailsSection(User logged_in_user) {
+  getProfileDetailsSection() {
     return Column(
       children: [
         SizedBox(
@@ -371,8 +396,7 @@ class GeneralHelperMethodManager {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SvgPicture.asset(
-                  "Resources/Images/${checkGender(logged_in_user)}.svg"),
+              child: SvgPicture.asset("Resources/Images/${checkGender()}.svg"),
             ),
             Text(logged_in_user?.gender != null
                 ? logged_in_user?.gender
@@ -383,7 +407,7 @@ class GeneralHelperMethodManager {
     );
   }
 
-  checkGender(User logged_in_user) {
+  checkGender() {
     logged_in_user.gender = logged_in_user.gender.replaceAll(" ", "_");
     if (logged_in_user.gender == null)
       logged_in_user.gender = "Prefer Not To Say";
@@ -401,5 +425,323 @@ class GeneralHelperMethodManager {
         return "Female";
         break;
     }
+  }
+
+  // Logic Functions
+  Future getImageFromSource(ImageSource imgSource) async {
+    final pickedImage = await picker.getImage(source: imgSource);
+
+    if (pickedImage != null) {
+      dealWithUploadImageBtnClick(pickedImage.path);
+    } else {
+      print("No image selected");
+    }
+  }
+
+  dealWithUploadImageBtnClick(String imagePath) async {
+    try {
+      // Image Url for image picked
+      String _image_url =
+          await context.read(image_provider).uploadImage(imagePath);
+      if (_image_url != null) {
+        logged_in_user.profileUrl = _image_url;
+      }
+    } catch (e) {
+      print('caught error $e');
+    }
+  }
+
+  setBasicDetailsUpdate(Map<String, dynamic> formValues) {
+    // Setting formValues equal to user object values
+    logged_in_user.username = formValues['Username'];
+    logged_in_user.email = formValues['Email'];
+    logged_in_user.password = formValues['Password'];
+    logged_in_user.name = formValues["Name"];
+    logged_in_user.gender = formValues["Gender"];
+    logged_in_user.dob = formValues["DOB"].toString().split(" ").first;
+
+    _setUpUser();
+  }
+
+  _setUpUser() async {
+    try {
+      // // Result from logging in user could either be a error or user
+      dynamic createdUser =
+          await context.read(user_provider).createUser(logged_in_user);
+
+      // Checking if the result is a error
+      if (createdUser.runtimeType == InformationPopUp) {
+        if (createdUser.message != null) {
+          // Displaying error in pop up by setting the state
+          // setState(() {
+          //   infoPopUp = createdUser;
+          // });
+        }
+      } else {
+        // Navigating to the Home page if user logged in is returned
+        if (createdUser.username != null) {
+          await context.read(user_notifier_provider).createUser(createdUser);
+          Navigator.pop(context, (route) => ProfilePage());
+        } else {
+          infoPopUp.message =
+              "An error occurred while editing. Please try again";
+        }
+      }
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  // Retrieve Body
+  getUpdateProfilePageBody() {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          height: 1080,
+          padding: EdgeInsets.only(top: 40, left: 10),
+          child: Column(
+            children: [
+              getUpdateTopButtonsBar(),
+              getUpdateBasicDetailsProfile(),
+              signUpButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Get Top Buttons Bar
+  getUpdateTopButtonsBar() {
+    return // Back button and top bar widget
+        Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Icon(Icons.arrow_back),
+                ],
+              ),
+            ),
+          ],
+        ),
+        // SizedBox(
+        //   height: 40,
+        // ),
+      ],
+    );
+  }
+
+  getUpdateBasicDetailsProfile() {
+    return Container(
+      child: FormBuilder(
+        key: _basicDetailsUpdateKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              if (logged_in_user.profileUrl != null)
+                Container(
+                  height: 150,
+                  width: 200,
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage: NetworkImage(logged_in_user.profileUrl),
+                    backgroundColor: Colors.transparent,
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Email:"),
+                      FormBuilderTextField(
+                        initialValue: logged_in_user?.email,
+                        name: "Email",
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                            FormBuilderValidators.email(context)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Username:"),
+                      FormBuilderTextField(
+                        initialValue: logged_in_user?.username,
+                        name: "Username",
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                            FormBuilderValidators.maxLength(context, 30)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Password:"),
+                      FormBuilderTextField(
+                        initialValue: logged_in_user?.password,
+                        name: "Password",
+                        obscureText: true,
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Name:"),
+                      FormBuilderTextField(
+                        initialValue: logged_in_user?.name,
+                        name: 'Name',
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                            FormBuilderValidators.minLength(context, 8)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("DOB:"),
+                      FormBuilderDateTimePicker(
+                        name: 'DOB',
+                        lastDate: DateTime(DateTime.now().year - 18),
+                        initialDate: DateTime(1970),
+                        inputType: InputType.date,
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Gender:"),
+                      FormBuilderDropdown(
+                        name: 'Gender',
+                        // initialValue: logged_in_user?.gender != null
+                        //     ? logged_in_user?.gender
+                        //     : "",
+                        allowClear: true,
+                        validator: FormBuilderValidators.compose(
+                            [FormBuilderValidators.required(context)]),
+                        items: genderOptions
+                            .map(
+                              (gender) => DropdownMenuItem(
+                                value: gender,
+                                child: Text('$gender'),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Create the button to navigate to the basic details page
+  Widget createContinueToBasicDetailsPageBtn() {
+    return Container(
+      width: 300,
+      height: 60,
+      child: ElevatedButton(
+        style: ButtonProducer.getOrangeGymbudBtn(),
+        onPressed: () {
+          //Check if the form is validated
+          if (_basicDetailsUpdateKey.currentState.saveAndValidate()) {
+            setBasicDetailsUpdate(
+              _basicDetailsUpdateKey.currentState.value,
+            );
+          }
+        },
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Update",
+            style: GoogleFonts.concertOne(
+              fontSize: 30,
+              // letterSpacing: -1.5,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Creating the Sign Up Button and dealing with signing up first part
+  Widget signUpButton() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
+      child: ElevatedButton(
+        child: Text('Sign Up'),
+        style: update_btn_style,
+        onPressed: () => {
+          // Check if the form is validated
+          if (_basicDetailsUpdateKey.currentState.saveAndValidate())
+            {
+              // Setting the valid formValues equal to user object values
+              setBasicDetailsUpdate(_basicDetailsUpdateKey.currentState.value)
+            }
+        },
+      ),
+    );
   }
 }

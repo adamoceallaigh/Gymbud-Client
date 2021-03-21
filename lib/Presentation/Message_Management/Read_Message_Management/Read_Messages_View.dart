@@ -34,10 +34,6 @@ class MessagesView extends HookWidget {
     // Obtaining the current logged in user
     final logged_in_user = useProvider(user_notifier_provider.state);
 
-    // Make new GeneralMethodsManager Instance
-    final generalHelperMethodManager =
-        GeneralHelperMethodManager(user: logged_in_user);
-
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(

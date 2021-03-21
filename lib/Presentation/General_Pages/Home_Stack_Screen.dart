@@ -344,7 +344,7 @@ class HomeScreen extends HookWidget {
                                           child: Stack(
                                             children:
                                                 GeneralHelperMethodManager(
-                                              user: logged_in_user,
+                                              logged_in_user: logged_in_user,
                                               index: logged_in_user.activities
                                                   .indexOf(
                                                 getIterator(),
