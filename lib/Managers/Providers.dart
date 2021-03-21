@@ -5,6 +5,7 @@ import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Managers/Controllers/ActivityController.dart';
 import 'package:Client/Managers/Controllers/AppController.dart';
 import 'package:Client/Managers/Controllers/ConversationController.dart';
+import 'package:Client/Managers/Controllers/ImageController.dart';
 import 'package:Client/Managers/Controllers/UserController.dart';
 import 'package:Client/Managers/Notifiers/ActivitiesNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationNotifier.dart';
@@ -73,4 +74,11 @@ final activities_provider = Provider<ActivityController>(
 // Activities Notifier Provider
 final activity_notifier_provider = StateNotifierProvider(
   (ref) => ActivitiesNotifier(),
+);
+
+// Image Controller Configuration
+final image_provider = Provider<ImageController>(
+  (ref) => ImageController(
+    ref.watch(app_notifier_provider.state),
+  ),
 );

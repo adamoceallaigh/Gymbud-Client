@@ -2,11 +2,15 @@
 
 // Library Imports
 import 'package:Client/Helpers/HexColor.dart';
+import 'package:Client/Managers/Providers.dart';
+import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_Upload_Photo_Success.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 import 'package:Client/Infrastructure/Models/User.dart';
@@ -42,36 +46,33 @@ class _UploadPhotoState extends State<UploadPhoto> {
     final pickedImage = await picker.getImage(source: imgSource);
 
     if (pickedImage != null) {
-      // dealWithUploadImageBtnClick(pickedImage.path, context: context);
+      dealWithUploadImageBtnClick(pickedImage.path, context: context);
     } else {
       print("No image selected");
     }
   }
 
-  // dealWithUploadImageBtnClick(String imagePath,
-  //     {BuildContext context = null}) async {
-  //   try {
-  //     // Image Url for image picked
-  //     // String _image_url =
-  //     //     await context.read(imageProvider).uploadImage(imagePath);
-  //     // String _image_url = await GeneralNetworkingMethodManager(context)
-  //     //     .getImageController()
-  //     //     .uploadImage(imagePath);
-  //     if (_image_url != null) {
-  //       widget.user.profileUrl = _image_url;
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => UploadPhotoSucess(
-  //             user: widget.user,
-  //           ),
-  //         ),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print('caught error $e');
-  //   }
-  // }
+  dealWithUploadImageBtnClick(String imagePath,
+      {BuildContext context = null}) async {
+    try {
+      // Get Image Url for image picked
+      String _image_url =
+          await context.read(image_provider).uploadImage(imagePath);
+      if (_image_url != null) {
+        widget.user.profileUrl = _image_url;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UploadPhotoSucess(
+              user: widget.user,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      print('caught error $e');
+    }
+  }
 
   // UI Functions
 

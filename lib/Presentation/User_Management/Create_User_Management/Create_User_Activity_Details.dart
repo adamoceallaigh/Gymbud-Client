@@ -1,9 +1,14 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/General_Pages/Home_Screen.dart';
+import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
@@ -13,7 +18,6 @@ import 'package:Client/Helpers/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Presentation/Activity_Management/Components/Activity_Option.dart';
 
-// Template to make Activity Details Page
 class ActivityDetails extends StatefulWidget {
   /*
     Setting the variable for this page
@@ -128,33 +132,35 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 
   _setUpUser(BuildContext context) async {
     try {
-      // // // // Result from logging in user could either be a error or user
-      // // dynamic createdUser = await GeneralNetworkingMethodManager(context)
-      // //     .getUserController()
-      // //     .createUser(widget.user);
+      // // // Result from logging in user could either be a error or user
+      dynamic createdUser =
+          await context.read(user_provider).createUser(widget.user);
 
-      // // Checking if the result is a error
-      // if (createdUser.runtimeType == InformationPopUp) {
-      //   if (createdUser.message != null) {
-      //     // Displaying error in pop up by setting the state
-      //     setState(() {
-      //       infoPopUp = createdUser;
-      //     });
-      //   }
-      // } else {
-      //   // Navigating to the Home page if user logged in is returned
-      //   if (createdUser.username != null) {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => Home(user: createdUser),
-      //       ),
-      //     );
-      //   } else {
-      //     infoPopUp.message =
-      //         "An error occurred while registering. Please try again";
-      //   }
-      // }
+      // Checking if the result is a error
+      if (createdUser.runtimeType == InformationPopUp) {
+        if (createdUser.message != null) {
+          // Displaying error in pop up by setting the state
+          setState(() {
+            infoPopUp = createdUser;
+          });
+          Navigator.popUntil(context, ModalRoute.withName('/OnBoarding'));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Login()));
+        }
+      } else {
+        // Navigating to the Home page if user logged in is returned
+        if (createdUser.username != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
+          );
+        } else {
+          infoPopUp.message =
+              "An error occurred while registering. Please try again";
+        }
+      }
     } catch (e) {
       print('$e');
     }
@@ -395,7 +401,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                 mainAxisSpacing: 20.0,
                 crossAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: activities.map((activity) {
+                children: activities?.map((activity) {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),

@@ -13,6 +13,10 @@ class UserNotifier extends StateNotifier<User> {
     state = newUser;
   }
 
+  void setUsername(String username) {
+    state.username = username;
+  }
+
   void readUser() => state;
 
   void updateUser(User updatedUser) {

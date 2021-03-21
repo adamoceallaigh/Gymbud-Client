@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Managers/Controllers/AppController.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,16 @@ import 'package:mime/mime.dart';
 
 // Image Controller Class Definition to conduct user management operations
 class ImageController {
-  // Variable to hold the list of users throughout the methods
-  List<Image> users = [];
-
   // Variable to hold the url in use
   String url_in_use;
 
   // Variable to hold instance of dio used for networking
   Dio dio = new Dio();
 
-  ImageController(String url) {
-    this.url_in_use = '$url/image/';
+  ImageController(AppState appState) {
+    if (appState is AppLoaded) {
+      this.url_in_use = '${appState.url}/image';
+    }
   }
 
   // Upload Image file to server
@@ -41,7 +41,7 @@ class ImageController {
       });
 
       Response response = await dio.post(
-        '${this.url_in_use}upload',
+        '${this.url_in_use}/upload',
         data: formData,
         options: Options(
           headers: {"accept": "*/*", "Content-Type": "multipart/form-data"},
@@ -50,8 +50,7 @@ class ImageController {
 
       if (response.statusCode == 200) {
         if (response.data["imagePath"] != null) {
-          // this.url_in_use = this.url_in_use.split("/").first;
-          return '${this.url_in_use}${response.data["imagePath"]}';
+          return '${this.url_in_use}/${response.data["imagePath"]}';
         }
       }
       return null;

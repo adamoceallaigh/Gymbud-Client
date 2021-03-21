@@ -23,21 +23,6 @@ class MessageController {
     this.url_in_use = '$url/messages';
   }
 
-  // Encoding and decoding the list of messages
-  static String encodeMessageListToMessagesString(List<Message> messages) {
-    return json.encode(
-      messages
-          .map<Map<String, dynamic>>((message) => Message.toJson(message))
-          .toList(),
-    );
-  }
-
-  static List<Message> decodeMessageStringToMessageList(String messages) {
-    return (json.decode(messages) as List<dynamic>)
-        .map<Message>((item) => Message.fromJSON(item))
-        .toList();
-  }
-
   Future<dynamic> createMessage(Message message) async {
     Response response = await dio.post(
       '${this.url_in_use}',

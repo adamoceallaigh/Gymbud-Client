@@ -12,7 +12,6 @@ import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_Upload_Photo.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Login.dart';
 
-// Sign Up Page
 class BasicSignUp extends StatelessWidget {
   /*  
     Setting up variables for this page

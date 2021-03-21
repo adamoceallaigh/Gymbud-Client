@@ -64,9 +64,6 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    // onTap: () => {
-                    //   getImageFromSource(ImageSource.gallery),
-                    // },
                     child: Container(
                       width: 240,
                       height: 240,

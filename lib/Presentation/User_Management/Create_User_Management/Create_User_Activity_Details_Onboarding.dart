@@ -5,7 +5,6 @@
 // class ActivityDetailsOnboarding extends StatelessWidget {
 //   final User user;
 
-//   // We are going to instantiate a NewTripLocation with a required Trip instance
 //   // This is the way we are going to save the values across the pages
 //   ActivityDetailsOnboarding({Key key, @required this.user}) : super(key: key);
 //   @override
