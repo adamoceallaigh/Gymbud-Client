@@ -1,72 +1,39 @@
-// import 'package:Client/Helper_Widgets/GeneralHelperMethodManager.dart';
-import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/Infrastructure/Models/Activity.dart';
-import 'package:Client/Infrastructure/Models/User.dart';
+// Imports
+
+// Library Imports
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
+import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/Activity_Management/Read_Activity_Management/Read_Single_Activity_View.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-// import 'package:Client/Controllers/ActivityController.dart';
 //Importing TinderSwipeCard here allowing me to have same functionality easily as tinder cards
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class MatchView extends StatefulWidget {
-  final User user;
+// Page Imports
+import 'package:Client/Helpers/HexColor.dart';
 
-  MatchView({this.user});
-
-  @override
-  _MatchViewState createState() => _MatchViewState();
-}
-
-class _MatchViewState extends State<MatchView> {
-  List<Activity> activities = [];
-
+class MatchView extends HookWidget {
   //Declaring my tinderCardController to be able to indicate when we swipe left or right easily
-  CardController tinderCardController;
-
-  // void setupActivities() async {
-  //   context
-  //       .read(activityProvider)
-  //       .readActivities()
-  //       .then((activity) => setState(() {
-  //             activities.addAll(activity);
-  //           }));
-  // }
-
-  List<Widget> getAttendeeCircles(int index) {
-    List<Widget> widgetList = [];
-    double left = 0;
-    if (activities[index].participants.length == 1)
-      left = 0;
-    else
-      left = -18;
-    for (var user in activities[index].participants) {
-      left += 18;
-      widgetList.add(
-        Positioned(
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(user.profileUrl),
-          ),
-          left: left,
-        ),
-      );
-    }
-    widgetList.add(Container());
-    return widgetList;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // setupActivities();
-  }
+  final CardController tinderCardController = new CardController();
 
   // Using TinderSwipeCard here - library from pub.dev which allows you very easily to have cards with same functionality as tinder cards
   // https://pub.dev/packages/flutter_tindercard/example
 
   @override
   Widget build(BuildContext context) {
+    // Obtaining the current logged in user
+    final logged_in_user = useProvider(user_notifier_provider.state);
+
+    // Make new GeneralMethodsManager Instance
+    final generalHelperMethodManager = GeneralHelperMethodManager(
+        logged_in_user: logged_in_user, context: context);
+
+    // Obtaining all all_activities
+    final all_activities = useProvider(activity_notifier_provider.state);
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -79,18 +46,17 @@ class _MatchViewState extends State<MatchView> {
             cardBuilder: (context, index) {
               return GestureDetector(
                 onTap: () => {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => SingleActivityView(
-                  //       activity: activities[index],
-                  //       user: widget.user,
-                  //     ),
-                  //   ),
-                  // ),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SingleActivityView(
+                        activity: all_activities[index],
+                      ),
+                    ),
+                  ),
                 },
                 child: Hero(
-                  tag: 'Activity ${activities[index].hashCode}',
+                  tag: 'Activity ${all_activities[index].hashCode}',
                   child: Card(
                     margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
                     elevation: 8,
@@ -108,7 +74,7 @@ class _MatchViewState extends State<MatchView> {
                             height: 220,
                             width: MediaQuery.of(context).size.width,
                             child: Image.network(
-                              activities[index].activityImageUrl,
+                              all_activities[index].activityImageUrl,
                               alignment: Alignment.lerp(
                                   Alignment.center, Alignment.topCenter, .3),
                               fit: BoxFit.cover,
@@ -138,7 +104,7 @@ class _MatchViewState extends State<MatchView> {
                                           letterSpacing: -1.5,
                                         ),
                                       ),
-                                      Text(activities[index]
+                                      Text(all_activities[index]
                                           .activityDescription),
                                     ],
                                   ),
@@ -155,11 +121,13 @@ class _MatchViewState extends State<MatchView> {
                                       Expanded(
                                         flex: 1,
                                         child: Stack(
-                                          children: getAttendeeCircles(index),
+                                          children: generalHelperMethodManager
+                                              .getAttendeeCirclesMatchView(
+                                                  index, all_activities),
                                         ),
                                       ),
                                       Text(
-                                        '${activities[index].participants.length.toString()} / 6',
+                                        '${all_activities[index].participants.length.toString()} / 6',
                                         style: GoogleFonts.meriendaOne(
                                           color: HexColor("#000000"),
                                           fontSize: 18,
@@ -195,8 +163,9 @@ class _MatchViewState extends State<MatchView> {
                                       //   fontSize: 16,
                                       // ),
                                     ),
-                                    Text(
-                                        activities[index].resources.toString()),
+                                    Text(all_activities[index]
+                                        .resources
+                                        .toString()),
                                   ],
                                 ),
                               ),
@@ -232,7 +201,7 @@ class _MatchViewState extends State<MatchView> {
                                           //   fontSize: 16,
                                           // ),
                                         ),
-                                        Text(activities[index]
+                                        Text(all_activities[index]
                                             .activityIntensityLevel),
                                       ],
                                     ),
@@ -262,7 +231,7 @@ class _MatchViewState extends State<MatchView> {
                                                 child: CircleAvatar(
                                                   radius: 25,
                                                   backgroundImage: NetworkImage(
-                                                      activities[index]
+                                                      all_activities[index]
                                                           .creator
                                                           .profileUrl),
                                                 ),
@@ -284,7 +253,7 @@ class _MatchViewState extends State<MatchView> {
                 ),
               );
             },
-            cardController: tinderCardController = CardController(),
+            cardController: tinderCardController,
             totalNum: 5,
             // totalNum: context.read(activityProvider).readAllActivities().length,
           ),

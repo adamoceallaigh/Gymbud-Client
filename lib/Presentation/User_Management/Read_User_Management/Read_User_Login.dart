@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Page Imports
-import 'package:Client/Helpers/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Presentation/General_Pages/Home_Screen.dart';
 import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_BasicSignUp.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
@@ -91,9 +90,9 @@ class _LoginState extends State<Login> {
     allUsers = allUsers ?? [];
     allConversations = allConversations ?? [];
     allActivities = allActivities ?? [];
-    if (allUsers?.length < 0 ||
-        allConversations?.length < 0 ||
-        allActivities?.length < 0)
+    if (allUsers.length < 0 ||
+        allConversations.length < 0 ||
+        allActivities.length < 0)
       return
 
           // Set these arrays up into the State Providers necessary

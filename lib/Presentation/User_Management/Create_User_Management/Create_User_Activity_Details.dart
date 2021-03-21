@@ -8,13 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Infrastructure/Models/User.dart';
-import 'package:Client/Helpers/GeneralNetworkingMethodManager.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Presentation/Activity_Management/Components/Activity_Option.dart';
 
@@ -430,7 +428,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                       },
                     ),
                   );
-                }).toList()),
+                })?.toList()),
           ),
         ],
       ),

@@ -61,6 +61,7 @@ class ConversationController {
     } catch (e) {
       print('caught error $e');
     }
+    return null;
   }
 
   void createMessage(

@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 import 'package:Client/Infrastructure/Models/User.dart';

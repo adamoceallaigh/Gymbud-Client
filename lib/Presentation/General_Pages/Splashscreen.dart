@@ -39,7 +39,6 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       settingUpApp(context);
@@ -101,7 +100,6 @@ class SplashScreenLoaded extends StatefulWidget {
 class _SplashScreenLoadedState extends State<SplashScreenLoaded> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Navigator.push(

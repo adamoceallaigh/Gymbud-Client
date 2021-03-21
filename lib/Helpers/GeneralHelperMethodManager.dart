@@ -744,4 +744,27 @@ class GeneralHelperMethodManager {
       ),
     );
   }
+
+  List<Widget> getAttendeeCirclesMatchView(
+      int index, List<Activity> activities) {
+    List<Widget> widgetList = [];
+    double left = 0;
+    if (activities[index].participants.length == 1)
+      left = 0;
+    else
+      left = -18;
+    for (var user in activities[index].participants) {
+      left += 18;
+      widgetList.add(
+        Positioned(
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(user.profileUrl),
+          ),
+          left: left,
+        ),
+      );
+    }
+    widgetList.add(Container());
+    return widgetList;
+  }
 }
