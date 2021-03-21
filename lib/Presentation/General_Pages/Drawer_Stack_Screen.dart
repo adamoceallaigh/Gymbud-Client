@@ -23,8 +23,8 @@ class DrawerScreen extends HookWidget {
     final logged_in_user = useProvider(user_notifier_provider.state);
 
     // Make new GeneralMethodsManager Instance
-    final generalHelperMethodManager =
-        GeneralHelperMethodManager(logged_in_user: logged_in_user);
+    final generalHelperMethodManager = GeneralHelperMethodManager(
+        logged_in_user: logged_in_user, context: context);
 
     return Container(
       color: HexColor("EB9661"),

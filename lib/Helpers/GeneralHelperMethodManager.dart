@@ -455,7 +455,6 @@ class GeneralHelperMethodManager {
     // Setting formValues equal to user object values
     logged_in_user.username = formValues['Username'];
     logged_in_user.email = formValues['Email'];
-    logged_in_user.password = formValues['Password'];
     logged_in_user.name = formValues["Name"];
     logged_in_user.gender = formValues["Gender"];
     logged_in_user.dob = formValues["DOB"].toString().split(" ").first;
@@ -503,7 +502,7 @@ class GeneralHelperMethodManager {
             children: [
               getUpdateTopButtonsBar(),
               getUpdateBasicDetailsProfile(),
-              signUpButton(),
+              updateButton(),
             ],
           ),
         ),
@@ -604,27 +603,6 @@ class GeneralHelperMethodManager {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Password:"),
-                      FormBuilderTextField(
-                        initialValue: logged_in_user?.password,
-                        name: "Password",
-                        obscureText: true,
-                        validator: FormBuilderValidators.compose(
-                          [
-                            FormBuilderValidators.required(context),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
                       Text("Name:"),
                       FormBuilderTextField(
                         initialValue: logged_in_user?.name,
@@ -697,41 +675,41 @@ class GeneralHelperMethodManager {
     );
   }
 
-  // Create the button to navigate to the basic details page
-  Widget createContinueToBasicDetailsPageBtn() {
-    return Container(
-      width: 300,
-      height: 60,
-      child: ElevatedButton(
-        style: ButtonProducer.getOrangeGymbudBtn(),
-        onPressed: () {
-          //Check if the form is validated
-          if (_basicDetailsUpdateKey.currentState.saveAndValidate()) {
-            setBasicDetailsUpdate(
-              _basicDetailsUpdateKey.currentState.value,
-            );
-          }
-        },
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            "Update",
-            style: GoogleFonts.concertOne(
-              fontSize: 30,
-              // letterSpacing: -1.5,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // // Create the button to navigate to the basic details page
+  // Widget createContinueToBasicDetailsPageBtn() {
+  //   return Container(
+  //     width: 300,
+  //     height: 60,
+  //     child: ElevatedButton(
+  //       style: ButtonProducer.getOrangeGymbudBtn(),
+  //       onPressed: () {
+  //         //Check if the form is validated
+  //         if (_basicDetailsUpdateKey.currentState.saveAndValidate()) {
+  //           setBasicDetailsUpdate(
+  //             _basicDetailsUpdateKey.currentState.value,
+  //           );
+  //         }
+  //       },
+  //       child: Align(
+  //         alignment: Alignment.center,
+  //         child: Text(
+  //           "Update",
+  //           style: GoogleFonts.concertOne(
+  //             fontSize: 30,
+  //             // letterSpacing: -1.5,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // Creating the Sign Up Button and dealing with signing up first part
-  Widget signUpButton() {
+  Widget updateButton() {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: ElevatedButton(
-        child: Text('Sign Up'),
+        child: Text('Update'),
         style: update_btn_style,
         onPressed: () => {
           // Check if the form is validated
