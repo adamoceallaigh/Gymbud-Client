@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Helpers/HexColor.dart';
+import 'package:Client/Config/configVariables.dart' as Constants;
 
 class DrawerScreen extends HookWidget {
   // UI Functions
@@ -100,7 +102,7 @@ class DrawerScreen extends HookWidget {
           // Widget to make the middle part of the drawer
 
           Column(
-              children: generalHelperMethodManager.drawerItems.map((element) {
+              children: Constants.drawerItems.map((element) {
             return GestureDetector(
               onTap: () => {
                 generalHelperMethodManager
@@ -157,11 +159,19 @@ class DrawerScreen extends HookWidget {
                 SizedBox(
                   width: 10,
                 ),
-                Text(
-                  "Log Out",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                GestureDetector(
+                  onTap: () => {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                        (route) => false)
+                  },
+                  child: Text(
+                    "Log Out",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 )
               ],

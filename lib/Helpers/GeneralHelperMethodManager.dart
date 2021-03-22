@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:Client/Config/configVariables.dart' as Constants;
 
 // // Page Imports
 
@@ -29,59 +30,6 @@ class GeneralHelperMethodManager {
 
   // Basic details up form key to be used for validation and on this page
   final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
-
-  // Styling for Signup Button
-  final ButtonStyle update_btn_style = ButtonProducer.getOrangeGymbudBtn();
-
-  // Variable to hold my gender options
-  List<String> genderOptions = [
-    "Male",
-    "Female",
-    "Prefer Not To Say",
-    "Non-Binary"
-  ];
-
-  // Info  pop up to be used to alert user to a error within their input
-  InformationPopUp infoPopUp = new InformationPopUp();
-
-  // Image picker necessary for this page
-  final picker = ImagePicker();
-
-  // Variable to hold all my drawerItems
-  List<Map> drawerItems = [
-    {
-      'icon': Icons.person,
-      'title': 'Profile',
-    },
-    {
-      'icon': SvgPicture.asset(
-        "Resources/Images/Buds_Icon.svg",
-        height: 30,
-      ),
-      'title': 'Buds',
-      'type': 'SVG'
-    },
-    {
-      'icon': SvgPicture.asset(
-        "Resources/Images/Calendar_Icon.svg",
-        height: 30,
-      ),
-      'title': 'Calendar',
-      'type': 'SVG'
-    },
-    {
-      'icon': Icons.mail,
-      'title': 'Messages',
-    },
-    {
-      'icon': Icons.favorite,
-      'title': 'Favourites',
-    },
-    {
-      'icon': Icons.add,
-      'title': 'Gymbud Plus',
-    },
-  ];
 
   List<Widget> getAttendeeCircles() {
     List<Widget> widgetList = [];
@@ -432,7 +380,7 @@ class GeneralHelperMethodManager {
 
   // Logic Functions
   Future getImageFromSource(ImageSource imgSource) async {
-    final pickedImage = await picker.getImage(source: imgSource);
+    final pickedImage = await Constants.picker.getImage(source: imgSource);
 
     if (pickedImage != null) {
       dealWithUploadImageBtnClick(pickedImage.path);
@@ -488,7 +436,7 @@ class GeneralHelperMethodManager {
           });
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
         } else {
-          infoPopUp.message =
+          Constants.infoPopUp.message =
               "An error occurred while editing. Please try again";
         }
       }
@@ -546,6 +494,9 @@ class GeneralHelperMethodManager {
   }
 
   getUpdateBasicDetailsProfile() {
+    // Basic details up form key to be used for validation and on this page
+    final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
+
     return Container(
       child: FormBuilder(
         key: _basicDetailsUpdateKey,
@@ -660,7 +611,7 @@ class GeneralHelperMethodManager {
                         allowClear: true,
                         validator: FormBuilderValidators.compose(
                             [FormBuilderValidators.required(context)]),
-                        items: genderOptions
+                        items: Constants.genderOptions
                             .map(
                               (gender) => DropdownMenuItem(
                                 value: gender,
@@ -685,7 +636,7 @@ class GeneralHelperMethodManager {
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: ElevatedButton(
         child: Text('Update'),
-        style: update_btn_style,
+        style: Constants.update_btn_style,
         onPressed: () => {
           // Check if the form is validated
           if (_basicDetailsUpdateKey.currentState.saveAndValidate())
@@ -719,6 +670,32 @@ class GeneralHelperMethodManager {
     }
     widgetList.add(Container());
     return widgetList;
+  }
+
+  // Checking for Errors Pop Up
+  Widget checkForLoginErrorPopUp() {
+    return Container(
+      color: Colors.amberAccent,
+      width: double.infinity,
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(Icons.error_outline),
+          ),
+          Expanded(child: Text(Constants.infoPopUp.message)),
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => {
+              // setState(() {
+              //   infoPopUp.message = null;
+              // })
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 

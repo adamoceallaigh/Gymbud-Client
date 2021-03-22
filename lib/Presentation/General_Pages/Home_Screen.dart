@@ -2,58 +2,26 @@
 
 // Library Imports
 
+import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/General_Pages/Drawer_Stack_Screen.dart';
 import 'package:Client/Presentation/General_Pages/Home_Stack_Screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
+class Home extends HookWidget {
   /*
     Setting up variables for this page
   */
 
-  // Setting up variables to make filter dropdown
-  // Widget filterWidget;
-  // bool isDropped = false;
-  // GlobalKey filterKey;
-  // double widthOfFilterContainer, heightOfContainer, xPos, yPos;
-  // OverlayEntry _filterContainer;
-
-  // Setting up variables for my filters
-  // RangeValues _ageValues = RangeValues(5, 90);
-
-  // Logic Functions
-
-  // Filling the dropdown filter with data
-  // void fillDropDownData() {
-  //   RenderBox renderBox = filterKey.currentContext.findRenderObject();
-  //   widthOfFilterContainer = MediaQuery.of(context).size.width;
-  //   heightOfContainer = renderBox.size.height;
-  //   Offset offset = renderBox.localToGlobal(Offset.zero);
-  //   xPos = offset.dx;
-  //   yPos = offset.dy;
-  //   print(
-  //     "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
-  //   );
-  // }
-
-  // UI Functions
-
-  // Using Initiliazation method to set the state once with the list of users
-  @override
-  void initState() {
-    super.initState();
-    // filterKey = LabeledGlobalKey("filterDropdown");
-  }
-
   @override
   Widget build(BuildContext context) {
+    // Setting the drawer back too normal if it's open
+    settingDrawerBackToNormalIfOpen(context);
+
     return Container(
       child: Scaffold(
         body: Stack(
@@ -65,7 +33,21 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  void settingDrawerBackToNormalIfOpen(BuildContext context) {
+    context.read(drawer_change_provider).resetDrawer();
+  }
 }
+
+// Setting up variables to make filter dropdown
+// Widget filterWidget;
+// bool isDropped = false;
+// GlobalKey filterKey;
+// double widthOfFilterContainer, heightOfContainer, xPos, yPos;
+// OverlayEntry _filterContainer;
+
+// Setting up variables for my filters
+// RangeValues _ageValues = RangeValues(5, 90);
 
 //   // Making the home page top bar
 //   List<Widget> getTopBarActions() {
@@ -240,4 +222,18 @@ class _HomeState extends State<Home> {
 //   //     ),
 //   //   );
 //   // }
+// }
+
+// filterKey = LabeledGlobalKey("filterDropdown");
+// Filling the dropdown filter with data
+// void fillDropDownData() {
+//   RenderBox renderBox = filterKey.currentContext.findRenderObject();
+//   widthOfFilterContainer = MediaQuery.of(context).size.width;
+//   heightOfContainer = renderBox.size.height;
+//   Offset offset = renderBox.localToGlobal(Offset.zero);
+//   xPos = offset.dx;
+//   yPos = offset.dy;
+//   print(
+//     "Height : $heightOfContainer , Width: $widthOfFilterContainer , xPos: $xPos , yPos: $yPos , isDropped: $isDropped",
+//   );
 // }
