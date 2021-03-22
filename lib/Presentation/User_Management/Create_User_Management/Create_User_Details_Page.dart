@@ -45,7 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
   ];
 
   // Varaiables to track the inputs of the user throughout the form
-  RangeValues _ageValues = RangeValues(5, 90);
+  RangeValues _ageValues = RangeValues(18, 90);
   double _distanceValue = 5.0;
 
   // Logic Functions

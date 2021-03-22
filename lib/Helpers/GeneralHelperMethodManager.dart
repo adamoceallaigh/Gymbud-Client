@@ -9,11 +9,13 @@ import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/General_Pages/Calendar_View.dart';
 import 'package:Client/Presentation/General_Pages/Favourites_View.dart';
 import 'package:Client/Presentation/General_Pages/Gymbud_Plus_View.dart';
+import 'package:Client/Presentation/General_Pages/Home_Screen.dart';
 import 'package:Client/Presentation/Message_Management/Read_Message_Management/Read_Messages_View.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
 import 'package:Client/Presentation/User_Management/Update_User_Management/Update_User_Profile_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -187,6 +189,7 @@ class GeneralHelperMethodManager {
                     MaterialPageRoute(
                         builder: (context) => UpdateProfilePage()),
                   )
+                  // Navigator.push(context, Route.UpdateProfilePage())
                 },
                 child: Row(
                   children: [
@@ -459,14 +462,14 @@ class GeneralHelperMethodManager {
     logged_in_user.gender = formValues["Gender"];
     logged_in_user.dob = formValues["DOB"].toString().split(" ").first;
 
-    _setUpUser();
+    _updateUser();
   }
 
-  _setUpUser() async {
+  _updateUser() async {
     try {
       // // Result from logging in user could either be a error or user
       dynamic createdUser =
-          await context.read(user_provider).createUser(logged_in_user);
+          await context.read(user_provider).updateUser(logged_in_user);
 
       // Checking if the result is a error
       if (createdUser.runtimeType == InformationPopUp) {
@@ -480,7 +483,10 @@ class GeneralHelperMethodManager {
         // Navigating to the Home page if user logged in is returned
         if (createdUser.username != null) {
           await context.read(user_notifier_provider).createUser(createdUser);
-          Navigator.pop(context, (route) => ProfilePage());
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            Navigator.pop(context);
+          });
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
         } else {
           infoPopUp.message =
               "An error occurred while editing. Please try again";
@@ -492,7 +498,7 @@ class GeneralHelperMethodManager {
   }
 
   // Retrieve Body
-  getUpdateProfilePageBody() {
+  getUpdateProfilePageBody(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -500,7 +506,7 @@ class GeneralHelperMethodManager {
           padding: EdgeInsets.only(top: 40, left: 10),
           child: Column(
             children: [
-              getUpdateTopButtonsBar(),
+              getUpdateTopButtonsBar(context),
               getUpdateBasicDetailsProfile(),
               updateButton(),
             ],
@@ -510,10 +516,8 @@ class GeneralHelperMethodManager {
     );
   }
 
-  // Get Top Buttons Bar
-  getUpdateTopButtonsBar() {
-    return // Back button and top bar widget
-        Column(
+  getUpdateTopButtonsBar(BuildContext context) {
+    return Column(
       children: [
         Row(
           children: [
@@ -524,15 +528,19 @@ class GeneralHelperMethodManager {
                   SizedBox(
                     width: 10,
                   ),
-                  Icon(Icons.arrow_back),
+                  GestureDetector(
+                    child: Icon(Icons.arrow_back),
+                    onTap: () => {
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        Navigator.pop(context);
+                      })
+                    },
+                  ),
                 ],
               ),
             ),
           ],
         ),
-        // SizedBox(
-        //   height: 40,
-        // ),
       ],
     );
   }
@@ -649,9 +657,6 @@ class GeneralHelperMethodManager {
                       Text("Gender:"),
                       FormBuilderDropdown(
                         name: 'Gender',
-                        // initialValue: logged_in_user?.gender != null
-                        //     ? logged_in_user?.gender
-                        //     : "",
                         allowClear: true,
                         validator: FormBuilderValidators.compose(
                             [FormBuilderValidators.required(context)]),
@@ -675,36 +680,6 @@ class GeneralHelperMethodManager {
     );
   }
 
-  // // Create the button to navigate to the basic details page
-  // Widget createContinueToBasicDetailsPageBtn() {
-  //   return Container(
-  //     width: 300,
-  //     height: 60,
-  //     child: ElevatedButton(
-  //       style: ButtonProducer.getOrangeGymbudBtn(),
-  //       onPressed: () {
-  //         //Check if the form is validated
-  //         if (_basicDetailsUpdateKey.currentState.saveAndValidate()) {
-  //           setBasicDetailsUpdate(
-  //             _basicDetailsUpdateKey.currentState.value,
-  //           );
-  //         }
-  //       },
-  //       child: Align(
-  //         alignment: Alignment.center,
-  //         child: Text(
-  //           "Update",
-  //           style: GoogleFonts.concertOne(
-  //             fontSize: 30,
-  //             // letterSpacing: -1.5,
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Creating the Sign Up Button and dealing with signing up first part
   Widget updateButton() {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
@@ -746,3 +721,34 @@ class GeneralHelperMethodManager {
     return widgetList;
   }
 }
+
+// // Create the button to navigate to the basic details page
+// Widget createContinueToBasicDetailsPageBtn() {
+//   return Container(
+//     width: 300,
+//     height: 60,
+//     child: ElevatedButton(
+//       style: ButtonProducer.getOrangeGymbudBtn(),
+//       onPressed: () {
+//         //Check if the form is validated
+//         if (_basicDetailsUpdateKey.currentState.saveAndValidate()) {
+//           setBasicDetailsUpdate(
+//             _basicDetailsUpdateKey.currentState.value,
+//           );
+//         }
+//       },
+//       child: Align(
+//         alignment: Alignment.center,
+//         child: Text(
+//           "Update",
+//           style: GoogleFonts.concertOne(
+//             fontSize: 30,
+//             // letterSpacing: -1.5,
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
+// Creating the Sign Up Button and dealing with signing up first part

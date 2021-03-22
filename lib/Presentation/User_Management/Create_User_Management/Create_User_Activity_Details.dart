@@ -141,9 +141,12 @@ class _ActivityDetailsState extends State<ActivityDetails> {
           setState(() {
             infoPopUp = createdUser;
           });
-          Navigator.popUntil(context, ModalRoute.withName('/OnBoarding'));
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Login()));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Login()),
+              (route) => false);
+          // Navigator.pushAndRemoveUntil(
+          // context, MaterialPageRoute(builder: (context) => Login()), );
         }
       } else {
         // Navigating to the Home page if user logged in is returned

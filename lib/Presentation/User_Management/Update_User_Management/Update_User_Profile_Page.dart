@@ -17,11 +17,11 @@ class UpdateProfilePage extends HookWidget {
     final logged_in_user = useProvider(user_notifier_provider.state);
 
     // Make new GeneralMethodsManager Instance
-    final generalHelperMethodManager =
-        GeneralHelperMethodManager(logged_in_user: logged_in_user);
+    final generalHelperMethodManager = GeneralHelperMethodManager(
+        logged_in_user: logged_in_user, context: context);
 
     return Scaffold(
-      body: generalHelperMethodManager.getUpdateProfilePageBody(),
+      body: generalHelperMethodManager.getUpdateProfilePageBody(context),
     );
   }
 }

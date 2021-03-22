@@ -3,6 +3,7 @@
 //____General Imports______
 import 'package:Client/Presentation/General_Pages/Splashscreen.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Login.dart';
+import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => SplashScreen(),
         '/OnBoarding': (context) => OnBoarding(),
         '/Login': (context) => Login(),
+        '/ProfilePage': (context) => ProfilePage(),
       },
     );
   }

@@ -48,9 +48,7 @@ class SingleMessageView extends HookWidget {
     sendMessage(String value) async {
       try {
         // Get value first
-        value = value ??
-            Exception(
-                "There was an error sending your message, please try again");
+        value = value ?? "";
         var sender = Sender(
             senderId: logged_in_user.id, senderName: logged_in_user.name);
         var newMessage = Message(content: value, sender: sender);
