@@ -128,7 +128,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       Text("DOB:"),
                       FormBuilderDateTimePicker(
                         name: 'DOB',
-                        lastDate: DateTime(DateTime.now().year - 18),
+                        lastDate: DateTime(DateTime.now()?.year - 18),
                         initialDate: DateTime(1970),
                         inputType: InputType.date,
                         validator: FormBuilderValidators.compose(

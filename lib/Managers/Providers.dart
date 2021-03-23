@@ -11,6 +11,7 @@ import 'package:Client/Managers/Notifiers/ActivitiesNotifier.dart';
 import 'package:Client/Managers/Notifiers/ActivityNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationsNotifier.dart';
+import 'package:Client/Managers/Notifiers/DatesNotifier.dart';
 import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
 import 'package:Client/Managers/Notifiers/ImageNotifier.dart';
 import 'package:Client/Managers/Notifiers/UserNotifier.dart';
@@ -92,4 +93,9 @@ final image_provider = Provider<ImageController>(
 // Image Notifier Provider
 final image_notifier_provider = ChangeNotifierProvider(
   (ref) => ImageNotifier(),
+);
+
+// Dates Notifier Provider
+final dates_notifier_provider = ChangeNotifierProvider(
+  (ref) => DatesNotifier(),
 );

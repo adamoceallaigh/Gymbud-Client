@@ -1,19 +1,20 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Config/configVariables.dart';
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Page Imports
-
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
 import 'package:Client/Infrastructure/Models/Activity.dart';
 import 'package:Client/Infrastructure/Models/User.dart';
 import 'package:Client/Managers/Providers.dart';
 // import 'package:Client/pages/ProfilePage.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SingleActivityView extends StatefulWidget {
   final Activity activity;
@@ -28,6 +29,9 @@ class SingleActivityView extends StatefulWidget {
 
 class _SingleActivityViewState extends State<SingleActivityView> {
   InformationPopUp infoPopUp;
+
+  GeneralHelperMethodManager generalHelperMethodManager =
+      GeneralHelperMethodManager();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,7 @@ class _SingleActivityViewState extends State<SingleActivityView> {
   Widget getSingleActivityBody() {
     return SingleChildScrollView(
       child: Container(
-          height: 1330,
+          height: 1280,
           width: double.infinity,
           child: Column(
             children: [
@@ -98,7 +102,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                   children: [
                     Container(
                       height: 80,
-                      color: Colors.yellow,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +126,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                     ),
                     Container(
                       height: 80,
-                      color: Colors.pink,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +150,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                     ),
                     Container(
                       height: 80,
-                      color: Colors.purple,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +173,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                       ),
                     ),
                     Container(
-                      // color: Colors.blue,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -237,7 +237,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                                         width: 230,
                                         height: 30,
                                         decoration: BoxDecoration(
-                                          // color: Colors.orange,
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(10),
                                           ),
@@ -277,7 +276,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                     ),
                     Container(
                       height: 100,
-                      color: Colors.green,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -322,7 +320,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                     ),
                     Container(
                       height: 80,
-                      color: Colors.red,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -339,18 +336,35 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                                   letterSpacing: -1.5,
                                 ),
                               ),
-                              Text(widget.activity.resources.toString()),
+                              ...widget.activity.resources
                             ],
                           ),
                         ],
                       ),
                     ),
-                    TextButton(
-                      onPressed: () => {
-                        addUserToActivity(
-                            widget.activity.id, widget.user.id, context),
-                      },
-                      child: Text("I want to do this/I'm Available"),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          style: update_btn_style,
+                          onPressed: () => {
+                            addUserToActivity(
+                                widget.activity.id, widget.user.id, context),
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "I want to do this/I'm Available",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
