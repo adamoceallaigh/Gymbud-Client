@@ -20,7 +20,8 @@ class Activity {
       activityIntensityLevel,
       activityBudgetLevel,
       activityFitnessLevel,
-      activityImageUrl;
+      activityImageUrl,
+      activityVideoUrl;
   dynamic creator;
   List resources;
   List<dynamic> participants;
@@ -31,24 +32,24 @@ class Activity {
   }
 
   // Optional Named Constructor for Activity
-  Activity({
-    this.id,
-    this.creator,
-    this.time,
-    this.date,
-    this.location,
-    this.duration,
-    this.activityType,
-    this.activityName,
-    this.activityDescription,
-    this.activityGenderPreference,
-    this.activityIntensityLevel,
-    this.activityBudgetLevel,
-    this.activityFitnessLevel,
-    this.activityImageUrl,
-    this.resources,
-    this.participants,
-  });
+  Activity(
+      {this.id,
+      this.creator,
+      this.time,
+      this.date,
+      this.location,
+      this.duration,
+      this.activityType,
+      this.activityName,
+      this.activityDescription,
+      this.activityGenderPreference,
+      this.activityIntensityLevel,
+      this.activityBudgetLevel,
+      this.activityFitnessLevel,
+      this.activityImageUrl,
+      this.resources,
+      this.participants,
+      this.activityVideoUrl});
 
   // Constructor to pull json data values and make up an Activity model
   Activity.fromJSON(Map<String, dynamic> data) {

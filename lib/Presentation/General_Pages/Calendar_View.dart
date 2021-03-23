@@ -161,47 +161,48 @@ class CalendarView extends HookWidget {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: context
-                          .read(dates_notifier_provider)
-                          .value
-                          .map((activity) {
-                        return taskList(
-                          activity?.activityName,
-                          activity.time,
+                      // children: context
+                      //     .read(dates_notifier_provider)
+                      //     .value
+                      //     .map((activity) {
+                      //   return taskList(
+                      //     activity?.activityName,
+                      //     activity.time,
+                      //     CupertinoIcons.check_mark_circled_solid,
+                      //     HexColor("00CF8D"),
+                      //   );
+                      // }).toList(),
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 50),
+                          child: Text(
+                            "Today",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        taskList(
+                          "Gym workout",
+                          "Video Url : http://localhost:3030//gjhgj5678hb39b29",
                           CupertinoIcons.check_mark_circled_solid,
-                          HexColor("00CF8D"),
-                        );
-                      }).toList(),
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 50),
-                      //   child: Text(
-                      //     "Today",
-                      //     style: TextStyle(
-                      //       color: Colors.white,
-                      //       fontSize: 30,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      // ),
-
-                      // taskList(
-                      //   "Task 2",
-                      //   "Description of Task 2 to be updated here",
-                      //   CupertinoIcons.check_mark_circled_solid,
-                      //   HexColor("#00CF8D"),
-                      // ),
-                      // taskList(
-                      //   "Task 3",
-                      //   "Description of Task 3 to be updated here",
-                      //   CupertinoIcons.check_mark_circled_solid,
-                      //   HexColor("#00CF8D"),
-                      // ),
-                      // taskList(
-                      //   "Task 4",
-                      //   "Description of Task 4 to be updated here",
-                      //   CupertinoIcons.check_mark_circled_solid,
-                      //   HexColor("#00CF8D"),
-                      // )
+                          HexColor("#00CF8D"),
+                        ),
+                        taskList(
+                          "Home Workout",
+                          "Video Url : http://localhost:3030//gjhgj5678hb39b29",
+                          CupertinoIcons.check_mark_circled_solid,
+                          HexColor("#00CF8D"),
+                        ),
+                        taskList(
+                          "Outdoor Activity",
+                          "Stroll In the Parks",
+                          CupertinoIcons.check_mark_circled_solid,
+                          HexColor("#00CF8D"),
+                        )
+                      ],
                     ),
                     Positioned(
                       bottom: 0,

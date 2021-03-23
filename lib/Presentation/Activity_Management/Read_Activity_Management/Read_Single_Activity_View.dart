@@ -70,9 +70,53 @@ class _SingleActivityViewState extends State<SingleActivityView> {
   }
 
   void addUserToActivity(activityId, userId, BuildContext context) async {
-    await context
+    // Obtain all activities of the user and check before signing user up again
+    List<bool> checkSignedUpAlready = context
+        .read(user_notifier_provider.state)
+        .activities
+        .map((activity) => activityId == activity?.id);
+    if (checkSignedUpAlready.contains(true)) {
+      // TODO: Show Error Message saying they've already signed up
+      return;
+    }
+
+    // Check to see if activity is full with people
+    int isFull = await context
+        .read(activity_notifier_provider.state)
+        .participants
+        .length;
+    if (isFull == 2) {
+      // Make A Conversation between the two involved in the activity
+      List<User> participants =
+          context.read(activity_notifier_provider.state).participants;
+      String receiverId = participants[0].id;
+      await context
+          .read(conversations_provider)
+          .createConversation(userId, receiverId, []);
+
+      // Create a Video Link and attach it to the activity if it's a home or gym workout
+      String newVideoUrl = await context.read(video_provider).createVideoLink();
+      // await context.read(activity_notifier_provider.state).activityVideoUrl = newVideoUrl;
+
+      // TODO: Show Error Message saying that particular activity is full
+      return;
+    }
+
+    Activity isSignedUpActivity = await context
         .read(activities_provider)
         .addUserToActivity(activityId, userId);
+    if (isSignedUpActivity.runtimeType == Activity) {
+      //TODO: Take away the activity they signed up for from the temporary activities
+
+      // Update the user's logged in activities and add one created
+      context
+          .read(user_notifier_provider.state)
+          .activities
+          .add(isSignedUpActivity);
+
+      // BBring them back a page in the app
+      Navigator.pop(context);
+    }
   }
 
   Widget getSingleActivityBody() {
@@ -336,7 +380,11 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                                   letterSpacing: -1.5,
                                 ),
                               ),
-                              ...widget.activity.resources
+                              Row(
+                                children: widget.activity.resources
+                                    .map((resource) => Text(resource))
+                                    .toList(),
+                              )
                             ],
                           ),
                         ],
@@ -352,7 +400,9 @@ class _SingleActivityViewState extends State<SingleActivityView> {
                           style: update_btn_style,
                           onPressed: () => {
                             addUserToActivity(
-                                widget.activity.id, widget.user.id, context),
+                                widget.activity.id,
+                                context.read(user_notifier_provider.state).id,
+                                context),
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -374,3 +424,6 @@ class _SingleActivityViewState extends State<SingleActivityView> {
     );
   }
 }
+
+//https://www.youtube.com/watch?v=ZVznzY7EjuY
+// Documentation for How I made the Zoom Clone

@@ -90,4 +90,25 @@ class ConversationController {
       print(e);
     }
   }
+
+  void createConversation(
+      String senderId, String recieverId, List<Message> messages) async {
+    try {
+      await dio.post(
+        '${this.url_in_use}/new_conversation',
+        options: Options(
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'credentials': 'include'
+          },
+        ),
+        data: jsonEncode(
+          {"Messages": [], 'Sender': senderId, "Receiver": recieverId},
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 }

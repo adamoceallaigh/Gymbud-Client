@@ -20,7 +20,7 @@ class Home extends HookWidget {
   @override
   Widget build(BuildContext context) {
     // Setting the drawer back too normal if it's open
-    settingDrawerBackToNormalIfOpen(context);
+    // settingDrawerBackToNormalIfOpen(context);
 
     return Container(
       child: Scaffold(

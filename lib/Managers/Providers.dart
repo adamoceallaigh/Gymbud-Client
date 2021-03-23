@@ -7,6 +7,7 @@ import 'package:Client/Managers/Controllers/AppController.dart';
 import 'package:Client/Managers/Controllers/ConversationController.dart';
 import 'package:Client/Managers/Controllers/ImageController.dart';
 import 'package:Client/Managers/Controllers/UserController.dart';
+import 'package:Client/Managers/Controllers/VideoController.dart';
 import 'package:Client/Managers/Notifiers/ActivitiesNotifier.dart';
 import 'package:Client/Managers/Notifiers/ActivityNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationNotifier.dart';
@@ -98,4 +99,9 @@ final image_notifier_provider = ChangeNotifierProvider(
 // Dates Notifier Provider
 final dates_notifier_provider = ChangeNotifierProvider(
   (ref) => DatesNotifier(),
+);
+
+// Video Player controller
+final video_provider = Provider<VideoController>(
+  (ref) => VideoController(ref.watch(app_notifier_provider.state)),
 );

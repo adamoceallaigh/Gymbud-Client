@@ -98,8 +98,8 @@ class ActivityController {
     );
     if (response.statusCode == 200) {
       var activityJSON = response.data;
-      if (activityJSON["user"] != null) {
-        return Activity.fromJSON(activityJSON["user"]);
+      if (activityJSON != null) {
+        return true;
       }
       if (activityJSON["cause"] != null) {
         return InformationPopUp(message: activityJSON["cause"][0]);
