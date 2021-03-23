@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Helpers/GeneralComponents.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/General_Pages/Home_Screen.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Login.dart';
@@ -14,7 +15,7 @@ import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Infrastructure/Models/User.dart';
 import 'package:Client/Helpers/HexColor.dart';
-import 'package:Client/Presentation/Activity_Management/Components/Activity_Option.dart';
+import 'package:Client/Config/configVariables.dart' as Constants;
 
 class ActivityDetails extends StatefulWidget {
   /*
@@ -34,47 +35,6 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     Setting the variable for this page
   */
 
-  // Array to hold the resources
-  final resources = [
-    "Bicycle",
-    "Assault Bike",
-    "Trap Bar",
-    "Barbells",
-    "Plates",
-    "Bands",
-    "Suspension Trainers",
-    "Skipping Rope",
-    "Treadmill",
-    "Slam Ball",
-    "Kettle Bells"
-  ];
-
-  // Array to hold the outdoor activities
-  final activities = [
-    "Swim",
-    "Run",
-    "Walk",
-    "At Home Workout",
-    "Gym",
-    "Skip",
-    "Hike",
-    "Cycle"
-  ];
-
-  // Variables to distinguish the different activity preferences
-  final activityOptions = [
-    new Activity_Option("Home\n Workout", "Home_Workout",
-        "Resources/Images/Home_Workout.svg", false),
-    new Activity_Option("Gym \nWorkout", "Gym_Workout",
-        "Resources/Images/GymWeights.svg", false),
-    new Activity_Option("Outdoor\n Activity", "Outdoor_Activity",
-        "Resources/Images/Outdoor_Act.svg", false)
-  ];
-  double _defaultIntensity = 20.0;
-  double _defaultActivityLevel = 20.0;
-
-  double _pageHeight = 1000;
-
   // Info  pop up to be used to alert user to a error within their input
   InformationPopUp infoPopUp = new InformationPopUp();
 
@@ -82,50 +42,27 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   Widget checkWhichActivityChosen(String activityChosen) {
     switch (activityChosen) {
       case "Home_Workout":
-        setState(() {
-          _pageHeight = 1150;
-        });
+        // setState(() {
+        //   _pageHeight = 1150;
+        // });
         return getActivityDetailsResources();
       case "Gym_Workout":
-        setState(() {
-          _pageHeight = 800;
-        });
+        // setState(() {
+        //   _pageHeight = 800;
+        // });
         return Container(
           height: 10,
         );
       case "Outdoor_Activity":
-        setState(() {
-          _pageHeight = 1150;
-        });
+        // setState(() {
+        //   _pageHeight = 1150;
+        // });
         return getActivityDetailsOutdoorActivities();
     }
     // setState(() {
     //   _pageHeight = _pageHeight;
     // });
     return Container();
-  }
-
-  // Retrieves the word labels for the sliders based on input given
-  String getLabel(double percLevel, String mode) {
-    var modes = {
-      "Fitness": {
-        0: "Inactive",
-        20: "Slightly Active",
-        40: "Moderately Active",
-        60: "Active",
-        80: "Very Active",
-        100: "Super Active"
-      },
-      "Intensity": {
-        0: "Not Intensive",
-        20: "Slightly Intensive",
-        40: "Moderately Intensive",
-        60: "Intensive",
-        80: "Very Intensive",
-        100: "Super Intensive"
-      }
-    };
-    return modes[mode][percLevel];
   }
 
   _setUpUser(BuildContext context) async {
@@ -197,11 +134,11 @@ class _ActivityDetailsState extends State<ActivityDetails> {
       child: Column(
         children: [
           Container(
-            height: _pageHeight,
+            height: Constants.pageHeight,
             child: Column(
               children: [
                 if (infoPopUp.message != null) checkForLoginErrorPopUp(),
-                activityDetailsPageSliders(context),
+                ActivitySliders(context: context, place: "User"),
                 preferredActivityType(),
                 if (widget.user.preferredActivity != null)
                   checkWhichActivityChosen(widget.user.preferredActivity),
@@ -243,84 +180,6 @@ class _ActivityDetailsState extends State<ActivityDetails> {
     );
   }
 
-  // Building Activity Details Sliders
-  Widget activityDetailsPageSliders(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      height: 195,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              "Pick your fitness Level",
-              style: GoogleFonts.meriendaOne(
-                color: HexColor("#000000"),
-                fontSize: 15,
-              ),
-            ),
-          ),
-          SliderTheme(
-            data: SliderThemeData(
-              rangeTickMarkShape: RoundRangeSliderTickMarkShape(
-                tickMarkRadius: 500,
-              ),
-            ),
-            child: Slider(
-              min: 0.0,
-              max: 100.0,
-              divisions: 5,
-              activeColor: HexColor("#EB9661"),
-              // inactiveColor: HexColor("#2E2B2B"),
-              label: getLabel(_defaultActivityLevel, "Fitness"),
-              value: _defaultActivityLevel,
-              onChanged: (val) => {
-                widget.user.fitnessLevel =
-                    getLabel(_defaultActivityLevel, "Fitness"),
-                setState(() {
-                  _defaultActivityLevel = val;
-                })
-              },
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              "Pick your activity intensity level",
-              style: GoogleFonts.meriendaOne(
-                color: HexColor("#000000"),
-                fontSize: 15,
-              ),
-            ),
-          ),
-          SliderTheme(
-            data: SliderThemeData(),
-            child: Slider(
-              min: 0.0,
-              max: 100.0,
-              divisions: 5,
-              activeColor: HexColor("#EB9661"),
-              label: getLabel(_defaultIntensity, "Intensity"),
-              value: _defaultIntensity,
-              onChanged: (val) => {
-                widget.user.preferredIntensity =
-                    getLabel(_defaultIntensity, "Intensity"),
-                setState(
-                  () {
-                    _defaultIntensity = val;
-                  },
-                )
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // Building the Activity Details Resources
   Widget getActivityDetailsResources() {
     return Container(
@@ -345,7 +204,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                 mainAxisSpacing: 20.0,
                 crossAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: resources.map((resource) {
+                children: Constants.resources.map((resource) {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),
@@ -402,7 +261,7 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                 mainAxisSpacing: 20.0,
                 crossAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: activities?.map((activity) {
+                children: Constants.activities?.map((activity) {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),
@@ -440,27 +299,10 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 
   // Creates the Activity type Container
   Widget preferredActivityType() {
-    return Container(
-      margin: EdgeInsets.only(top: 60),
-      height: 170,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemCount: activityOptions.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              setState(() {
-                activityOptions.forEach((gender) => gender.isSelected = false);
-                activityOptions[index].isSelected = true;
-                widget.user.preferredActivity =
-                    activityOptions[index].hiddenText;
-              });
-            },
-            child: ActivityOptionRadio(activityOptions[index]),
-          );
-        },
-      ),
+    return SelectFromOptionsWidget(
+      generalOptions: Constants.mainActivityOptions,
+      placeToChangeFrom: "User",
+      whatToChange: "Type",
     );
   }
 

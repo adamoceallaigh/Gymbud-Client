@@ -37,12 +37,29 @@ class ActivityController {
             'credentials': 'include'
           },
         ),
-        data: jsonEncode(Activity.toJson(activity)),
+        data: jsonEncode({
+          "Time": activity.time,
+          "Creator": {"_id": activity.creator.id},
+          "Date": activity.date,
+          "Location": activity.location,
+          "Duration": activity.duration,
+          "Activity_Type": activity.activityType,
+          "Activity_Name": activity.activityName,
+          "Activity_Description": activity.activityDescription,
+          "Activity_Gender_Preference": activity.activityGenderPreference,
+          "Intensity_Level": activity.activityIntensityLevel,
+          "Fitness_Level": activity.activityFitnessLevel,
+          "Budget_Level": activity.activityBudgetLevel,
+          "Activity_Image_Url": activity.activityImageUrl,
+          "Resources": activity.resources ?? [],
+          "Participants": [activity.creator.id]
+        }),
       );
       if (response.statusCode == 200) {
         var activityJSON = response.data;
-        if (activityJSON["user"] != null) {
-          return Activity.fromJSON(activityJSON["user"]);
+        if (activityJSON != null) {
+          // return Activity.fromJSON(activityJSON);
+          return true;
         }
         if (activityJSON["cause"] != null) {
           return InformationPopUp(message: activityJSON["cause"][0]);

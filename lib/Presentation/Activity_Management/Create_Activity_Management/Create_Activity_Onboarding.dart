@@ -1,39 +1,26 @@
-import 'package:Client/Infrastructure/Models/Activity.dart';
-import 'package:Client/Infrastructure/Models/User.dart';
-// import 'package:Client/pages/Activity_Management/AddActivity.dart';
+// Imports
+
+// Library Imports
+import 'package:Client/Helpers/GeneralComponents.dart';
+import 'package:Client/Managers/Providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AddActivityOnboarding extends StatefulWidget {
-  final User user;
-  AddActivityOnboarding({Key key, this.user}) : super(key: key);
+// Page Imports
+import 'package:Client/Presentation/Activity_Management/Create_Activity_Management/Create_Activity.dart';
+import 'package:Client/Config/configVariables.dart' as Constants;
 
-  @override
-  _AddActivityOnboardingState createState() => _AddActivityOnboardingState();
-}
-
-class _AddActivityOnboardingState extends State<AddActivityOnboarding> {
-  final _formKey = GlobalKey<FormBuilderState>();
-  final activityOptions = ["Home Workout", "Gym Workout", "Outdoor Activity"];
-
+class AddActivityOnboarding extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final newActivity = new Activity(
-      time: null,
-      date: null,
-      location: null,
-      activityType: null,
-      activityName: null,
-      activityDescription: null,
-      activityGenderPreference: null,
-      activityIntensityLevel: null,
-      activityBudgetLevel: null,
-      activityFitnessLevel: null,
-      activityImageUrl: null,
-      resources: [],
-      participants: [],
-    );
+    /*
+      Setting up our variables
+    */
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -70,62 +57,11 @@ class _AddActivityOnboardingState extends State<AddActivityOnboarding> {
                 Container(
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Wrap(
-                            direction: Axis.vertical,
-                            children: [
-                              SvgPicture.asset(
-                                  "Resources/Images/Home_Workout.svg"),
-                              Text("( A )")
-                            ],
-                          ),
-                          Wrap(
-                            direction: Axis.vertical,
-                            children: [
-                              SvgPicture.asset(
-                                  "Resources/Images/GymWeights.svg"),
-                              Text("( B )")
-                            ],
-                          ),
-                          Wrap(
-                            direction: Axis.vertical,
-                            children: [
-                              SvgPicture.asset(
-                                  "Resources/Images/Outdoor_Act.svg"),
-                              Text("( C )")
-                            ],
-                          ),
-                        ],
-                      ),
-                      FormBuilder(
-                        key: _formKey,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 150,
-                              child: FormBuilderRadioGroup(
-                                name: 'Activity_Type',
-                                validator: FormBuilderValidators.compose(
-                                    [FormBuilderValidators.required(context)]),
-                                options: activityOptions
-                                    .map(
-                                      (lang) => FormBuilderFieldOption(
-                                        value: lang,
-                                        child: Text(''),
-                                      ),
-                                    )
-                                    .toList(growable: false),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text('( A )     Home Workout '),
-                      Text('( B )     Gym Workout '),
-                      Text('( C )     Outdoor Activity'),
+                      SelectFromOptionsWidget(
+                        generalOptions: Constants.mainActivityOptions,
+                        placeToChangeFrom: "Activity",
+                        whatToChange: "Type",
+                      )
                     ],
                   ),
                 ),
@@ -134,19 +70,12 @@ class _AddActivityOnboardingState extends State<AddActivityOnboarding> {
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () => {
-                        if (_formKey.currentState.saveAndValidate())
-                          {
-                            print(_formKey.currentState.value['Activity_Type']),
-                            newActivity.activityType =
-                                _formKey.currentState.value['Activity_Type'],
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => AddActivity(
-                            //         user: widget.user, activity: newActivity),
-                            //   ),
-                            // ),
-                          }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddActivity(),
+                          ),
+                        ),
                       },
                       child: Text(
                         "Continue",
@@ -160,9 +89,5 @@ class _AddActivityOnboardingState extends State<AddActivityOnboarding> {
         ),
       ),
     );
-  }
-
-  String getActivityOption(int index) {
-    return activityOptions[index];
   }
 }

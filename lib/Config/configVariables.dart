@@ -4,29 +4,102 @@ import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
 import 'package:Client/Presentation/Activity_Management/Components/Activity_Option.dart';
 
-final activityOptions = [
-  new Activity_Option("Home\n Workout", "Home_Workout",
+final mainActivityOptions = [
+  new GeneralOption("Home\n Workout", "Home_Workout",
       "Resources/Images/Home_Workout.svg", false),
-  new Activity_Option(
+  new GeneralOption(
       "Gym \nWorkout", "Gym_Workout", "Resources/Images/GymWeights.svg", false),
-  new Activity_Option("Outdoor\n Activity", "Outdoor_Activity",
+  new GeneralOption("Outdoor\n Activity", "Outdoor_Activity",
       "Resources/Images/Outdoor_Act.svg", false)
 ];
-const double _defaultIntensity = 20.0;
-const double _defaultActivityLevel = 20.0;
 
-const double _pageHeight = 1000;
+final mainGenderOptions = [
+  new GeneralOption("Male", "Male", "Resources/Images/Male.svg", false),
+  new GeneralOption("Female", "Female", "Resources/Images/Female.svg", false),
+  new GeneralOption("No Preference", "No_Preference",
+      "Resources/Images/All_Gender.svg", false)
+];
+
+const double defaultIntensity = 20.0;
+const double defaultActivityLevel = 20.0;
+const double defaultBudgetLevel = 10.0;
+
+const double pageHeight = 1000;
 
 // Styling for Signup Button
 final ButtonStyle update_btn_style = ButtonProducer.getOrangeGymbudBtn();
 
-// Variable to hold my gender options
-List<String> genderOptions = [
-  "Male",
-  "Female",
-  "Prefer Not To Say",
-  "Non-Binary"
+final activitySetUpFormKey = GlobalKey<FormBuilderState>();
+
+final genderOptionsActivities = ["Male", "Female", "No Preference"];
+
+// Variable to hold box shadow on boxes
+List<BoxShadow> shadowList = [
+  BoxShadow(
+    color: Colors.grey[300],
+    blurRadius: 30,
+    offset: Offset(10.0, 10.0),
+    // offset: Offset(0, 10),
+  )
 ];
+
+// Styling for upload and take picture Buttons
+ButtonStyle upload_pic_btn_style = ButtonProducer.getOrangeGymbudBtn();
+
+// Variable to hold my activity preference modes slider string
+final Map<String, Map<double, String>> activityModesSliderStrings = {
+  "Fitness": {
+    0.0: "Inactive",
+    20.0: "Slightly Active",
+    40.0: "Moderately Active",
+    60.0: "Active",
+    80.0: "Very Active",
+    100.0: "Super Active"
+  },
+  "Intensity": {
+    0.0: "Not Intensive",
+    20.0: "Slightly Intensive",
+    40.0: "Moderately Intensive",
+    60.0: "Intensive",
+    80.0: "Very Intensive",
+    100.0: "Super Intensive"
+  },
+  "Budget": {
+    0.0: "Free",
+    20.0: "Slightly Expensive",
+    40.0: "Moderately Expensive",
+    60.0: "Expensive",
+    80.0: "Very Expensive",
+    100.0: "Super Expensive"
+  }
+};
+
+final Map<String, Map<String, double>> activityModesSliderDouble = {
+  "Fitness": {
+    "Inactive": 0.0,
+    "Slightly Active": 20.0,
+    "Moderately Active": 40.0,
+    "Active": 60.0,
+    "Very Active": 80.0,
+    "Super Active": 100.0
+  },
+  "Intensity": {
+    "Not Intensive": 0.0,
+    "Slightly Intensive": 20.0,
+    "Moderately Intensive": 40.0,
+    "Intensive": 60.0,
+    "Very Intensive": 80.0,
+    "Super Intensive": 100.0
+  },
+  "Budget": {
+    "Free": 0.0,
+    "Slightly Expensive": 20.0,
+    "Moderately Expensive": 40.0,
+    "Expensive": 60.0,
+    "Very Expensive": 80.0,
+    "Super Expensive": 100.0
+  }
+};
 
 // Info  pop up to be used to alert user to a error within their input
 InformationPopUp infoPopUp = new InformationPopUp();

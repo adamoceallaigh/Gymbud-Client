@@ -23,11 +23,6 @@ class User {
   List<dynamic> activities;
   List<dynamic> conversations;
 
-  // Variable to hold instance variable of user
-  static Future<User> getUserInstance() async {
-    return new User();
-  }
-
   // Optional Named Constructor for User
   User({
     this.id,
@@ -131,7 +126,7 @@ class User {
         'Conversations': user.conversations,
         'Activities_Enjoyed': user.activitiesEnjoyed,
         'Buds': user.buds,
-        'Activities': user.activities
+        'Activities': user.activities.map
       };
 
   @override

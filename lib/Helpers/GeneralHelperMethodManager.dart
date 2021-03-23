@@ -9,7 +9,6 @@ import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/General_Pages/Calendar_View.dart';
 import 'package:Client/Presentation/General_Pages/Favourites_View.dart';
 import 'package:Client/Presentation/General_Pages/Gymbud_Plus_View.dart';
-import 'package:Client/Presentation/General_Pages/Home_Screen.dart';
 import 'package:Client/Presentation/Message_Management/Read_Message_Management/Read_Messages_View.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
@@ -27,6 +26,8 @@ class GeneralHelperMethodManager {
   final int index;
   final BuildContext context;
   GeneralHelperMethodManager({this.logged_in_user, this.index, this.context});
+
+  Activity newActivity = Activity();
 
   // Basic details up form key to be used for validation and on this page
   final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
@@ -58,6 +59,35 @@ class GeneralHelperMethodManager {
   }
 
   // Logic Functions
+
+  Future<String> getImageFromSource(ImageSource imgSource) async {
+    final pickedImage = await Constants.picker.getImage(source: imgSource);
+
+    if (pickedImage != null) {
+      String imageUrl =
+          await dealWithUploadImageBtnClick(pickedImage.path, context: context);
+      return imageUrl;
+    } else {
+      print("No image selected");
+    }
+
+    return null;
+  }
+
+  Future<String> dealWithUploadImageBtnClick(String imagePath,
+      {BuildContext context = null}) async {
+    try {
+      // Get Image Url for image picked
+      String _image_url =
+          await context.read(image_provider).uploadImage(imagePath);
+      if (_image_url != null) {
+        return _image_url;
+      }
+    } catch (e) {
+      print('caught error $e');
+    }
+    return null;
+  }
 
   checkWhereToNavigateByNavBarItemClick(String identifier) {
     dynamic page = "";
@@ -378,30 +408,6 @@ class GeneralHelperMethodManager {
     }
   }
 
-  // Logic Functions
-  Future getImageFromSource(ImageSource imgSource) async {
-    final pickedImage = await Constants.picker.getImage(source: imgSource);
-
-    if (pickedImage != null) {
-      dealWithUploadImageBtnClick(pickedImage.path);
-    } else {
-      print("No image selected");
-    }
-  }
-
-  dealWithUploadImageBtnClick(String imagePath) async {
-    try {
-      // Image Url for image picked
-      String _image_url =
-          await context.read(image_provider).uploadImage(imagePath);
-      if (_image_url != null) {
-        logged_in_user.profileUrl = _image_url;
-      }
-    } catch (e) {
-      print('caught error $e');
-    }
-  }
-
   setBasicDetailsUpdate(Map<String, dynamic> formValues) {
     // Setting formValues equal to user object values
     logged_in_user.username = formValues['Username'];
@@ -611,7 +617,8 @@ class GeneralHelperMethodManager {
                         allowClear: true,
                         validator: FormBuilderValidators.compose(
                             [FormBuilderValidators.required(context)]),
-                        items: Constants.genderOptions
+                        items: Constants.mainGenderOptions
+                            .map((genderOption) => genderOption.description)
                             .map(
                               (gender) => DropdownMenuItem(
                                 value: gender,
@@ -696,6 +703,70 @@ class GeneralHelperMethodManager {
         ],
       ),
     );
+  }
+
+  void checkProvider(
+      String placeToChangeFrom, String whatToChange, String valueToChangeTo) {
+    switch (placeToChangeFrom) {
+      case "Activity":
+        if (whatToChange == "Type") {
+          context.read(activity_notifier_provider.state).activityType =
+              valueToChangeTo;
+          break;
+        } else {
+          context
+              .read(activity_notifier_provider.state)
+              .activityGenderPreference = valueToChangeTo;
+          break;
+        }
+        break;
+      case "User":
+        context.read(user_notifier_provider.state).preferredActivity =
+            valueToChangeTo;
+        break;
+    }
+  }
+
+  // Retrieves the word labels for the sliders based on input given
+  String getLabel(double percLevel, String mode) {
+    print(Constants.activities);
+    print(Constants.activityModesSliderDouble);
+    return Constants.activityModesSliderStrings[mode][percLevel];
+  }
+
+  double getPercentLevel(String sliderStringLevel, String mode) {
+    return Constants.activityModesSliderDouble[mode][sliderStringLevel];
+  }
+
+  void setActivityPreferencesFromSlider(
+      String whatToChange, String whatProviderToChange, dynamic changeValue) {
+    switch (whatProviderToChange) {
+      case "Activity":
+        if (whatToChange == "Fitness") {
+          context.read(activity_notifier_provider.state).activityFitnessLevel =
+              changeValue;
+          break;
+        } else if (whatToChange == "Intensity") {
+          context
+              .read(activity_notifier_provider.state)
+              .activityIntensityLevel = changeValue;
+          break;
+        } else {
+          context.read(activity_notifier_provider.state).activityBudgetLevel =
+              changeValue;
+          break;
+        }
+        break;
+      case "User":
+        if (whatToChange == "Fitness") {
+          context.read(user_notifier_provider.state).fitnessLevel = changeValue;
+          break;
+        } else if (whatToChange == "Intensity") {
+          context.read(user_notifier_provider.state).preferredIntensity =
+              changeValue;
+          break;
+        }
+    }
   }
 }
 

@@ -100,7 +100,9 @@ class _LoginState extends State<Login> {
     await context
         .read(conversations_notifier_provider)
         .addConversations(allConversations);
-    await context.read(activity_notifier_provider).addActivities(allActivities);
+    await context
+        .read(activities_notifier_provider)
+        .addActivities(allActivities);
   }
 
   // UI Functions
@@ -259,7 +261,7 @@ class _LoginState extends State<Login> {
               activities: [],
               activitiesEnjoyed: [],
             );
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => BasicSignUp(user: newUser),

@@ -208,8 +208,7 @@ class _CalendarViewState extends State<CalendarView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    AddActivityOnboarding(user: widget.user)),
+                                builder: (context) => AddActivityOnboarding()),
                           ),
                         },
                         child: Container(

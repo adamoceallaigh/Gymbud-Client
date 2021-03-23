@@ -61,7 +61,7 @@ class HomeScreen extends HookWidget {
             ? NeverScrollableScrollPhysics()
             : ScrollPhysics(),
         child: AnimatedContainer(
-          height: 1000,
+          height: logged_in_user.activities?.length * 830.0,
           transform: Matrix4.translationValues(
               drawer_changer.xOffset, drawer_changer.yOffset, 0)
             ..scale(drawer_changer.scaleFactor),

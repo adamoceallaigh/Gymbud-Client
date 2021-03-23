@@ -1,6 +1,8 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Config/configVariables.dart';
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_Upload_Photo_Success.dart';
@@ -30,53 +32,90 @@ class UploadPhoto extends StatefulWidget {
 }
 
 class _UploadPhotoState extends State<UploadPhoto> {
-  /*  
-    Setting up variables for this page
-   */
-
-  // Styling for upload and take picture Buttons
-  ButtonStyle upload_pic_btn_style = ButtonProducer.getOrangeGymbudBtn();
-
-  // Image picker necessary for this page
-  final picker = ImagePicker();
-
   // Logic Functions
-  Future getImageFromSource(ImageSource imgSource, BuildContext context) async {
-    final pickedImage = await picker.getImage(source: imgSource);
-
-    if (pickedImage != null) {
-      dealWithUploadImageBtnClick(pickedImage.path, context: context);
-    } else {
-      print("No image selected");
-    }
-  }
-
-  dealWithUploadImageBtnClick(String imagePath,
-      {BuildContext context = null}) async {
-    try {
-      // Get Image Url for image picked
-      String _image_url =
-          await context.read(image_provider).uploadImage(imagePath);
-      if (_image_url != null) {
-        widget.user.profileUrl = _image_url;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UploadPhotoSucess(
-              user: widget.user,
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      print('caught error $e');
-    }
-  }
 
   // UI Functions
 
   @override
   Widget build(BuildContext context) {
+    final generalHelperMethodManager = GeneralHelperMethodManager(
+        logged_in_user: widget.user, context: context);
+
+    Widget retreiveBody(BuildContext context) {
+      return SafeArea(
+        child: Align(
+          alignment: Alignment.center,
+          child: Container(
+            height: 580,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Lets Get You Started",
+                  style: GoogleFonts.delius(
+                    color: HexColor("#000000"),
+                    fontSize: 24,
+                    letterSpacing: -1.5,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20.0),
+                  width: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(100),
+                    ),
+                  ),
+                  child: SvgPicture.asset(
+                    'Resources/Images/Camera_Icon_Scan_Page.svg',
+                  ),
+                ),
+                Text(
+                  "Tap Button below please",
+                  style: GoogleFonts.meriendaOne(
+                    color: HexColor("#000000"),
+                    fontSize: 15,
+                    // letterSpacing: -1.5,
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(
+                        child: Text('Take Photo'),
+                        style: upload_pic_btn_style,
+                        onPressed: () async {
+                          String imageUrl = await generalHelperMethodManager
+                              .getImageFromSource(ImageSource.camera);
+                          context.read(image_provider).uploadImage(imageUrl);
+                        },
+                      ),
+                      ElevatedButton(
+                        child: Text('Upload Photo'),
+                        style: upload_pic_btn_style,
+                        onPressed: () async {
+                          String imageUrl = await generalHelperMethodManager
+                              .getImageFromSource(ImageSource.gallery);
+                          context.read(image_provider).uploadImage(imageUrl);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UploadPhotoSucess()));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
         appBar: AppBar(
           leadingWidth: 180,
@@ -89,72 +128,5 @@ class _UploadPhotoState extends State<UploadPhoto> {
         ),
         backgroundColor: Colors.white,
         body: retreiveBody(context));
-  }
-
-  Widget retreiveBody(BuildContext context) {
-    return SafeArea(
-      child: Align(
-        alignment: Alignment.center,
-        child: Container(
-          height: 580,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                "Lets Get You Started",
-                style: GoogleFonts.delius(
-                  color: HexColor("#000000"),
-                  fontSize: 24,
-                  letterSpacing: -1.5,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20.0),
-                width: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(100),
-                  ),
-                ),
-                child: SvgPicture.asset(
-                  'Resources/Images/Camera_Icon_Scan_Page.svg',
-                ),
-              ),
-              Text(
-                "Tap Button below please",
-                style: GoogleFonts.meriendaOne(
-                  color: HexColor("#000000"),
-                  fontSize: 15,
-                  // letterSpacing: -1.5,
-                ),
-              ),
-              Container(
-                width: 300,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ElevatedButton(
-                      child: Text('Take Photo'),
-                      style: upload_pic_btn_style,
-                      onPressed: () => {
-                        getImageFromSource(ImageSource.camera, context),
-                      },
-                    ),
-                    ElevatedButton(
-                      child: Text('Upload Photo'),
-                      style: upload_pic_btn_style,
-                      onPressed: () => {
-                        getImageFromSource(ImageSource.gallery, context),
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

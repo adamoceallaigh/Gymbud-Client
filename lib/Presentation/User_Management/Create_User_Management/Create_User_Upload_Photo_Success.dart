@@ -18,7 +18,7 @@ class UploadPhotoSucess extends StatefulWidget {
 
   // User object to be required to transfer values across pages
   final User user;
-  UploadPhotoSucess({Key key, @required this.user}) : super(key: key);
+  UploadPhotoSucess({Key key, this.user}) : super(key: key);
 
   @override
   _UploadPhotoState createState() => _UploadPhotoState();

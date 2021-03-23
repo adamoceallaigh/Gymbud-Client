@@ -8,9 +8,11 @@ import 'package:Client/Managers/Controllers/ConversationController.dart';
 import 'package:Client/Managers/Controllers/ImageController.dart';
 import 'package:Client/Managers/Controllers/UserController.dart';
 import 'package:Client/Managers/Notifiers/ActivitiesNotifier.dart';
+import 'package:Client/Managers/Notifiers/ActivityNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationsNotifier.dart';
 import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
+import 'package:Client/Managers/Notifiers/ImageNotifier.dart';
 import 'package:Client/Managers/Notifiers/UserNotifier.dart';
 import 'package:Client/Managers/Notifiers/UsersNotifier.dart';
 
@@ -72,8 +74,12 @@ final activities_provider = Provider<ActivityController>(
 );
 
 // Activities Notifier Provider
-final activity_notifier_provider = StateNotifierProvider(
+final activities_notifier_provider = StateNotifierProvider(
   (ref) => ActivitiesNotifier(),
+);
+
+final activity_notifier_provider = StateNotifierProvider(
+  (ref) => ActivityNotifier(),
 );
 
 // Image Controller Configuration
@@ -81,4 +87,9 @@ final image_provider = Provider<ImageController>(
   (ref) => ImageController(
     ref.watch(app_notifier_provider.state),
   ),
+);
+
+// Image Notifier Provider
+final image_notifier_provider = ChangeNotifierProvider(
+  (ref) => ImageNotifier(),
 );

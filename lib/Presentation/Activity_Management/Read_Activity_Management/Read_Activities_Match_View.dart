@@ -32,7 +32,7 @@ class MatchView extends HookWidget {
         logged_in_user: logged_in_user, context: context);
 
     // Obtaining all all_activities
-    final all_activities = useProvider(activity_notifier_provider.state);
+    final all_activities = useProvider(activities_notifier_provider.state);
 
     return Scaffold(
       body: Center(
@@ -254,8 +254,7 @@ class MatchView extends HookWidget {
               );
             },
             cardController: tinderCardController,
-            totalNum: 5,
-            // totalNum: context.read(activityProvider).readAllActivities().length,
+            totalNum: all_activities.length,
           ),
         ),
       ),

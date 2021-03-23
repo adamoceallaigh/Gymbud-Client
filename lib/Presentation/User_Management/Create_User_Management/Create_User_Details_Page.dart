@@ -45,7 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
   ];
 
   // Varaiables to track the inputs of the user throughout the form
-  RangeValues _ageValues = RangeValues(18, 90);
+  RangeValues _ageValues = RangeValues(19, 90);
   double _distanceValue = 5.0;
 
   // Logic Functions
@@ -181,7 +181,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                         child: RangeSlider(
                           values: _ageValues,
-                          min: 0,
+                          min: 18,
                           max: 100,
                           labels: RangeLabels('${_ageValues.start.round()}',
                               '${_ageValues.end.round()}'),

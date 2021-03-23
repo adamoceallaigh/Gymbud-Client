@@ -1,59 +1,30 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Managers/Providers.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Page Imports
-import 'package:Client/Infrastructure/Models/User.dart';
 import 'package:Client/Helpers/HexColor.dart';
+import 'package:Client/Config/configVariables.dart' as Constants;
 import 'package:Client/Presentation/Activity_Management/Read_Activity_Management/Read_Activities_Match_View.dart';
 
 // Template to make the Buds View Page
-class BudsView extends StatefulWidget {
-  /*
-    Setting up variables for this page
-  */
-
-  // This is the way we are going to save the values across the pages
-  final User user;
-  BudsView({Key key, this.user}) : super(key: key);
-
-  @override
-  _BudsViewState createState() => _BudsViewState();
-}
-
-// State to manage the template for this page
-class _BudsViewState extends State<BudsView> {
-  /*
-    Setting up variables for this page
-  */
-
-  // Logic Functions
-
-  // UI Functions
-
-  /*
-    Setting up variables for this page
-  */
-
-  // Variable to hold box shadow on boxes
-  List<BoxShadow> shadowList = [
-    BoxShadow(
-      color: Colors.grey[300],
-      blurRadius: 30,
-      offset: Offset(10.0, 10.0),
-      // offset: Offset(0, 10),
-    )
-  ];
-
-  // Logic Functions
-
-  // UI Functions
-
+class BudsView extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    /*
+      Setting up variables for this page
+    */
+
+    // Obtaining the current logged in user
+    final logged_in_user = useProvider(user_notifier_provider.state);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -74,10 +45,8 @@ class _BudsViewState extends State<BudsView> {
                     },
                     child: Icon(Icons.arrow_back),
                   ),
-                  // Making the Stack Logo on top of container
                   Container(
                     width: 100,
-                    // margin: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
                         Expanded(
@@ -88,7 +57,7 @@ class _BudsViewState extends State<BudsView> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: shadowList,
+                                  boxShadow: Constants.shadowList,
                                 ),
                                 // margin: EdgeInsets.only(top: 10),
                               ),
@@ -109,8 +78,8 @@ class _BudsViewState extends State<BudsView> {
                   ),
                   CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: widget?.user?.profileUrl != null
-                        ? new NetworkImage(widget.user.profileUrl)
+                    backgroundImage: logged_in_user?.profileUrl != null
+                        ? new NetworkImage(logged_in_user.profileUrl)
                         : null,
                     // backgroundColor: Colors.orange,
                   ),
@@ -153,7 +122,7 @@ class _BudsViewState extends State<BudsView> {
                           margin: EdgeInsets.only(left: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            boxShadow: shadowList,
+                            boxShadow: Constants.shadowList,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: SvgPicture.asset(
