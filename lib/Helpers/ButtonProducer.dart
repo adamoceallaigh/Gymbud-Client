@@ -33,6 +33,34 @@ class ButtonProducer {
     );
   }
 
+  static getLoginGymbudBtn() {
+    return ElevatedButton.styleFrom(
+      primary: HexColor("2E2B2B"),
+      elevation: 2,
+      fixedSize: Size(
+        210,
+        50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  static getSignUpGymbudBtn() {
+    return ElevatedButton.styleFrom(
+      primary: HexColor("EB9661"),
+      elevation: 2,
+      fixedSize: Size(
+        210,
+        50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
   static getMessageGymbudBtn() {
     return ElevatedButton.styleFrom(
       primary: Colors.white,

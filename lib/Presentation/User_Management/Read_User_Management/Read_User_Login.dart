@@ -1,6 +1,7 @@
 //Imports and Variable Declarations
 
 // Library Imports
+import 'package:Client/Config/configVariables.dart';
 import 'package:Client/Infrastructure/Models/Activity.dart';
 import 'package:Client/Infrastructure/Models/Conversation.dart';
 import 'package:Client/Managers/Providers.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Page Imports
 import 'package:Client/Presentation/General_Pages/Home_Screen.dart';
 import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_BasicSignUp.dart';
-import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
 import 'package:Client/Infrastructure/Models/User.dart';
@@ -34,9 +34,6 @@ class _LoginState extends State<Login> {
 
   // Basic sign up form key to be used for validation and on this page
   final _loginKey = GlobalKey<FormBuilderState>();
-
-  // Styling for Signup Button
-  final ButtonStyle login_btn_style = ButtonProducer.getOrangeGymbudBtn();
 
   // Logic Functions
 
@@ -232,17 +229,29 @@ class _LoginState extends State<Login> {
   Widget loginButton(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
-      child: ElevatedButton(
-        child: Text('Login'),
-        style: login_btn_style,
-        onPressed: () => {
-          // Check if the form is validated
-          if (_loginKey.currentState.saveAndValidate())
-            {
-              // Checking the valid formValues against DB credentials
-              _checkLoginValues(_loginKey.currentState.value, context)
-            }
-        },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            child: Text(
+              'Login',
+              style: GoogleFonts.delius(
+                color: Colors.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 26,
+              ),
+            ),
+            style: StyleVariableStore.login_btn_style,
+            onPressed: () => {
+              // Check if the form is validated
+              if (_loginKey.currentState.saveAndValidate())
+                {
+                  // Checking the valid formValues against DB credentials
+                  _checkLoginValues(_loginKey.currentState.value, context)
+                }
+            },
+          ),
+        ],
       ),
     );
   }

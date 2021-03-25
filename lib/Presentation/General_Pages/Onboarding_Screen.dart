@@ -1,6 +1,8 @@
 // Imports and Variable Declarations
 
 // Library Imports
+import 'package:Client/Config/configVariables.dart';
+import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_BasicSignUp.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +19,6 @@ class OnBoarding extends StatefulWidget {
 
 // Template for what makes onboarding page
 class _OnBoardingState extends State<OnBoarding> {
-  // Setting up the button styles for login/ signup buttons
-  ButtonStyle sign_up_button_style = ButtonProducer.getOrangeGymbudBtn();
-  ButtonStyle login_button_style = ButtonProducer.getWhiteGymbudBtn("eeeeee");
-
   // Setting up the default user to use in the sign up process
   final newUser = User(
     resources: [],
@@ -72,11 +70,13 @@ class _OnBoardingState extends State<OnBoarding> {
       ElevatedButton(
         child: Text(
           'Log in',
-          style: TextStyle(
-            color: Colors.black,
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 26,
           ),
         ),
-        style: login_button_style,
+        style: StyleVariableStore.login_btn_style,
         onPressed: () => {
           // Navigate to the Login Page upon Login Button Click
           Navigator.push(
@@ -87,9 +87,19 @@ class _OnBoardingState extends State<OnBoarding> {
           )
         },
       ),
+      SizedBox(
+        height: 20,
+      ),
       ElevatedButton(
-        child: Text('Sign Up'),
-        style: sign_up_button_style,
+        child: Text(
+          'Sign Up',
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 26,
+          ),
+        ),
+        style: StyleVariableStore.sign_up_button_style,
         onPressed: () => {
           // Navigate to the Signup Page upon Signup Button Click and pass in new user default values
           Navigator.push(

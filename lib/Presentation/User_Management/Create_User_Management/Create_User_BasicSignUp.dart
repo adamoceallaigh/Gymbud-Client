@@ -1,6 +1,7 @@
 // Imports and Variable Declarations
 
 // Library Import
+import 'package:Client/Config/configVariables.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -23,9 +24,6 @@ class BasicSignUp extends StatelessWidget {
 
   // Basic sign up form key to be used for validation and on this page
   final _basicSignUpKey = GlobalKey<FormBuilderState>();
-
-  // Styling for Signup Button
-  final ButtonStyle sign_up_btn_style = ButtonProducer.getOrangeGymbudBtn();
 
   // Logic Functions
 
@@ -180,8 +178,15 @@ class BasicSignUp extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: ElevatedButton(
-        child: Text('Sign Up'),
-        style: sign_up_btn_style,
+        child: Text(
+          'Sign Up',
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 26,
+          ),
+        ),
+        style: StyleVariableStore.sign_up_button_style,
         onPressed: () => {
           // Check if the form is validated
           if (_basicSignUpKey.currentState.saveAndValidate())

@@ -180,4 +180,11 @@ class StyleVariableStore {
     )
   ];
   static ButtonStyle upload_pic_btn_style = ButtonProducer.getOrangeGymbudBtn();
+
+  // Styling for Login Button
+  static ButtonStyle login_btn_style = ButtonProducer.getLoginGymbudBtn();
+
+  // Setting up the button styles for login/ signup buttons
+  static ButtonStyle sign_up_button_style = ButtonProducer.getSignUpGymbudBtn();
+  // ButtonStyle login_button_style = ButtonProducer.getWhiteGymbudBtn("eeeeee");
 }
