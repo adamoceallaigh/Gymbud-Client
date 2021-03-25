@@ -46,7 +46,8 @@ class Conversation {
 
   static Map<String, dynamic> toJson(Conversation conversation) => {
         '_id': conversation.id,
-        'Messages': conversation.messages,
+        'Messages': List<dynamic>.from(conversation.messages
+            .map((x) => x is List ? x : Message.toJson(x))),
         'Receiver': User.toJson(conversation.receiver),
         'Sender': User.toJson(conversation.sender),
       };

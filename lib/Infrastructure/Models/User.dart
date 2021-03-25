@@ -123,10 +123,12 @@ class User {
         'Preferred_Age_Range': user.preferredAgeRange,
         'Preferred_Distance_Range': user.preferredDistanceRange,
         'Preferred_Activity': user.preferredActivity,
-        'Conversations': user.conversations,
+        'Conversations': List<dynamic>.from(user.conversations
+            .map((x) => x is List ? x : Conversation.toJson(x))),
         'Activities_Enjoyed': user.activitiesEnjoyed,
         'Buds': user.buds,
-        'Activities': user.activities.map
+        'Activities': List<dynamic>.from(
+            user.activities.map((x) => x is List ? x : Activity.toJson(x))),
       };
 
   @override

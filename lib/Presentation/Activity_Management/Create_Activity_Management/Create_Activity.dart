@@ -331,7 +331,7 @@ class AddActivity extends HookWidget {
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             child: Center(
-                              child: image_notifier.value == null
+                              child: image_notifier.value != null
                                   ? Text(
                                       "No image Selected. Please pick one to continue")
                                   : Text(
@@ -358,7 +358,8 @@ class AddActivity extends HookWidget {
                                   String imageUrl =
                                       await generalHelperMethodManager
                                           .getImageFromSource(
-                                              ImageSource.camera);
+                                              ImageSource.camera,
+                                              place: "Activity");
                                   image_notifier.setString(imageUrl);
                                   print(imageUrl);
                                 },
@@ -373,7 +374,8 @@ class AddActivity extends HookWidget {
                                   String imageUrl =
                                       await generalHelperMethodManager
                                           .getImageFromSource(
-                                              ImageSource.gallery);
+                                              ImageSource.gallery,
+                                              place: "Activity");
                                   image_notifier.setString(imageUrl);
                                 },
                                 child: Icon(Icons.folder, color: Colors.white),

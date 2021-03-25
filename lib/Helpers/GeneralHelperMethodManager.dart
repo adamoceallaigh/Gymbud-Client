@@ -58,24 +58,30 @@ class GeneralHelperMethodManager {
 
   // Logic Functions
 
-  getImageFromSource(ImageSource imgSource) async {
+  getImageFromSource(ImageSource imgSource, {String place = ""}) async {
     final pickedImage =
         await Constants.GeneralVariableStore.picker.getImage(source: imgSource);
 
     if (pickedImage != null) {
-      dealWithUploadImageBtnClick(pickedImage.path, context: context);
+      if (place == "Activity")
+        return dealWithUploadImageBtnClick(pickedImage.path,
+            context: context, place: place);
+      dealWithUploadImageBtnClick(pickedImage.path,
+          context: context, place: place);
     } else {
       print("No image selected");
     }
   }
 
   dealWithUploadImageBtnClick(String imagePath,
-      {BuildContext context = null}) async {
+      {BuildContext context = null, String place = ""}) async {
     try {
+      if (place == "") return;
       // Get Image Url for image picked
       String _image_url =
           await context.read(image_provider).uploadImage(imagePath);
       if (_image_url != null) {
+        if (place == "Activity") return _image_url;
         logged_in_user.profileUrl = _image_url;
         Navigator.push(
             context,
@@ -464,7 +470,7 @@ class GeneralHelperMethodManager {
           child: Column(
             children: [
               getUpdateTopButtonsBar(context),
-              getUpdateBasicDetailsProfile(),
+              getUpdateBasicDetailsProfile(_basicDetailsUpdateKey),
               updateButton(_basicDetailsUpdateKey),
             ],
           ),
@@ -488,9 +494,10 @@ class GeneralHelperMethodManager {
                   GestureDetector(
                     child: Icon(Icons.arrow_back),
                     onTap: () => {
-                      SchedulerBinding.instance.addPostFrameCallback((_) {
-                        Navigator.pop(context);
-                      })
+                      Navigator.pop(context)
+                      // SchedulerBinding.instance.addPostFrameCallback((_) {
+                      //   Navigator.pop(context);
+                      // })
                     },
                   ),
                 ],
@@ -502,10 +509,14 @@ class GeneralHelperMethodManager {
     );
   }
 
-  getUpdateBasicDetailsProfile() {
-    // Basic details up form key to be used for validation and on this page
-    final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
+  setUpDob(_basicDetailsUpdateKey) {
+    _basicDetailsUpdateKey.currentState.fields['DOB']
+        .didChange(DateTime.parse(logged_in_user?.dob));
+  }
 
+  getUpdateBasicDetailsProfile(_basicDetailsUpdateKey) {
+    // // Basic details up form key to be used for validation and on this page
+    // final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
     return Container(
       child: FormBuilder(
         key: _basicDetailsUpdateKey,
@@ -596,7 +607,7 @@ class GeneralHelperMethodManager {
                       FormBuilderDateTimePicker(
                         name: 'DOB',
                         lastDate: DateTime(DateTime.now().year - 18),
-                        initialDate: DateTime(1970),
+                        initialDate: DateTime.parse(logged_in_user?.dob),
                         inputType: InputType.date,
                         validator: FormBuilderValidators.compose(
                           [
@@ -616,6 +627,7 @@ class GeneralHelperMethodManager {
                     children: [
                       Text("Gender:"),
                       FormBuilderDropdown(
+                        initialValue: logged_in_user?.gender,
                         name: 'Gender',
                         allowClear: true,
                         validator: FormBuilderValidators.compose(
@@ -648,8 +660,9 @@ class GeneralHelperMethodManager {
         child: Text('Update'),
         style: Constants.StyleVariableStore.update_btn_style,
         onPressed: () => {
+          setUpDob(_basicDetailsUpdateKey),
           // Check if the form is validated
-          if (_basicDetailsUpdateKey.currentState.saveAndValidate())
+          if (_basicDetailsUpdateKey?.currentState?.saveAndValidate())
             {
               // Setting the valid formValues equal to user object values
               setBasicDetailsUpdate(_basicDetailsUpdateKey.currentState.value)
@@ -733,8 +746,8 @@ class GeneralHelperMethodManager {
 
   // Retrieves the word labels for the sliders based on input given
   String getLabel(double percLevel, String mode) {
-    print(Constants.ActivityVariableStore.activities);
-    print(Constants.ActivityVariableStore.activityModesSliderDouble);
+    // print(Constants.ActivityVariableStore.activities);
+    // print(Constants.ActivityVariableStore.activityModesSliderDouble);
     return Constants.ActivityVariableStore.activityModesSliderStrings[mode]
         [percLevel];
   }

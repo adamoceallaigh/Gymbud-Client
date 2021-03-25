@@ -88,8 +88,9 @@ class _UploadPhotoState extends State<UploadPhoto> {
                         child: Text('Take Photo'),
                         style: StyleVariableStore.upload_pic_btn_style,
                         onPressed: () async {
-                          await generalHelperMethodManager
-                              .getImageFromSource(ImageSource.camera);
+                          await generalHelperMethodManager.getImageFromSource(
+                              ImageSource.camera,
+                              place: "User");
                           // imageUrl = await context
                           //     .read(image_provider)
                           //     .uploadImage(imageUrl);
@@ -104,8 +105,9 @@ class _UploadPhotoState extends State<UploadPhoto> {
                         child: Text('Upload Photo'),
                         style: StyleVariableStore.upload_pic_btn_style,
                         onPressed: () async {
-                          await generalHelperMethodManager
-                              .getImageFromSource(ImageSource.gallery);
+                          await generalHelperMethodManager.getImageFromSource(
+                              ImageSource.gallery,
+                              place: "User");
                           // context.read(image_provider).uploadImage(imageUrl);
                           // Navigator.push(
                           //     context,

@@ -19,49 +19,102 @@ import 'package:Client/Helpers/HexColor.dart';
 import 'package:Client/Infrastructure/Models/User.dart';
 import 'package:Client/Presentation/Activity_Management/Create_Activity_Management/Create_Activity_Onboarding.dart';
 
-// ignore: must_be_immutable
-class CalendarView extends HookWidget {
+class CalendarView extends StatefulWidget {
+  @override
+  _CalendarViewState createState() => _CalendarViewState();
+}
+
+class _CalendarViewState extends State<CalendarView> {
   //
+  CalendarController _calendarController;
+  List filteredActivities = [];
+  List<dynamic> _selectedActivities;
+  List<dynamic> _activities;
+  DateTime _focusedDay = DateTime.now();
+  DateTime _selectedDay;
+  List<Activity> activities_dates;
+
+  @override
+  void initState() {
+    super.initState();
+    _calendarController = CalendarController();
+    _selectedActivities = [];
+    _activities = [];
+    activities_dates = [];
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _calendarController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List filteredActivities = [];
-    List<dynamic> _selectedEvents = [];
-    CalendarController _calendarController = CalendarController();
-    DateTime _focusedDay = DateTime.now();
-    DateTime _selectedDay;
-
     // Get the dates notifier
-    final dates_notifier = useProvider(dates_notifier_provider);
+    final dates_notifier = context.read(dates_notifier_provider);
 
     // Get All the Users activities
-    final logged_in_users_activities =
-        useProvider(user_notifier_provider.state).activities;
+    var logged_in_users_activities =
+        context.read(user_notifier_provider.state).activities;
+    print(logged_in_users_activities);
 
-    // Get all the dates from the users_activities
-    for (var activity in logged_in_users_activities) {
-      filteredActivities.add({
-        DateTime.parse('${activity.date} ${activity.time}'):
-            logged_in_users_activities
-                .where((act) => act.date == activity.date)
-                .toList()
-      });
+    var filterDates = Map<DateTime, List<dynamic>>();
+
+    // _activities =
+    //     logged_in_users_activities.map((activity) => activity.id).toList();
+    // print(logged_in_users_activities);
+
+    var allEvents = [];
+
+    logged_in_users_activities.map((outerActivity) {
+      var temp_activity_list = [];
+      for (var tempActivity in logged_in_users_activities) {
+        if (tempActivity.date != outerActivity.date) return;
+        temp_activity_list.add(tempActivity.id);
+      }
+      allEvents.add(List<dynamic>.from(temp_activity_list));
+    }).toList();
+
+    for (var event in allEvents) {
+      for (var activity in logged_in_users_activities) {
+        filterDates[DateTime.parse('${activity.date} ${activity.time}')] =
+            event;
+      }
     }
 
-    print(filteredActivities);
-    var logged_in_users_activities_dates = Map();
-    filteredActivities.forEach((activity) {
-      activity.forEach((key, value) {
-        if (!logged_in_users_activities_dates.containsKey(key)) {
-          logged_in_users_activities_dates[key] = [value];
-        } else {
-          logged_in_users_activities_dates[key].add(value);
-        }
-      });
-    });
+    print(filterDates);
 
-    logged_in_users_activities_dates =
-        Map<DateTime, List<dynamic>>.from(logged_in_users_activities_dates);
+    // _activities = List<dynamic>.from(logged_in_users_activities);
+    // _activities.forEach((activity) =>
+    //     filterDates[DateTime.parse('${activity.date} ${activity.time}')] =
+    //         _activities);
+
+    // // Get all the dates from the users_activities
+    // for (var activity in logged_in_users_activities) {
+    //   filteredActivities.add({
+    //     DateTime.parse('${activity.date} ${activity.time}'):
+    //         logged_in_users_activities
+    //             .where((act) => act.date == activity.date)
+    //             .toList()
+    //   });
+    // }
+
+    // // print(filteredActivities);
+    // var logged_in_users_activities_dates = Map();
+    // filteredActivities.forEach((activity) {
+    //   activity.forEach((key, value) {
+    //     if (!logged_in_users_activities_dates.containsKey(key)) {
+    //       logged_in_users_activities_dates[key] = [value];
+    //     } else {
+    //       logged_in_users_activities_dates[key].add(value);
+    //     }
+    //   });
+    // });
+
+    // logged_in_users_activities_dates =
+    //     Map<DateTime, List<dynamic>>.from(logged_in_users_activities_dates);
 
     Container taskList(
         String title, String description, IconData iconImg, Color iconColor) {
@@ -110,6 +163,18 @@ class CalendarView extends HookWidget {
       );
     }
 
+    List<Activity> getChildren() {
+      List<Activity> allActivities = [];
+      for (var event in _selectedActivities) {
+        for (var activity in logged_in_users_activities) {
+          if (event != activity.id) break;
+          allActivities.add(activity);
+        }
+      }
+      ;
+      return allActivities;
+    }
+
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
@@ -119,12 +184,41 @@ class CalendarView extends HookWidget {
                 height: 30,
               ),
               TableCalendar(
-                calendarController: CalendarController(),
-                events: logged_in_users_activities_dates,
+                daysOfWeekStyle: DaysOfWeekStyle(
+                  weekendStyle: TextStyle(
+                    color: HexColor("EB9661"),
+                  ),
+                ),
+                calendarController: _calendarController,
+                // activitys: logged_in_users_activities_dates,
+                events: filterDates,
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 onDaySelected: (date, events, _) {
-                  context.read(dates_notifier_provider).setDates(events);
+                  // context.read(dates_notifier_provider).setDates(activitys);
+                  setState(() {
+                    _selectedActivities = events;
+                    // allEvents = events;
+                    // if (_selectedActivities.isEmpty) {
+                    //   activities_dates = [];
+                    //   return;
+                    // }
+                    // // activities_dates = _selectedActivitys;
+                    // _selectedActivities.forEach((activity) {
+                    //   activity.forEach((value) {
+                    //     activities_dates.add(value);
+                    //   });
+                    // });
+                  });
                 },
+                calendarStyle: CalendarStyle(
+                  todayColor: HexColor("EB9661"),
+                  // contentDecoration:
+                  //     BoxDecoration(border: Border.all(color: Colors.orange)),
+                  selectedColor: HexColor("EB9661"),
+                  weekendStyle: TextStyle(
+                    color: HexColor("EB9661"),
+                  ),
+                ),
                 initialSelectedDay: DateTime.now(),
                 headerStyle: HeaderStyle(
                   formatButtonVisible: false,
@@ -149,7 +243,10 @@ class CalendarView extends HookWidget {
               Container(
                 padding: EdgeInsets.only(left: 30),
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.55,
+                constraints: BoxConstraints(
+                  minHeight: 300,
+                ),
+                // height: MediaQuery.of(context).size.height * 0.55,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
@@ -159,71 +256,56 @@ class CalendarView extends HookWidget {
                 ),
                 child: Stack(
                   children: [
+                    // context
+                    //       .read(dates_notifier_provider)
+                    //       .value
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      // children: context
-                      //     .read(dates_notifier_provider)
-                      //     .value
-                      //     .map((activity) {
-                      //   return taskList(
-                      //     activity?.activityName,
-                      //     activity.time,
+                      children: getChildren().map((activity) {
+                        return taskList(
+                          activity?.activityName,
+                          activity.time,
+                          CupertinoIcons.check_mark_circled_solid,
+                          HexColor("00CF8D"),
+                        );
+                      }).toList(),
+                      // children: [
+                      //   Padding(
+                      //     padding: EdgeInsets.only(top: 50),
+                      //     child: Text(
+                      //       "Today",
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 30,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   taskList(
+                      //     "Gym workout",
+                      //     "Video Url : http://localhost:3030//gjhgj5678hb39b29",
                       //     CupertinoIcons.check_mark_circled_solid,
-                      //     HexColor("00CF8D"),
-                      //   );
-                      // }).toList(),
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 50),
-                          child: Text(
-                            "Today",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        taskList(
-                          "Gym workout",
-                          "Video Url : http://localhost:3030//gjhgj5678hb39b29",
-                          CupertinoIcons.check_mark_circled_solid,
-                          HexColor("#00CF8D"),
-                        ),
-                        taskList(
-                          "Home Workout",
-                          "Video Url : http://localhost:3030//gjhgj5678hb39b29",
-                          CupertinoIcons.check_mark_circled_solid,
-                          HexColor("#00CF8D"),
-                        ),
-                        taskList(
-                          "Outdoor Activity",
-                          "Stroll In the Parks",
-                          CupertinoIcons.check_mark_circled_solid,
-                          HexColor("#00CF8D"),
-                        )
-                      ],
+                      //     Colors.white,
+                      //   ),
+                      //   taskList(
+                      //     "Home Workout",
+                      //     "Video Url : http://localhost:3030//gjhgj5678hb39b29",
+                      //     CupertinoIcons.check_mark_circled_solid,
+                      //     Colors.white,
+                      //   ),
+                      //   taskList(
+                      //     "Outdoor Activity",
+                      //     "Stroll In the Parks",
+                      //     CupertinoIcons.check_mark_circled_solid,
+                      //     Colors.white,
+                      //   )
+                      // ],
                     ),
                     Positioned(
                       bottom: 0,
-                      height: 300,
+                      // height: 300,
                       width: MediaQuery.of(context).size.width,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: FractionalOffset.topCenter,
-                            end: FractionalOffset.bottomCenter,
-                            colors: [
-                              HexColor("#30384C").withOpacity(0),
-                              HexColor("#30384C"),
-                            ],
-                            stops: [
-                              0.0,
-                              1.0,
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: Container(),
                     ),
                     Positioned(
                       bottom: 40,
@@ -241,7 +323,7 @@ class CalendarView extends HookWidget {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
-                              color: HexColor("#B038F1"),
+                              color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black38,
@@ -251,7 +333,7 @@ class CalendarView extends HookWidget {
                           child: Text(
                             "+",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: HexColor("EB9661"),
                               fontSize: 40,
                             ),
                           ),

@@ -61,7 +61,9 @@ class HomeScreen extends HookWidget {
             ? NeverScrollableScrollPhysics()
             : ScrollPhysics(),
         child: AnimatedContainer(
-          height: logged_in_user.activities?.length * 830.0,
+          height: logged_in_user.activities?.length != 0
+              ? logged_in_user.activities?.length * 830.0
+              : 830.0,
           transform: Matrix4.translationValues(
               drawer_changer.xOffset, drawer_changer.yOffset, 0)
             ..scale(drawer_changer.scaleFactor),
@@ -231,7 +233,7 @@ class HomeScreen extends HookWidget {
 
               // Widget to make the Cards
               Column(
-                  children: logged_in_user.activities?.map((activity) {
+                  children: logged_in_user?.activities?.map((activity) {
                 return activity?.activityImageUrl != null
                     ? Row(
                         children: [

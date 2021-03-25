@@ -94,7 +94,8 @@ class Activity {
         'Budget_Level': activity.activityBudgetLevel,
         'Activity_Image_Url': activity.activityImageUrl,
         'Resources': activity.resources,
-        'Participants': activity.participants
+        'Participants': List<dynamic>.from(
+            activity.participants.map((x) => x is List ? x : User.toJson(x))),
       };
 
   @override
