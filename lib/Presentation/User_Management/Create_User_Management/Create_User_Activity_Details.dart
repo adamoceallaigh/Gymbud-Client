@@ -42,26 +42,27 @@ class _ActivityDetailsState extends State<ActivityDetails> {
   Widget checkWhichActivityChosen(String activityChosen) {
     switch (activityChosen) {
       case "Home_Workout":
-        // setState(() {
-        //   _pageHeight = 1150;
-        // });
+        setState(() {
+          Constants.GeneralVariableStore.pageHeight = 1150;
+        });
         return getActivityDetailsResources();
       case "Gym_Workout":
-        // setState(() {
-        //   _pageHeight = 800;
-        // });
+        setState(() {
+          Constants.GeneralVariableStore.pageHeight = 800;
+        });
         return Container(
           height: 10,
         );
       case "Outdoor_Activity":
-        // setState(() {
-        //   _pageHeight = 1150;
-        // });
+        setState(() {
+          Constants.GeneralVariableStore.pageHeight = 1150;
+        });
         return getActivityDetailsOutdoorActivities();
     }
-    // setState(() {
-    //   _pageHeight = _pageHeight;
-    // });
+    setState(() {
+      Constants.GeneralVariableStore.pageHeight =
+          Constants.GeneralVariableStore.pageHeight;
+    });
     return Container();
   }
 
@@ -82,8 +83,6 @@ class _ActivityDetailsState extends State<ActivityDetails> {
               context,
               MaterialPageRoute(builder: (context) => Login()),
               (route) => false);
-          // Navigator.pushAndRemoveUntil(
-          // context, MaterialPageRoute(builder: (context) => Login()), );
         }
       } else {
         // Navigating to the Home page if user logged in is returned
@@ -108,11 +107,47 @@ class _ActivityDetailsState extends State<ActivityDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final user_notifier = context.read(user_notifier_provider.state);
+
     return Scaffold(
-      appBar: buildAppBar(),
-      backgroundColor: Colors.white,
-      body: activityDetailsBody(),
-    );
+        appBar: buildAppBar(),
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: Constants.GeneralVariableStore.pageHeight,
+                child: Column(
+                  children: [
+                    if (infoPopUp.message != null) checkForLoginErrorPopUp(),
+                    ActivitySliders(context: context, place: "User"),
+                    SelectFromOptionsWidget(
+                      generalOptions:
+                          Constants.ActivityVariableStore.mainActivityOptions,
+                      placeToChangeFrom: "User",
+                      whatToChange: "Type",
+                    ),
+                    Consumer(builder: (context, watch, _) {
+                      final user_notifier_preferredActivity =
+                          watch(user_notifier_provider.state);
+                      if (user_notifier_preferredActivity.preferredActivity ==
+                          "Home_Workout")
+                        return ActivityResourcesGrid(
+                            context: context, place: "User");
+                      return SizedBox(
+                        height: 0,
+                      );
+                    }),
+                    Container(
+                      height: 50,
+                    ),
+                    createContinueToBasicDetailsPageBtn(context),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
   // Building the app bar
@@ -125,32 +160,6 @@ class _ActivityDetailsState extends State<ActivityDetails> {
         ),
       ),
       backgroundColor: HexColor("FEFEFE"),
-    );
-  }
-
-  // Building the Activity Details Page Body
-  Widget activityDetailsBody() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: Constants.pageHeight,
-            child: Column(
-              children: [
-                if (infoPopUp.message != null) checkForLoginErrorPopUp(),
-                ActivitySliders(context: context, place: "User"),
-                preferredActivityType(),
-                if (widget.user.preferredActivity != null)
-                  checkWhichActivityChosen(widget.user.preferredActivity),
-                Container(
-                  height: 50,
-                ),
-                createContinueToBasicDetailsPageBtn(context),
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 
@@ -204,7 +213,8 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                 mainAxisSpacing: 20.0,
                 crossAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: Constants.resources.map((resource) {
+                children:
+                    Constants.ActivityVariableStore.resources.map((resource) {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),
@@ -261,7 +271,8 @@ class _ActivityDetailsState extends State<ActivityDetails> {
                 mainAxisSpacing: 20.0,
                 crossAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: Constants.activities?.map((activity) {
+                children:
+                    Constants.ActivityVariableStore.activities?.map((activity) {
                   return Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: HexColor('#C8C8C8'))),
@@ -294,15 +305,6 @@ class _ActivityDetailsState extends State<ActivityDetails> {
           ),
         ],
       ),
-    );
-  }
-
-  // Creates the Activity type Container
-  Widget preferredActivityType() {
-    return SelectFromOptionsWidget(
-      generalOptions: Constants.mainActivityOptions,
-      placeToChangeFrom: "User",
-      whatToChange: "Type",
     );
   }
 

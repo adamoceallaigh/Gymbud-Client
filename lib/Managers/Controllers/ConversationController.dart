@@ -4,6 +4,7 @@
 import 'dart:convert';
 
 import 'package:Client/Infrastructure/Models/Message.dart';
+import 'package:Client/Infrastructure/Models/Models_Required.dart';
 import 'package:dio/dio.dart';
 
 // Page Imports
@@ -91,10 +92,10 @@ class ConversationController {
     }
   }
 
-  void createConversation(
+  Future<dynamic> createConversation(
       String senderId, String recieverId, List<Message> messages) async {
     try {
-      await dio.post(
+      Response response = await dio.post(
         '${this.url_in_use}/new_conversation',
         options: Options(
           headers: <String, String>{
@@ -107,6 +108,15 @@ class ConversationController {
           {"Messages": [], 'Sender': senderId, "Receiver": recieverId},
         ),
       );
+      if (response.statusCode == 200) {
+        var conversationJSON = response.data;
+        if (conversationJSON != null) {
+          return Conversation.fromJSON(conversationJSON["user"]);
+        }
+        if (conversationJSON["cause"] != null) {
+          return InformationPopUp(message: conversationJSON["cause"][0]);
+        }
+      }
     } catch (e) {
       print(e);
     }

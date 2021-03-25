@@ -102,7 +102,8 @@ class DrawerScreen extends HookWidget {
           // Widget to make the middle part of the drawer
 
           Column(
-              children: Constants.drawerItems.map((element) {
+              children:
+                  Constants.GeneralVariableStore.drawerItems.map((element) {
             return GestureDetector(
               onTap: () => {
                 generalHelperMethodManager

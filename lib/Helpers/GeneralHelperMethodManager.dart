@@ -10,6 +10,7 @@ import 'package:Client/Presentation/General_Pages/Calendar_View.dart';
 import 'package:Client/Presentation/General_Pages/Favourites_View.dart';
 import 'package:Client/Presentation/General_Pages/Gymbud_Plus_View.dart';
 import 'package:Client/Presentation/Message_Management/Read_Message_Management/Read_Messages_View.dart';
+import 'package:Client/Presentation/User_Management/Create_User_Management/Create_User_Upload_Photo_Success.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
 import 'package:Client/Presentation/User_Management/Update_User_Management/Update_User_Profile_Page.dart';
@@ -28,9 +29,6 @@ class GeneralHelperMethodManager {
   GeneralHelperMethodManager({this.logged_in_user, this.index, this.context});
 
   Activity newActivity = Activity();
-
-  // Basic details up form key to be used for validation and on this page
-  final _basicDetailsUpdateKey = GlobalKey<FormBuilderState>();
 
   List<Widget> getAttendeeCircles() {
     List<Widget> widgetList = [];
@@ -60,36 +58,36 @@ class GeneralHelperMethodManager {
 
   // Logic Functions
 
-  Future<String> getImageFromSource(ImageSource imgSource) async {
-    final pickedImage = await Constants.picker.getImage(source: imgSource);
+  getImageFromSource(ImageSource imgSource) async {
+    final pickedImage =
+        await Constants.GeneralVariableStore.picker.getImage(source: imgSource);
 
     if (pickedImage != null) {
-      String imageUrl =
-          await dealWithUploadImageBtnClick(pickedImage.path, context: context);
-      return imageUrl;
+      dealWithUploadImageBtnClick(pickedImage.path, context: context);
     } else {
       print("No image selected");
     }
-
-    return null;
   }
 
-  Future<String> dealWithUploadImageBtnClick(String imagePath,
+  dealWithUploadImageBtnClick(String imagePath,
       {BuildContext context = null}) async {
     try {
       // Get Image Url for image picked
       String _image_url =
           await context.read(image_provider).uploadImage(imagePath);
       if (_image_url != null) {
-        return _image_url;
+        logged_in_user.profileUrl = _image_url;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => UploadPhotoSucess(user: logged_in_user)));
       }
     } catch (e) {
       print('caught error $e');
     }
-    return null;
   }
 
-  checkWhereToNavigateByNavBarItemClick(String identifier) {
+  checkWhereToNavigateByNavBarItemClick(String identifier) async {
     dynamic page = "";
     switch (identifier) {
       case "Profile":
@@ -102,6 +100,11 @@ class GeneralHelperMethodManager {
         page = CalendarView();
         break;
       case "Messages":
+        List<Conversation> all_conversations =
+            await context.read(conversations_provider).readConversations();
+        context
+            .read(conversations_notifier_provider)
+            .addConversations(all_conversations);
         page = MessagesView();
         break;
       case "Favourites":
@@ -442,7 +445,7 @@ class GeneralHelperMethodManager {
           });
           // Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
         } else {
-          Constants.infoPopUp.message =
+          Constants.GeneralVariableStore.infoPopUp.message =
               "An error occurred while editing. Please try again";
         }
       }
@@ -452,7 +455,7 @@ class GeneralHelperMethodManager {
   }
 
   // Retrieve Body
-  getUpdateProfilePageBody(BuildContext context) {
+  getUpdateProfilePageBody(BuildContext context, _basicDetailsUpdateKey) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -462,7 +465,7 @@ class GeneralHelperMethodManager {
             children: [
               getUpdateTopButtonsBar(context),
               getUpdateBasicDetailsProfile(),
-              updateButton(),
+              updateButton(_basicDetailsUpdateKey),
             ],
           ),
         ),
@@ -617,7 +620,7 @@ class GeneralHelperMethodManager {
                         allowClear: true,
                         validator: FormBuilderValidators.compose(
                             [FormBuilderValidators.required(context)]),
-                        items: Constants.mainGenderOptions
+                        items: Constants.ActivityVariableStore.mainGenderOptions
                             .map((genderOption) => genderOption.description)
                             .map(
                               (gender) => DropdownMenuItem(
@@ -638,12 +641,12 @@ class GeneralHelperMethodManager {
     );
   }
 
-  Widget updateButton() {
+  Widget updateButton(_basicDetailsUpdateKey) {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: ElevatedButton(
         child: Text('Update'),
-        style: Constants.update_btn_style,
+        style: Constants.StyleVariableStore.update_btn_style,
         onPressed: () => {
           // Check if the form is validated
           if (_basicDetailsUpdateKey.currentState.saveAndValidate())
@@ -691,7 +694,8 @@ class GeneralHelperMethodManager {
             padding: const EdgeInsets.only(right: 8.0),
             child: Icon(Icons.error_outline),
           ),
-          Expanded(child: Text(Constants.infoPopUp.message)),
+          Expanded(
+              child: Text(Constants.GeneralVariableStore.infoPopUp.message)),
           IconButton(
             icon: Icon(Icons.close),
             onPressed: () => {
@@ -729,13 +733,15 @@ class GeneralHelperMethodManager {
 
   // Retrieves the word labels for the sliders based on input given
   String getLabel(double percLevel, String mode) {
-    print(Constants.activities);
-    print(Constants.activityModesSliderDouble);
-    return Constants.activityModesSliderStrings[mode][percLevel];
+    print(Constants.ActivityVariableStore.activities);
+    print(Constants.ActivityVariableStore.activityModesSliderDouble);
+    return Constants.ActivityVariableStore.activityModesSliderStrings[mode]
+        [percLevel];
   }
 
   double getPercentLevel(String sliderStringLevel, String mode) {
-    return Constants.activityModesSliderDouble[mode][sliderStringLevel];
+    return Constants.ActivityVariableStore.activityModesSliderDouble[mode]
+        [sliderStringLevel];
   }
 
   void setActivityPreferencesFromSlider(

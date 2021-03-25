@@ -51,7 +51,6 @@ class ImageController {
           return '${this.url_in_use}/${response.data["imagePath"]}';
         }
       }
-      return null;
     } catch (e) {
       print('caught error $e');
     }

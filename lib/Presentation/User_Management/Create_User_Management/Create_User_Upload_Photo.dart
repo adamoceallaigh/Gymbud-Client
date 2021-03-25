@@ -86,24 +86,31 @@ class _UploadPhotoState extends State<UploadPhoto> {
                     children: [
                       ElevatedButton(
                         child: Text('Take Photo'),
-                        style: upload_pic_btn_style,
+                        style: StyleVariableStore.upload_pic_btn_style,
                         onPressed: () async {
-                          String imageUrl = await generalHelperMethodManager
+                          await generalHelperMethodManager
                               .getImageFromSource(ImageSource.camera);
-                          context.read(image_provider).uploadImage(imageUrl);
+                          // imageUrl = await context
+                          //     .read(image_provider)
+                          //     .uploadImage(imageUrl);
+                          // widget.user.profileUrl = imageUrl;
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => UploadPhotoSucess()));
                         },
                       ),
                       ElevatedButton(
                         child: Text('Upload Photo'),
-                        style: upload_pic_btn_style,
+                        style: StyleVariableStore.upload_pic_btn_style,
                         onPressed: () async {
-                          String imageUrl = await generalHelperMethodManager
+                          await generalHelperMethodManager
                               .getImageFromSource(ImageSource.gallery);
-                          context.read(image_provider).uploadImage(imageUrl);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UploadPhotoSucess()));
+                          // context.read(image_provider).uploadImage(imageUrl);
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => UploadPhotoSucess()));
                         },
                       ),
                     ],

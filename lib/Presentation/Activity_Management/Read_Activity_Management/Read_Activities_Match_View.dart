@@ -53,13 +53,13 @@ class MatchView extends HookWidget {
               cardBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () => {
+                    context
+                        .read(activity_notifier_provider)
+                        .createActivity(all_activities[index]),
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SingleActivityView(
-                          activity: all_activities[index],
-                          user: logged_in_user,
-                        ),
+                        builder: (context) => SingleActivityView(),
                       ),
                     ),
                   },

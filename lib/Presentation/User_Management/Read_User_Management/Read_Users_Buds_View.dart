@@ -1,6 +1,7 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Infrastructure/Models/Models_Required.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,7 +58,8 @@ class BudsView extends HookWidget {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: Constants.shadowList,
+                                  boxShadow:
+                                      Constants.StyleVariableStore.shadowList,
                                 ),
                                 // margin: EdgeInsets.only(top: 10),
                               ),
@@ -122,7 +124,7 @@ class BudsView extends HookWidget {
                           margin: EdgeInsets.only(left: 10),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            boxShadow: Constants.shadowList,
+                            boxShadow: Constants.StyleVariableStore.shadowList,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: SvgPicture.asset(
@@ -171,13 +173,19 @@ class BudsView extends HookWidget {
                       color: HexColor("EB9661"),
                       child: ElevatedButton(
                         child: Text("Find Some Buds"),
-                        onPressed: () => {
+                        onPressed: () async {
+                          List<Activity> all_activities = await context
+                              .read(activities_provider)
+                              .readActivities();
+                          context
+                              .read(activities_notifier_provider)
+                              .addActivities(all_activities);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => MatchView(),
                             ),
-                          )
+                          );
                         },
                       ),
                     ),

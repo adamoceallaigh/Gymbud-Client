@@ -14,6 +14,7 @@ import 'package:Client/Managers/Notifiers/ConversationNotifier.dart';
 import 'package:Client/Managers/Notifiers/ConversationsNotifier.dart';
 import 'package:Client/Managers/Notifiers/DatesNotifier.dart';
 import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
+import 'package:Client/Managers/Notifiers/ErrorMessageNotifier.dart';
 import 'package:Client/Managers/Notifiers/ImageNotifier.dart';
 import 'package:Client/Managers/Notifiers/UserNotifier.dart';
 import 'package:Client/Managers/Notifiers/UsersNotifier.dart';
@@ -104,4 +105,9 @@ final dates_notifier_provider = ChangeNotifierProvider(
 // Video Player controller
 final video_provider = Provider<VideoController>(
   (ref) => VideoController(ref.watch(app_notifier_provider.state)),
+);
+
+// Error Message Notifier
+final error_notifier = ChangeNotifierProvider(
+  (ref) => ErrorNotifier(),
 );

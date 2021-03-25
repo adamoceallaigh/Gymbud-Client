@@ -58,7 +58,8 @@ class AddActivityOnboarding extends HookWidget {
                   child: Column(
                     children: [
                       SelectFromOptionsWidget(
-                        generalOptions: Constants.mainActivityOptions,
+                        generalOptions:
+                            Constants.ActivityVariableStore.mainActivityOptions,
                         placeToChangeFrom: "Activity",
                         whatToChange: "Type",
                       )

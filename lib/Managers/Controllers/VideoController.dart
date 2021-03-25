@@ -20,6 +20,8 @@ class VideoController {
   // Variable to hold instance of dio used for networking
   Dio dio = new Dio();
 
+  Uuid uuid = new Uuid();
+
   VideoController(AppState appState) {
     if (appState is AppLoaded) {
       this.url_in_use = '${appState.url}/users';
@@ -28,7 +30,7 @@ class VideoController {
   }
 
   String createVideoLink() {
-    final randomId = new Uuid();
+    final randomId = uuid.v4();
     return 'http://localhost:3300/${randomId}';
   }
 }

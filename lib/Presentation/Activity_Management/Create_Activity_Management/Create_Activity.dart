@@ -197,7 +197,8 @@ class AddActivity extends HookWidget {
                                 ),
                               ),
                               SelectFromOptionsWidget(
-                                generalOptions: Constants.mainGenderOptions,
+                                generalOptions: Constants
+                                    .ActivityVariableStore.mainGenderOptions,
                                 placeToChangeFrom: "Activity",
                                 whatToChange: "Gender",
                               ),
@@ -227,8 +228,7 @@ class AddActivity extends HookWidget {
                           ),
                         ),
                         ActivitySliders(context: context, place: "Activity"),
-                        if (activity_notifier.activityType == "Gym_Workout" ||
-                            activity_notifier.activityType == "Home_Workout")
+                        if (activity_notifier.activityType == "Home_Workout")
                           ActivityResourcesGrid(
                               context: context, place: "Activity"),
                         Padding(
@@ -353,7 +353,7 @@ class AddActivity extends HookWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                style: upload_pic_btn_style,
+                                style: StyleVariableStore.upload_pic_btn_style,
                                 onPressed: () async {
                                   String imageUrl =
                                       await generalHelperMethodManager
@@ -368,7 +368,7 @@ class AddActivity extends HookWidget {
                                 width: 20,
                               ),
                               ElevatedButton(
-                                style: upload_pic_btn_style,
+                                style: StyleVariableStore.upload_pic_btn_style,
                                 onPressed: () async {
                                   String imageUrl =
                                       await generalHelperMethodManager

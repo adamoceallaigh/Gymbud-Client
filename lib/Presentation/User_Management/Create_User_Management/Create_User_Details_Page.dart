@@ -89,13 +89,13 @@ class _DetailsPageState extends State<DetailsPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(children: <Widget>[
-              if (widget.user.profileUrl != null)
+              if (widget.user != null)
                 Container(
                   height: 150,
                   width: 200,
                   child: CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(widget.user.profileUrl),
+                    backgroundImage: NetworkImage(widget?.user?.profileUrl),
                     backgroundColor: Colors.transparent,
                   ),
                 ),

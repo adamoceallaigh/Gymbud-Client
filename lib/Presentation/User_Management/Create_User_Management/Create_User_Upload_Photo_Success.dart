@@ -67,14 +67,14 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
                     child: Container(
                       width: 240,
                       height: 240,
-                      padding: widget.user.profileUrl == null
+                      padding: widget?.user?.profileUrl == null
                           ? EdgeInsets.all(5)
                           : null,
                       color: Colors.black12,
-                      child: widget.user.profileUrl == null
+                      child: widget?.user?.profileUrl == null
                           ? Icon(Icons.add)
                           : Image.network(
-                              widget.user.profileUrl,
+                              widget?.user?.profileUrl,
                               fit: BoxFit.fill,
                             ),
                     ),
@@ -86,7 +86,7 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Center(
-                    child: widget.user.profileUrl == null
+                    child: widget?.user?.profileUrl == null
                         ? Text("No image Selected. Please pick one to continue")
                         : Text(
                             "That’s Perfect 👌 \n On We GO!!",
@@ -100,7 +100,7 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
                   ),
                 ),
               ),
-              if (widget.user.profileUrl != null)
+              if (widget?.user?.profileUrl != null)
                 GestureDetector(
                   onTap: () async {},
                   child: createContinueToBasicDetailsPageBtn(context),

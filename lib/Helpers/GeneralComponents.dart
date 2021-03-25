@@ -52,9 +52,10 @@ class _SelectFromOptionsWidgetState extends State<SelectFromOptionsWidget> {
                     .forEach((gender) => gender.isSelected = false);
                 widget.generalOptions[index].isSelected = true;
                 generalHelperMethodManager.checkProvider(
-                    widget.placeToChangeFrom,
-                    widget.whatToChange,
-                    widget.generalOptions[index].hiddenText);
+                  widget.placeToChangeFrom,
+                  widget.whatToChange,
+                  widget.generalOptions[index].hiddenText,
+                );
               });
             },
             child: GeneralOptionRadio(widget.generalOptions[index]),
@@ -85,7 +86,7 @@ class _ActivitySlidersState extends State<ActivitySliders> {
 
     return Container(
       margin: EdgeInsets.only(top: 20),
-      height: 295,
+      height: widget.place == "User" ? 195 : 295,
       child: Column(
         children: [
           ActivityFitnessSlider(generalHelperMethodManager, widget.place),
@@ -110,6 +111,9 @@ class ActivityFitnessSlider extends StatefulWidget {
 class _ActivityFitnessSliderState extends State<ActivityFitnessSlider> {
   @override
   Widget build(BuildContext context) {
+    final whichProvider = widget.place == "User"
+        ? context.read(user_notifier_provider.state).fitnessLevel
+        : context.read(activity_notifier_provider.state).activityFitnessLevel;
     return Column(
       children: [
         Padding(
@@ -135,20 +139,15 @@ class _ActivityFitnessSliderState extends State<ActivityFitnessSlider> {
             activeColor: HexColor("#EB9661"),
             // inactiveColor: HexColor("#2E2B2B"),
             label: widget.generalHelperMethodManager.getLabel(
-                    widget.generalHelperMethodManager.getPercentLevel(
-                        context
-                            .read(activity_notifier_provider.state)
-                            .activityFitnessLevel,
-                        "Fitness"),
+                    widget.generalHelperMethodManager
+                        .getPercentLevel(whichProvider, "Fitness"),
                     "Fitness") ??
-                widget.generalHelperMethodManager
-                    .getLabel(Constants.defaultActivityLevel, "Fitness"),
-            value: widget.generalHelperMethodManager.getPercentLevel(
-                    context
-                        .read(activity_notifier_provider.state)
-                        .activityFitnessLevel,
-                    "Fitness") ??
-                Constants.defaultActivityLevel,
+                widget.generalHelperMethodManager.getLabel(
+                    Constants.ActivityVariableStore.defaultActivityLevel,
+                    "Fitness"),
+            value: widget.generalHelperMethodManager
+                    .getPercentLevel(whichProvider, "Fitness") ??
+                Constants.ActivityVariableStore.defaultActivityLevel,
             onChanged: (val) => {
               setState(() {
                 widget.generalHelperMethodManager
@@ -179,6 +178,9 @@ class ActivityIntensitySlider extends StatefulWidget {
 class _ActivityIntensitySliderState extends State<ActivityIntensitySlider> {
   @override
   Widget build(BuildContext context) {
+    final whichProvider = widget.place == "User"
+        ? context.read(user_notifier_provider.state).preferredIntensity
+        : context.read(activity_notifier_provider.state).activityIntensityLevel;
     return Column(
       children: [
         SizedBox(
@@ -202,20 +204,15 @@ class _ActivityIntensitySliderState extends State<ActivityIntensitySlider> {
             divisions: 5,
             activeColor: HexColor("#EB9661"),
             label: widget.generalHelperMethodManager.getLabel(
-                    widget.generalHelperMethodManager.getPercentLevel(
-                        context
-                            .read(activity_notifier_provider.state)
-                            .activityIntensityLevel,
-                        "Intensity"),
+                    widget.generalHelperMethodManager
+                        .getPercentLevel(whichProvider, "Intensity"),
                     "Intensity") ??
-                widget.generalHelperMethodManager
-                    .getLabel(Constants.defaultIntensity, "Intensity"),
-            value: widget.generalHelperMethodManager.getPercentLevel(
-                    context
-                        .read(activity_notifier_provider.state)
-                        .activityIntensityLevel,
-                    "Intensity") ??
-                Constants.defaultIntensity,
+                widget.generalHelperMethodManager.getLabel(
+                    Constants.ActivityVariableStore.defaultIntensity,
+                    "Intensity"),
+            value: widget.generalHelperMethodManager
+                    .getPercentLevel(whichProvider, "Intensity") ??
+                Constants.ActivityVariableStore.defaultIntensity,
             onChanged: (val) => {
               setState(() {
                 widget.generalHelperMethodManager
@@ -276,14 +273,15 @@ class _ActivityBudgetSliderState extends State<ActivityBudgetSlider> {
                             .activityBudgetLevel,
                         "Budget"),
                     "Budget") ??
-                widget.generalHelperMethodManager
-                    .getLabel(Constants.defaultActivityLevel, "Budget"),
+                widget.generalHelperMethodManager.getLabel(
+                    Constants.ActivityVariableStore.defaultActivityLevel,
+                    "Budget"),
             value: widget.generalHelperMethodManager.getPercentLevel(
                     context
                         .read(activity_notifier_provider.state)
                         .activityBudgetLevel,
                     "Budget") ??
-                Constants.defaultActivityLevel,
+                Constants.ActivityVariableStore.defaultActivityLevel,
             onChanged: (val) => {
               setState(() {
                 widget.generalHelperMethodManager
@@ -320,13 +318,38 @@ class _ActivityResourcesGridState extends State<ActivityResourcesGrid> {
     // Obtaining the activity we just set up
     final activity_notifier = context.read(activity_notifier_provider.state);
     if (activity_notifier.resources == null) activity_notifier.resources = [];
+    if (logged_in_user.activities == null) logged_in_user.activities = [];
+
+    final checkedActivityPlace = activity_notifier.activityType == null
+        ? logged_in_user.preferredActivity
+        : activity_notifier.activityType;
+
+    checkInputs() {
+      switch (checkedActivityPlace) {
+        case "Home_Workout":
+          return Constants.ActivityVariableStore.resources;
+        case "Outdoor_Activities":
+          return Constants.ActivityVariableStore.activities;
+      }
+    }
+
+    checkPlace() {
+      switch (widget.place) {
+        case "User":
+          return logged_in_user.activities;
+        case "Activity":
+          return activity_notifier.resources;
+      }
+    }
 
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
-            "Pick the resources you have",
+            checkedActivityPlace == "Home_Workout"
+                ? "Pick the resources you have"
+                : "Pick the activities you want",
             style: GoogleFonts.meriendaOne(
               color: HexColor("#000000"),
               fontSize: 18,
@@ -345,24 +368,24 @@ class _ActivityResourcesGridState extends State<ActivityResourcesGrid> {
                 mainAxisSpacing: 20.0,
                 crossAxisSpacing: 20.0,
                 shrinkWrap: true,
-                children: Constants.resources.map((resource) {
+                children: checkInputs().map((resource) {
                   return Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: activity_notifier.resources != null &&
-                                activity_notifier.resources.contains(resource)
+                        color: checkPlace() != null &&
+                                checkPlace().contains(resource)
                             ? Colors.transparent
                             : HexColor('#C8C8C8'),
                       ),
                     ),
                     child: TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: activity_notifier.resources != null &&
-                                activity_notifier.resources.contains(resource)
+                        backgroundColor: checkPlace() != null &&
+                                checkPlace().contains(resource)
                             ? HexColor('#EB9661')
                             : Colors.transparent,
-                        primary: activity_notifier.resources != null &&
-                                activity_notifier.resources.contains(resource)
+                        primary: checkPlace() != null &&
+                                checkPlace().contains(resource)
                             ? Colors.white
                             : HexColor('#EB9661'),
                       ),
@@ -380,11 +403,10 @@ class _ActivityResourcesGridState extends State<ActivityResourcesGrid> {
                       ),
                       onPressed: () => {
                         setState(() => {
-                              if (!activity_notifier.resources
-                                  .contains(resource))
-                                {activity_notifier.resources.add(resource)}
+                              if (!checkPlace().contains(resource))
+                                {checkPlace().add(resource)}
                               else
-                                {activity_notifier.resources.remove(resource)},
+                                {checkPlace().remove(resource)},
                             })
                       },
                     ),
