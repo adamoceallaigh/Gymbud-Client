@@ -56,6 +56,9 @@ class SingleActivityView extends HookWidget {
 
       // }
 
+      // Checking to see if you are signing up for your own activity
+      if (activity_picked.creator.id == logged_in_user.id) return;
+
       // Signing user up for the activity
       Activity isSignedUpActivity = await context
           .read(activities_provider)
