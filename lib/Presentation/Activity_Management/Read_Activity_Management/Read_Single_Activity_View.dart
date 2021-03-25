@@ -121,10 +121,18 @@ class SingleActivityView extends HookWidget {
               .conversations
               .add(updatedConversation);
 
+          // Checking to see if the activity type is home workout
+          if (activity_picked.activityType != "Home_Workout") return;
+
           // Create a Video Link and attach it to the activity if it's a home or gym workout
           String newVideoUrl =
               await context.read(video_provider).createVideoLink();
-          // await context.read(activity_notifier_provider.state).activityVideoUrl = newVideoUrl;
+
+          // Attaching it to the activity just made
+          await context
+              .read(activity_notifier_provider)
+              .addVideoUrl(newVideoUrl);
+
           return;
         }
 

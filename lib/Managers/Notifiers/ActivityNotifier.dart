@@ -22,4 +22,7 @@ class ActivityNotifier extends StateNotifier<Activity> {
   void deleteActivity(Activity targetActivity) => {
         state = null,
       };
+  void addVideoUrl(String videoUrl) {
+    state.activityVideoUrl = videoUrl;
+  }
 }

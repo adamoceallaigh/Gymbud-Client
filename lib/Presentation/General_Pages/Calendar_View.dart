@@ -55,6 +55,10 @@ class _CalendarViewState extends State<CalendarView> {
     // Get the dates notifier
     final dates_notifier = context.read(dates_notifier_provider);
 
+    // Get the video url
+    final video_url =
+        context.read(activity_notifier_provider.state).activityVideoUrl;
+
     // Get All the Users activities
     var logged_in_users_activities =
         context.read(user_notifier_provider.state).activities;
@@ -83,8 +87,6 @@ class _CalendarViewState extends State<CalendarView> {
             event;
       }
     }
-
-    print(filterDates);
 
     // _activities = List<dynamic>.from(logged_in_users_activities);
     // _activities.forEach((activity) =>
@@ -116,8 +118,8 @@ class _CalendarViewState extends State<CalendarView> {
     // logged_in_users_activities_dates =
     //     Map<DateTime, List<dynamic>>.from(logged_in_users_activities_dates);
 
-    Container taskList(
-        String title, String description, IconData iconImg, Color iconColor) {
+    Container taskList(String title, String description, String videoUrl,
+        IconData iconImg, Color iconColor) {
       return Container(
         padding: EdgeInsets.only(top: 20),
         child: Row(
@@ -149,6 +151,17 @@ class _CalendarViewState extends State<CalendarView> {
                   ),
                   Text(
                     description,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    videoUrl,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.normal,
@@ -264,9 +277,10 @@ class _CalendarViewState extends State<CalendarView> {
                       children: getChildren().map((activity) {
                         return taskList(
                           activity?.activityName,
-                          activity.time,
+                          activity.activityDescription,
+                          video_url,
                           CupertinoIcons.check_mark_circled_solid,
-                          HexColor("00CF8D"),
+                          Colors.white,
                         );
                       }).toList(),
                       // children: [
