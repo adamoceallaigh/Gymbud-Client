@@ -286,16 +286,24 @@ class MatchView extends HookWidget {
                     cardController: tinderCardController,
                     totalNum: all_activities.length,
                   )
-                : Row(
+                : Column(
                     children: [
-                      Text(
-                        "Sorry no more Activities available to join at this moment. Please try again later",
-                        style: GoogleFonts.delius(
-                          color: HexColor("2E2B2B"),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      )
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Sorry no more Activities available to join at this moment. Please try again later",
+                            style: GoogleFonts.delius(
+                              color: HexColor("2E2B2B"),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
           ),
