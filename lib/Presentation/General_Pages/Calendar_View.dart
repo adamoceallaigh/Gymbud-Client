@@ -203,7 +203,12 @@ class _CalendarViewState extends State<CalendarView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back),
+                    child: GestureDetector(
+                      child: Icon(Icons.arrow_back),
+                      onTap: () => {
+                        Navigator.pop(context),
+                      },
+                    ),
                   ),
                 ],
               ),
