@@ -55,7 +55,7 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
-          height: 580,
+          height: 630,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

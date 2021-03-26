@@ -315,7 +315,7 @@ class AddActivity extends HookWidget {
                           child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 20),
                             width: 300,
-                            height: 300,
+                            height: 330,
                             color: Colors.black12,
                             child: image_notifier.value == null ||
                                     image_notifier.value == ""
@@ -348,7 +348,7 @@ class AddActivity extends HookWidget {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 80,
+                          height: 100,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

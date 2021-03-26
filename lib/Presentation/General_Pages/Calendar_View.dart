@@ -118,8 +118,8 @@ class _CalendarViewState extends State<CalendarView> {
     // logged_in_users_activities_dates =
     //     Map<DateTime, List<dynamic>>.from(logged_in_users_activities_dates);
 
-    Container taskList(String title, String description, String videoUrl,
-        IconData iconImg, Color iconColor) {
+    Container taskList(
+        String title, String description, IconData iconImg, Color iconColor) {
       return Container(
         padding: EdgeInsets.only(top: 20),
         child: Row(
@@ -160,8 +160,9 @@ class _CalendarViewState extends State<CalendarView> {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    videoUrl,
+                  SelectableText(
+                    "http://localhost:3030/",
+                    // videoUrl,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.normal,
@@ -294,7 +295,7 @@ class _CalendarViewState extends State<CalendarView> {
                         return taskList(
                           activity?.activityName,
                           activity.activityDescription,
-                          video_url ?? "",
+                          // video_url ?? "",
                           CupertinoIcons.check_mark_circled_solid,
                           Colors.white,
                         );

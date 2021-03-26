@@ -31,7 +31,7 @@ class AppController extends StateNotifier<AppState> {
 
   void setUpApp(BuildContext context) async {
     // All the different configurations for my urls
-    String local_ios_url = "http://localhost:7000";
+    String local_ios_url = "http://192.168.0.24:7000";
     String local_android_url = "http://10.0.2.2:7000";
     String heroku_url = "https://gymbud.herokuapp.com";
     String url_in_use;
