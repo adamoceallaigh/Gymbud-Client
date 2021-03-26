@@ -415,7 +415,7 @@ class GeneralHelperMethodManager {
     );
   }
 
-  checkGender(usertype) {
+  static checkGender(usertype) {
     usertype?.gender = usertype?.gender?.replaceAll(" ", "_");
     if (usertype?.gender == null) usertype?.gender = "Prefer Not To Say";
     switch (usertype?.gender) {
@@ -432,6 +432,34 @@ class GeneralHelperMethodManager {
         return "Female";
         break;
     }
+  }
+
+  static dynamic checkDaysUntil(String number) {
+    number = number ?? "";
+    int numberInt = int.tryParse(number);
+    switch (numberInt) {
+      case 1:
+        return Colors.redAccent;
+      case 2:
+      case 3:
+        return Colors.orangeAccent;
+      case 4:
+        return Colors.greenAccent;
+      case 5:
+        return Colors.blueAccent;
+      default:
+        return HexColor("EB9661");
+    }
+  }
+
+  static String getActivitySVG(String type) {
+    if (type == null) return "Gymbud_Logo";
+    var activityTypes = {
+      "Home_Workout": "Home_Workout",
+      "Gym_Workout": "GymWeights",
+      "Outdoor_Activity": "Outdoor_Act"
+    };
+    return activityTypes[type];
   }
 
   setBasicDetailsUpdate(Map<String, dynamic> formValues) {

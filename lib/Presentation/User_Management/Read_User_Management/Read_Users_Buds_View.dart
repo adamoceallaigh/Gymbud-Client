@@ -1,8 +1,11 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Config/configVariables.dart';
+import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
 import 'package:Client/Infrastructure/Models/Models_Required.dart';
 import 'package:Client/Managers/Providers.dart';
+import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -108,36 +111,94 @@ class BudsView extends HookWidget {
             ),
 
             // Widget to make the horizontal scroll view
+
+            // Widget to make the horizontal scroll view
+            Row(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, bottom: 5, left: 20),
+                  child: Text(
+                    "Signed Up Activities".toUpperCase(),
+                    style: GoogleFonts.delius(
+                      color: HexColor("EB9661"),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Container(
-              height: 120,
+              height: 150,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 8,
+                itemCount: GeneralVariableStore.fakeActivities.length,
                 itemBuilder: (context, index) {
                   return Container(
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.center,
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.only(left: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: Constants.StyleVariableStore.shadowList,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: SvgPicture.asset(
-                            "Resources/Images/GymWeights.svg",
-                            height: 50,
-                            width: 50,
-                            color: Colors.grey[700],
-                          ),
+                        Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(left: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow:
+                                    Constants.StyleVariableStore.shadowList,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: SvgPicture.asset(
+                                'Resources/Images/${GeneralHelperMethodManager.getActivitySVG(GeneralVariableStore.fakeActivities[index].activityType)}.svg',
+                                height: 50,
+                                width: 50,
+                              ),
+                            ),
+                            Positioned(
+                              child: Container(
+                                height: 20,
+                                width: 25,
+                                decoration: BoxDecoration(
+                                  color:
+                                      GeneralHelperMethodManager.checkDaysUntil(
+                                          GeneralVariableStore
+                                              .fakeActivities[index].date),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  GeneralVariableStore
+                                              .fakeActivities[index].date !=
+                                          null
+                                      ? "${GeneralVariableStore.fakeActivities[index].date}d"
+                                      : "2d",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Container(
                           padding: EdgeInsets.all(10),
                           margin: EdgeInsets.only(left: 10),
-                          child: Text("GymWeights"),
+                          child: Text(
+                            "With \n ${GeneralVariableStore.fakeActivities[index].creator.username}",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.delius(
+                              color: HexColor("2E2B2B"),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -164,29 +225,47 @@ class BudsView extends HookWidget {
             ),
 
             Row(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Expanded(
                     child: Container(
-                      height: 40,
-                      color: HexColor("EB9661"),
-                      child: ElevatedButton(
-                        child: Text("Find Some Buds"),
-                        onPressed: () async {
-                          List<Activity> all_activities = await context
-                              .read(activities_provider)
-                              .readActivities();
-                          context
-                              .read(activities_notifier_provider)
-                              .addActivities(all_activities);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MatchView(),
+                      height: 180,
+                      width: 380,
+                      // color: HexColor("EB9661"),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          ElevatedButton(
+                            child: Text(
+                              "Find Some Buds",
+                              style: GoogleFonts.delius(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
-                          );
-                        },
+                            style: StyleVariableStore.sign_up_button_style,
+                            onPressed: () async {
+                              List<Activity> all_activities = await context
+                                  .read(activities_provider)
+                                  .readActivities();
+                              context
+                                  .read(activities_notifier_provider)
+                                  .addActivities(all_activities);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MatchView(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),

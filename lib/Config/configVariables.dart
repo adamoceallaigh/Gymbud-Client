@@ -3,6 +3,8 @@
 // Library Imports
 
 // Page Imports
+import 'dart:math';
+
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
@@ -279,6 +281,39 @@ class GeneralVariableStore {
         preferredAgeRange: "38.523552389705884 - 74.00404986213235",
         preferredDistanceRange: "35",
         fitnessLevel: "Active"),
+  ];
+
+  static List<Activity> fakeActivities = [
+    Activity(
+      activityType: "Home_Workout",
+      creator: fakeUsers[new Random().nextInt(fakeUsers.length - 1)],
+      date: "1",
+    ),
+    Activity(
+      activityType: "Gym_Workout",
+      creator: fakeUsers[new Random().nextInt(fakeUsers.length - 1)],
+      date: "1",
+    ),
+    Activity(
+      activityType: "Home_Workout",
+      creator: fakeUsers[new Random().nextInt(fakeUsers.length - 1)],
+      date: "3",
+    ),
+    Activity(
+      activityType: "Outdoor_Activity",
+      creator: fakeUsers[new Random().nextInt(fakeUsers.length - 1)],
+      date: "5",
+    ),
+    Activity(
+      activityType: "Outdoor_Activity",
+      creator: fakeUsers[new Random().nextInt(fakeUsers.length - 1)],
+      date: "3",
+    ),
+    Activity(
+      activityType: "Gym_Workout",
+      creator: fakeUsers[new Random().nextInt(fakeUsers.length - 1)],
+      date: "7",
+    ),
   ];
 }
 

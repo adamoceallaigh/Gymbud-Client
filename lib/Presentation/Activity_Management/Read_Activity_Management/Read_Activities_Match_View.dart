@@ -45,234 +45,259 @@ class MatchView extends HookWidget {
           ),
           Container(
             height: (MediaQuery.of(context).size.height + 120) * 0.6,
-            child: TinderSwapCard(
-              maxWidth: MediaQuery.of(context).size.width * 0.9,
-              maxHeight: MediaQuery.of(context).size.height * 0.9,
-              minWidth: MediaQuery.of(context).size.width * 0.8,
-              minHeight: MediaQuery.of(context).size.height * 0.85,
-              cardBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => {
-                    context
-                        .read(activity_notifier_provider)
-                        .createActivity(all_activities[index]),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SingleActivityView(),
-                      ),
-                    ),
-                  },
-                  child: Hero(
-                    tag: 'Activity ${all_activities[index].hashCode}',
-                    child: Card(
-                      margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(10),
-                            ),
-                            child: Container(
-                              height: 220,
-                              width: MediaQuery.of(context).size.width,
-                              child: Image.network(
-                                all_activities[index].activityImageUrl,
-                                alignment: Alignment.lerp(
-                                    Alignment.center, Alignment.topCenter, .3),
-                                fit: BoxFit.cover,
-                              ),
+            child: all_activities.length > 0
+                ? TinderSwapCard(
+                    maxWidth: MediaQuery.of(context).size.width * 0.9,
+                    maxHeight: MediaQuery.of(context).size.height * 0.9,
+                    minWidth: MediaQuery.of(context).size.width * 0.8,
+                    minHeight: MediaQuery.of(context).size.height * 0.85,
+                    cardBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => {
+                          context
+                              .read(activity_notifier_provider)
+                              .createActivity(all_activities[index]),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SingleActivityView(),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 2),
-                            padding: EdgeInsets.symmetric(horizontal: 6.0),
-                            height: 80,
-                            child: Row(
+                        },
+                        child: Hero(
+                          tag: 'Activity ${all_activities[index].hashCode}',
+                          child: Card(
+                            margin:
+                                EdgeInsets.only(left: 8, right: 8, bottom: 24),
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Expanded(
-                                  flex: 3,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(10),
+                                  ),
                                   child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Activity Description",
-                                          style: GoogleFonts.meriendaOne(
-                                            color: HexColor("#000000"),
-                                            fontSize: 18,
-                                            letterSpacing: -1.5,
-                                          ),
-                                        ),
-                                        Text(all_activities[index]
-                                            .activityDescription),
-                                      ],
+                                    height: 220,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Image.network(
+                                      all_activities[index].activityImageUrl,
+                                      alignment: Alignment.lerp(
+                                          Alignment.center,
+                                          Alignment.topCenter,
+                                          .3),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 2),
-                                    height: 70,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Stack(
-                                            children: generalHelperMethodManager
-                                                .getAttendeeCirclesMatchView(
-                                                    index, all_activities),
+                                Container(
+                                  margin: EdgeInsets.only(top: 2),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 6.0),
+                                  height: 80,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Activity Description",
+                                                style: GoogleFonts.meriendaOne(
+                                                  color: HexColor("#000000"),
+                                                  fontSize: 18,
+                                                  letterSpacing: -1.5,
+                                                ),
+                                              ),
+                                              Text(all_activities[index]
+                                                  .activityDescription),
+                                            ],
                                           ),
                                         ),
-                                        Text(
-                                          '${all_activities[index].participants.length.toString()} / 6',
-                                          style: GoogleFonts.meriendaOne(
-                                            color: HexColor("#000000"),
-                                            fontSize: 18,
-                                            letterSpacing: -1.5,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 2),
+                                          height: 70,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                flex: 1,
+                                                child: Stack(
+                                                  children:
+                                                      generalHelperMethodManager
+                                                          .getAttendeeCirclesMatchView(
+                                                              index,
+                                                              all_activities),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${all_activities[index].participants.length.toString()} / 6',
+                                                style: GoogleFonts.meriendaOne(
+                                                  color: HexColor("#000000"),
+                                                  fontSize: 18,
+                                                  letterSpacing: -1.5,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
+                                ),
+                                Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 6.0),
+                                  height: 50,
+                                  child: Row(children: [
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Resources",
+                                              style: GoogleFonts.meriendaOne(
+                                                color: HexColor("#000000"),
+                                                fontSize: 18,
+                                                letterSpacing: -1.5,
+                                              ),
+                                              // style: TextStyle(
+                                              //   fontWeight: FontWeight.w500,
+                                              //   fontSize: 16,
+                                              // ),
+                                            ),
+                                            Row(
+                                              children: all_activities[index]
+                                                  .resources
+                                                  .map((resource) =>
+                                                      Text(resource))
+                                                  .toList(),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 8),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 6.0),
+                                  height: 60,
+                                  child: Row(children: [
+                                    Expanded(
+                                      child: Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Intensity",
+                                                  style:
+                                                      GoogleFonts.meriendaOne(
+                                                    color: HexColor("#000000"),
+                                                    fontSize: 18,
+                                                    letterSpacing: -1.5,
+                                                  ),
+                                                  // style: TextStyle(
+                                                  //   fontWeight: FontWeight.w500,
+                                                  //   fontSize: 16,
+                                                  // ),
+                                                ),
+                                                Text(all_activities[index]
+                                                    .activityIntensityLevel),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  height: 60,
+                                                  width: 80,
+                                                  child: Stack(
+                                                    children: [
+                                                      Positioned(
+                                                        child: Text(
+                                                          "by",
+                                                          style: GoogleFonts
+                                                              .meriendaOne(
+                                                            color: HexColor(
+                                                                "#000000"),
+                                                            fontSize: 18,
+                                                            letterSpacing: -1.5,
+                                                          ),
+                                                        ),
+                                                        left: 5,
+                                                        top: 0,
+                                                      ),
+                                                      Positioned(
+                                                        top: 5,
+                                                        left: 25,
+                                                        child: CircleAvatar(
+                                                          radius: 25,
+                                                          backgroundImage:
+                                                              NetworkImage(
+                                                                  all_activities[
+                                                                          index]
+                                                                      .creator
+                                                                      .profileUrl),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
                                 ),
                               ],
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 6.0),
-                            height: 50,
-                            child: Row(children: [
-                              Expanded(
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Resources",
-                                        style: GoogleFonts.meriendaOne(
-                                          color: HexColor("#000000"),
-                                          fontSize: 18,
-                                          letterSpacing: -1.5,
-                                        ),
-                                        // style: TextStyle(
-                                        //   fontWeight: FontWeight.w500,
-                                        //   fontSize: 16,
-                                        // ),
-                                      ),
-                                      Row(
-                                        children: all_activities[index]
-                                            .resources
-                                            .map((resource) => Text(resource))
-                                            .toList(),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 8),
-                            padding: EdgeInsets.symmetric(horizontal: 6.0),
-                            height: 60,
-                            child: Row(children: [
-                              Expanded(
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Intensity",
-                                            style: GoogleFonts.meriendaOne(
-                                              color: HexColor("#000000"),
-                                              fontSize: 18,
-                                              letterSpacing: -1.5,
-                                            ),
-                                            // style: TextStyle(
-                                            //   fontWeight: FontWeight.w500,
-                                            //   fontSize: 16,
-                                            // ),
-                                          ),
-                                          Text(all_activities[index]
-                                              .activityIntensityLevel),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          Container(
-                                            height: 60,
-                                            width: 80,
-                                            child: Stack(
-                                              children: [
-                                                Positioned(
-                                                  child: Text(
-                                                    "by",
-                                                    style:
-                                                        GoogleFonts.meriendaOne(
-                                                      color:
-                                                          HexColor("#000000"),
-                                                      fontSize: 18,
-                                                      letterSpacing: -1.5,
-                                                    ),
-                                                  ),
-                                                  left: 5,
-                                                  top: 0,
-                                                ),
-                                                Positioned(
-                                                  top: 5,
-                                                  left: 25,
-                                                  child: CircleAvatar(
-                                                    radius: 25,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                            all_activities[
-                                                                    index]
-                                                                .creator
-                                                                .profileUrl),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
+                    cardController: tinderCardController,
+                    totalNum: all_activities.length,
+                  )
+                : Row(
+                    children: [
+                      Text(
+                        "Sorry no more Activities available to join at this moment. Please try again later",
+                        style: GoogleFonts.delius(
+                          color: HexColor("2E2B2B"),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      )
+                    ],
                   ),
-                );
-              },
-              cardController: tinderCardController,
-              totalNum: all_activities.length,
-            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
