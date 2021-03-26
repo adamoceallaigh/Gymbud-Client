@@ -196,6 +196,17 @@ class _CalendarViewState extends State<CalendarView> {
               SizedBox(
                 height: 30,
               ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.arrow_back),
+                  ),
+                ],
+              ),
               TableCalendar(
                 daysOfWeekStyle: DaysOfWeekStyle(
                   weekendStyle: TextStyle(
@@ -316,38 +327,37 @@ class _CalendarViewState extends State<CalendarView> {
                       // ],
                     ),
                     Positioned(
-                      bottom: 0,
+                      bottom: 50,
                       // height: 300,
                       width: MediaQuery.of(context).size.width,
                       child: Container(),
                     ),
                     Positioned(
-                      bottom: 40,
+                      bottom: 110,
                       right: 20,
                       child: GestureDetector(
                         onTap: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AddActivityOnboarding()),
+                              builder: (context) => AddActivityOnboarding(),
+                            ),
                           ),
                         },
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          width: 70,
+                          height: 70,
+                          padding: EdgeInsets.all(0),
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black38,
-                                  blurRadius: 30,
-                                )
-                              ]),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                          ),
                           child: Text(
                             "+",
-                            style: TextStyle(
+                            style: GoogleFonts.delius(
                               color: HexColor("EB9661"),
+                              fontWeight: FontWeight.bold,
                               fontSize: 40,
                             ),
                           ),
