@@ -125,32 +125,28 @@ class SingleActivityView extends HookWidget {
               .conversations
               .add(updatedConversation);
 
+          // Get all the activities again and set them back up in state
+          List<Activity> all_activities =
+              await context.read(activities_provider).readActivities();
+          context
+              .read(activities_notifier_provider)
+              .addActivities(all_activities);
+
           // Checking to see if the activity type is home workout
-          if (activity_picked.activityType != "Home_Workout") return;
+          if (activity_picked.activityType == "Home_Workout") {
+            // Create a Video Link and attach it to the activity if it's a home or gym workout
+            String newVideoUrl =
+                await context.read(video_provider).createVideoLink();
 
-          // Create a Video Link and attach it to the activity if it's a home or gym workout
-          String newVideoUrl =
-              await context.read(video_provider).createVideoLink();
+            // Attaching it to the activity just made
+            await context
+                .read(activity_notifier_provider)
+                .addVideoUrl(newVideoUrl);
+          }
 
-          // Attaching it to the activity just made
-          await context
-              .read(activity_notifier_provider)
-              .addVideoUrl(newVideoUrl);
-
-          return;
+          // Bring them back a page in the app
+          Navigator.pop(context);
         }
-
-        // Get all the activities again and set them back up in state
-        List<Activity> all_activities =
-            await context.read(activities_provider).readActivities();
-        context
-            .read(activities_notifier_provider)
-            .addActivities(all_activities);
-
-        // Bring them back a page in the app
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MatchView()));
-        // Navigator.pop(context);
       }
     }
 
@@ -302,7 +298,7 @@ class SingleActivityView extends HookWidget {
                                               Expanded(
                                                   child:
                                                       Icon(Icons.date_range)),
-//                                           SizedBox(width: 15.0),
+                                              // SizedBox(width: 15.0),
                                               Expanded(
                                                 child: Text(
                                                   "Activity Details",
@@ -334,7 +330,7 @@ class SingleActivityView extends HookWidget {
                                                   ),
                                                 ),
                                               ),
-//                                           SizedBox(width: 15.0),
+                                              // SizedBox(width: 15.0),
                                               Expanded(
                                                 child: Text(
                                                   '${activity_picked.time}',
