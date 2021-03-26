@@ -1,7 +1,10 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/GeneralComponents.dart';
+import 'package:Client/Helpers/HexColor.dart';
+import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -52,8 +55,25 @@ class AddActivityOnboarding extends HookWidget {
                     ),
                   ],
                 ),
-                Text('What sort of activity are you setting up ?'),
-                Text('Please pick from one of the options below'),
+                Text(
+                  'What type of activity are you setting up ?',
+                  style: GoogleFonts.delius(
+                    color: HexColor("2E2B2B"),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Please pick from one of the options below',
+                  style: GoogleFonts.delius(
+                    color: HexColor("2E2B2B"),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
                 Container(
                   child: Column(
                     children: [
@@ -66,10 +86,14 @@ class AddActivityOnboarding extends HookWidget {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
                   child: Align(
                     alignment: Alignment.center,
                     child: ElevatedButton(
+                      style: ButtonProducer.getSignUpGymbudBtn(),
                       onPressed: () => {
                         Navigator.push(
                           context,
@@ -80,6 +104,11 @@ class AddActivityOnboarding extends HookWidget {
                       },
                       child: Text(
                         "Continue",
+                        style: GoogleFonts.delius(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),

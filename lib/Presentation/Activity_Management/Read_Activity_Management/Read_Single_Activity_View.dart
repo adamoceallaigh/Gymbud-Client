@@ -5,6 +5,7 @@ import 'package:Client/Config/configVariables.dart';
 import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
 import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Infrastructure/Models/Models_Required.dart';
+import 'package:Client/Presentation/Activity_Management/Read_Activity_Management/Read_Activities_Match_View.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -147,7 +148,9 @@ class SingleActivityView extends HookWidget {
             .addActivities(all_activities);
 
         // Bring them back a page in the app
-        Navigator.pop(context);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MatchView()));
+        // Navigator.pop(context);
       }
     }
 

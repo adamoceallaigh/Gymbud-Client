@@ -278,7 +278,7 @@ class _CalendarViewState extends State<CalendarView> {
                         return taskList(
                           activity?.activityName,
                           activity.activityDescription,
-                          video_url,
+                          video_url ?? "",
                           CupertinoIcons.check_mark_circled_solid,
                           Colors.white,
                         );
