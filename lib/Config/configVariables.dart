@@ -6,7 +6,9 @@
 import 'package:Client/Helpers/ButtonProducer.dart';
 import 'package:Client/Helpers/Libs_Required.dart';
 import 'package:Client/Infrastructure/Models/InformationPopUp.dart';
+import 'package:Client/Infrastructure/Models/Models_Required.dart';
 import 'package:Client/Presentation/Activity_Management/Components/Activity_Option.dart';
+import 'package:uuid/uuid.dart';
 
 // Activity Variables
 
@@ -164,6 +166,119 @@ class GeneralVariableStore {
       'icon': Icons.add,
       'title': 'Gymbud Plus',
     },
+  ];
+
+  static List<User> fakeUsers = [
+    User(
+      id: new Uuid().v4(),
+      username: "michelleadams",
+      email: "michelleadams@gmail.com",
+      profileUrl:
+          "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80",
+      name: "Michelle Adams",
+      gender: "Female",
+      dob: "2002-01-24",
+      preferredIntensity: "Moderately Intensive",
+      preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+      preferredDistanceRange: "35",
+      fitnessLevel: "Active",
+      buds: List<int>.filled(400, 0),
+      activities: List<int>.filled(4, 0),
+    ),
+    User(
+      id: new Uuid().v4(),
+      username: "robharte",
+      email: "robharte@gmail.com",
+      profileUrl:
+          "https://images.unsplash.com/photo-1562771379-eafdca7a02f8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+      name: "Rob Harte",
+      gender: "Male",
+      dob: "2002-01-24",
+      preferredIntensity: "Moderately Intensive",
+      preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+      preferredDistanceRange: "35",
+      fitnessLevel: "Active",
+    ),
+    User(
+      id: new Uuid().v4(),
+      username: "jennypeters",
+      email: "jennypeters@gmail.com",
+      profileUrl:
+          "https://images.unsplash.com/photo-1576226565048-f377166d7e7f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=958&q=80",
+      name: "Jenny Peters",
+      gender: "Female",
+      dob: "2002-01-24",
+      preferredIntensity: "Moderately Intensive",
+      preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+      preferredDistanceRange: "35",
+      fitnessLevel: "Active",
+    ),
+    User(
+      id: new Uuid().v4(),
+      username: "peterparker",
+      email: "peterparker@gmail.com",
+      profileUrl:
+          "https://images.unsplash.com/photo-1530986380366-2c4caefe7e4b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
+      name: "Peter Parker",
+      gender: "Male",
+      dob: "2002-01-24",
+      preferredIntensity: "Moderately Intensive",
+      preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+      preferredDistanceRange: "35",
+      fitnessLevel: "Active",
+    ),
+    User(
+        id: new Uuid().v4(),
+        username: "obiwilliams",
+        email: "obiwilliams@gmail.com",
+        profileUrl:
+            "https://images.unsplash.com/photo-1480264104733-84fb0b925be3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+        name: "Obi Williams",
+        gender: "Male",
+        dob: "2002-01-24",
+        preferredIntensity: "Moderately Intensive",
+        preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+        preferredDistanceRange: "35",
+        fitnessLevel: "Active"),
+    User(
+        id: new Uuid().v4(),
+        username: "sarah_johnson",
+        email: "sarahjohnson@gmail.com",
+        profileUrl:
+            "https://images.unsplash.com/photo-1505915909330-c082888680af?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=582&q=80",
+        name: "Sarah Johnson",
+        gender: "Female",
+        dob: "2002-01-24",
+        preferredIntensity: "Moderately Intensive",
+        preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+        preferredDistanceRange: "35",
+        fitnessLevel: "Active"),
+    User(
+        id: new Uuid().v4(),
+        username: "stephanieryan",
+        email: "stephanieryan@gmail.com",
+        profileUrl:
+            "https://images.unsplash.com/photo-1480179087180-d9f0ec044897?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=958&q=80",
+        name: "Stephanie Ryan",
+        gender: "Female",
+        dob: "2002-01-24",
+        preferredIntensity: "Moderately Intensive",
+        preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+        preferredDistanceRange: "35",
+        fitnessLevel: "Active"),
+    User(
+        id: new Uuid().v4(),
+        username: "amycolt",
+        email: "amycolt@gmail.com",
+        profileUrl:
+            "https://images.unsplash.com/photo-1517438984742-1262db08379e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=928&q=80",
+        name: "Amy Colt",
+        gender: "Female",
+        dob: "2002-01-24",
+        preferredIntensity: "Moderately Intensive",
+        preferredAgeRange: "38.523552389705884 - 74.00404986213235",
+        preferredDistanceRange: "35",
+        fitnessLevel: "Active"),
   ];
 }
 

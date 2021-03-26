@@ -127,27 +127,35 @@ class GeneralHelperMethodManager {
   }
 
   // Retrieve Body
-  getProfilePageBody() {
+  getProfilePageBody(temporary_user_notifier) {
     return SafeArea(
       child: Container(
         padding: EdgeInsets.only(top: 40, left: 10),
         child: Column(
           children: [
-            getTopButtonsBar(),
-            getFollowersAndPicSection(),
-            getNameAndLocation(),
-            this.logged_in_user != null
-                ? Container()
-                : getFollowAndMessageBtns(),
-            getProfileDetailsSection(),
+            getTopButtonsBar(temporary_user_notifier),
+            getFollowersAndPicSection(temporary_user_notifier),
+            getNameAndLocation(temporary_user_notifier),
+            temporary_user_notifier.username != null
+                ? getFollowAndMessageBtns()
+                : Container(),
+            getProfileDetailsSection(temporary_user_notifier),
           ],
         ),
       ),
     );
   }
 
+  takeOffTemporaryUser(temporary_user_notifier) {
+    if (temporary_user_notifier.username != null) {
+      context
+          .read(temp_user_notifier_provider)
+          .deleteTempUser(context.read(temp_user_notifier_provider.state));
+    }
+  }
+
   // Get Top Buttons Bar
-  getTopButtonsBar() {
+  getTopButtonsBar(temporary_user_notifier) {
     return // Back button and top bar widget
         Column(
       children: [
@@ -161,34 +169,39 @@ class GeneralHelperMethodManager {
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () => {Navigator.pop(context)},
+                    onTap: () => {
+                      Navigator.pop(context),
+                      takeOffTemporaryUser(temporary_user_notifier),
+                    },
                     child: Icon(Icons.arrow_back),
                   ),
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(right: 20),
-              child: GestureDetector(
-                onTap: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UpdateProfilePage()),
-                  )
-                  // Navigator.push(context, Route.UpdateProfilePage())
-                },
-                child: Row(
-                  children: [
-                    Icon(Icons.edit),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("Edit"),
-                  ],
+            if (temporary_user_notifier.username == null)
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UpdateProfilePage(),
+                      ),
+                    )
+                    // Navigator.push(context, Route.UpdateProfilePage())
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.edit),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Edit"),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         SizedBox(
@@ -199,7 +212,10 @@ class GeneralHelperMethodManager {
   }
 
   // Get Followers and Pic Section
-  getFollowersAndPicSection() {
+  getFollowersAndPicSection(temporary_user_notifier) {
+    var usertype = temporary_user_notifier.username == null
+        ? logged_in_user
+        : temporary_user_notifier;
     // Widget for second Row with Picture
     return Column(
       children: [
@@ -209,8 +225,8 @@ class GeneralHelperMethodManager {
             Column(
               children: [
                 Text(
-                  logged_in_user?.buds != null
-                      ? '${logged_in_user?.buds?.length}K'
+                  usertype?.buds != null
+                      ? '${usertype?.buds?.length}K'
                       : "4356K",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -220,16 +236,16 @@ class GeneralHelperMethodManager {
               ],
             ),
             CircleAvatar(
-              backgroundImage: logged_in_user?.profileUrl != null
-                  ? new NetworkImage(logged_in_user.profileUrl)
+              backgroundImage: usertype?.profileUrl != null
+                  ? new NetworkImage(usertype.profileUrl)
                   : null,
               radius: 50,
             ),
             Column(
               children: [
                 Text(
-                  logged_in_user?.activities != null
-                      ? '${logged_in_user?.activities?.length}'
+                  usertype?.activities != null
+                      ? '${usertype?.activities?.length}'
                       : "743",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -248,7 +264,10 @@ class GeneralHelperMethodManager {
   }
 
   // Widget for third row with name and loaction
-  getNameAndLocation() {
+  getNameAndLocation(temporary_user_notifier) {
+    var usertype = temporary_user_notifier.username == null
+        ? logged_in_user
+        : temporary_user_notifier;
     return Column(
       children: [
         Container(
@@ -261,8 +280,8 @@ class GeneralHelperMethodManager {
                   Container(
                     // margin: EdgeInsets.symmetric(horizontal: 135),
                     child: Text(
-                      logged_in_user?.name != null
-                          ? logged_in_user?.name
+                      usertype?.name != null
+                          ? usertype?.name
                           : "Sarah Geller".toUpperCase(),
                       style: TextStyle(
                         letterSpacing: 1.2,
@@ -346,7 +365,10 @@ class GeneralHelperMethodManager {
     );
   }
 
-  getProfileDetailsSection() {
+  getProfileDetailsSection(temporary_user_notifier) {
+    var usertype = temporary_user_notifier.username == null
+        ? logged_in_user
+        : temporary_user_notifier;
     return Column(
       children: [
         SizedBox(
@@ -358,9 +380,7 @@ class GeneralHelperMethodManager {
               padding: const EdgeInsets.all(16.0),
               child: Icon(Icons.person),
             ),
-            Text(logged_in_user?.username != null
-                ? logged_in_user?.username
-                : "Well"),
+            Text(usertype?.username != null ? usertype?.username : "Well"),
           ],
         ),
         Row(
@@ -369,8 +389,7 @@ class GeneralHelperMethodManager {
               padding: const EdgeInsets.all(16.0),
               child: Icon(Icons.mail),
             ),
-            Text(
-                logged_in_user?.email != null ? logged_in_user?.email : "Well"),
+            Text(usertype?.email != null ? usertype?.email : "Well"),
           ],
         ),
         Row(
@@ -379,29 +398,27 @@ class GeneralHelperMethodManager {
               padding: const EdgeInsets.all(16.0),
               child: Icon(Icons.calendar_today),
             ),
-            Text(logged_in_user?.dob != null ? logged_in_user?.dob : "Well"),
+            Text(usertype?.dob != null ? usertype?.dob : "Well"),
           ],
         ),
         Row(
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SvgPicture.asset("Resources/Images/${checkGender()}.svg"),
+              child: SvgPicture.asset(
+                  "Resources/Images/${checkGender(usertype)}.svg"),
             ),
-            Text(logged_in_user?.gender != null
-                ? logged_in_user?.gender
-                : "Well"),
+            Text(usertype?.gender != null ? usertype?.gender : "Well"),
           ],
         ),
       ],
     );
   }
 
-  checkGender() {
-    logged_in_user.gender = logged_in_user.gender.replaceAll(" ", "_");
-    if (logged_in_user.gender == null)
-      logged_in_user.gender = "Prefer Not To Say";
-    switch (logged_in_user.gender) {
+  checkGender(usertype) {
+    usertype?.gender = usertype?.gender?.replaceAll(" ", "_");
+    if (usertype?.gender == null) usertype?.gender = "Prefer Not To Say";
+    switch (usertype?.gender) {
       case "Prefer_Not_To_Say":
       case "Non-Binary":
         return "All_Gender";

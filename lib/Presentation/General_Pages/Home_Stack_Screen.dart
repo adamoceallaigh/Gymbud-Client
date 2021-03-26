@@ -1,8 +1,10 @@
 // Imports
 
 // Library Imports
+import 'package:Client/Config/configVariables.dart';
 import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
 import 'package:Client/Managers/Providers.dart';
+import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -178,34 +180,62 @@ class HomeScreen extends HookWidget {
                 ],
               ),
               Container(
-                height: 120,
+                height: 140,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 8,
+                  itemCount: GeneralVariableStore.fakeUsers.length,
                   itemBuilder: (context, index) {
                     return Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(left: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: shadowList,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: SvgPicture.asset(
-                              "Resources/Images/GymWeights.svg",
-                              height: 50,
-                              width: 50,
-                              color: Colors.grey[700],
+                          GestureDetector(
+                            onTap: () => {
+                              context
+                                  .read(temp_user_notifier_provider)
+                                  .createTempUser(
+                                      GeneralVariableStore.fakeUsers[index]),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfilePage(),
+                                ),
+                              )
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(7),
+                              margin: EdgeInsets.only(left: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: shadowList,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              // child: Image.network(
+                              //   GeneralVariableStore.fakeUsers[index].profileUrl,
+                              //   height: 70,
+                              //   width: 70,
+                              //   fit: BoxFit.cover,
+                              // ),
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundImage: NetworkImage(
+                                  GeneralVariableStore
+                                      .fakeUsers[index].profileUrl,
+                                ),
+                              ),
                             ),
                           ),
                           Container(
                             padding: EdgeInsets.all(10),
                             margin: EdgeInsets.only(left: 10),
-                            child: Text("GymWeights"),
+                            child: Text(
+                              GeneralVariableStore.fakeUsers[index].username,
+                              style: GoogleFonts.delius(
+                                color: HexColor("2E2B2B"),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
                           ),
                         ],
                       ),

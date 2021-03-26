@@ -36,8 +36,12 @@ class ProfilePage extends HookWidget {
     final generalHelperMethodManager = GeneralHelperMethodManager(
         logged_in_user: logged_in_user, context: context);
 
+    final temporary_user_notifier =
+        context.read(temp_user_notifier_provider.state);
+
     return Scaffold(
-      body: generalHelperMethodManager.getProfilePageBody(),
+      body: generalHelperMethodManager
+          .getProfilePageBody(temporary_user_notifier),
     );
   }
 }

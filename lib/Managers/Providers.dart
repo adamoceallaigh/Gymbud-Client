@@ -16,6 +16,7 @@ import 'package:Client/Managers/Notifiers/DatesNotifier.dart';
 import 'package:Client/Managers/Notifiers/DrawerChangeProvider.dart';
 import 'package:Client/Managers/Notifiers/ErrorMessageNotifier.dart';
 import 'package:Client/Managers/Notifiers/ImageNotifier.dart';
+import 'package:Client/Managers/Notifiers/TemporaryUserNotifier.dart';
 import 'package:Client/Managers/Notifiers/UserNotifier.dart';
 import 'package:Client/Managers/Notifiers/UsersNotifier.dart';
 
@@ -110,4 +111,9 @@ final video_provider = Provider<VideoController>(
 // Error Message Notifier
 final error_notifier = ChangeNotifierProvider(
   (ref) => ErrorNotifier(),
+);
+
+// Temporary User Provider Notifier
+final temp_user_notifier_provider = StateNotifierProvider(
+  (ref) => TempUserNotifier(),
 );

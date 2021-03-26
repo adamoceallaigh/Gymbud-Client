@@ -55,7 +55,7 @@ class ActivityDetails extends HookWidget {
         // Navigating to the Home page if user logged in is returned
         if (createdUser.username != null) {
           context.read(user_notifier_provider).createUser(createdUser);
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => Home(),
