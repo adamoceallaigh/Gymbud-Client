@@ -62,13 +62,8 @@ class _CalendarViewState extends State<CalendarView> {
     // Get All the Users activities
     var logged_in_users_activities =
         context.read(user_notifier_provider.state).activities;
-    print(logged_in_users_activities);
 
     var filterDates = Map<DateTime, List<dynamic>>();
-
-    // _activities =
-    //     logged_in_users_activities.map((activity) => activity.id).toList();
-    // print(logged_in_users_activities);
 
     var allEvents = [];
 
@@ -118,8 +113,8 @@ class _CalendarViewState extends State<CalendarView> {
     // logged_in_users_activities_dates =
     //     Map<DateTime, List<dynamic>>.from(logged_in_users_activities_dates);
 
-    Container taskList(
-        String title, String description, IconData iconImg, Color iconColor) {
+    Container taskList(String title, String description, String video_url,
+        IconData iconImg, Color iconColor) {
       return Container(
         padding: EdgeInsets.only(top: 20),
         child: Row(
@@ -161,8 +156,7 @@ class _CalendarViewState extends State<CalendarView> {
                     height: 10,
                   ),
                   SelectableText(
-                    "http://localhost:3030/",
-                    // videoUrl,
+                    video_url ?? "",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.normal,
@@ -295,7 +289,7 @@ class _CalendarViewState extends State<CalendarView> {
                         return taskList(
                           activity?.activityName,
                           activity.activityDescription,
-                          // video_url ?? "",
+                          video_url ?? "",
                           CupertinoIcons.check_mark_circled_solid,
                           Colors.white,
                         );
