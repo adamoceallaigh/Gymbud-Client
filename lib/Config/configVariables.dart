@@ -347,7 +347,8 @@ class StyleVariableStore {
       // offset: Offset(0, 10),
     )
   ];
-  static ButtonStyle upload_pic_btn_style = ButtonProducer.getOrangeGymbudBtn();
+  static ButtonStyle upload_pic_btn_style =
+      ButtonProducer.getUploadImageGymbudBtn();
 
   // Styling for Login Button
   static ButtonStyle login_btn_style = ButtonProducer.getLoginGymbudBtn();

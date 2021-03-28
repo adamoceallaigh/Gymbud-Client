@@ -55,6 +55,20 @@ class ButtonProducer {
     );
   }
 
+  static getUploadImageGymbudBtn() {
+    return ElevatedButton.styleFrom(
+      primary: HexColor("2E2B2B"),
+      elevation: 2,
+      fixedSize: Size(
+        120,
+        50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
   static getSignUpGymbudBtn() {
     return ElevatedButton.styleFrom(
       primary: HexColor("EB9661"),

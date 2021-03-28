@@ -61,6 +61,27 @@ class AddActivity extends HookWidget {
             height: 3580,
             child: Column(
               children: [
+                SizedBox(
+                  height: 50,
+                ),
+                // Widget to make the appBar
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.pop(context),
+                        },
+                        child: Icon(Icons.arrow_back),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     Container(
@@ -246,7 +267,14 @@ class AddActivity extends HookWidget {
                           padding: const EdgeInsets.symmetric(vertical: 50.0),
                           child: Column(
                             children: [
-                              Text("Pick the amount of hours"),
+                              Text(
+                                "Pick the amount of hours",
+                                style: GoogleFonts.delius(
+                                  color: HexColor("2E2B2B"),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
                               FormBuilderSegmentedControl(
                                 padding: EdgeInsets.all(20),
                                 validator: FormBuilderValidators.compose(
@@ -268,7 +296,14 @@ class AddActivity extends HookWidget {
                               SizedBox(
                                 height: 50,
                               ),
-                              Text("Pick the amount of minnutes"),
+                              Text(
+                                "Pick the amount of minutes",
+                                style: GoogleFonts.delius(
+                                  color: HexColor("2E2B2B"),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
                               FormBuilderTextField(
                                 name: 'Activity_Duration_Minutes',
                                 maxLength: 2,
@@ -317,9 +352,17 @@ class AddActivity extends HookWidget {
                             width: 300,
                             height: 330,
                             color: Colors.black12,
-                            child: image_notifier.value == null ||
-                                    image_notifier.value == ""
-                                ? Text("No image Selected")
+                            child: image_notifier.value != null
+                                ? Center(
+                                    child: Text(
+                                      "No image Selected",
+                                      style: GoogleFonts.delius(
+                                        color: HexColor("2E2B2B"),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  )
                                 : Image.network(
                                     image_notifier.value.toString(),
                                     fit: BoxFit.fill,
@@ -333,7 +376,14 @@ class AddActivity extends HookWidget {
                             child: Center(
                               child: image_notifier.value != null
                                   ? Text(
-                                      "No image Selected. Please pick one to continue")
+                                      "Please pick one to continue",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.delius(
+                                        color: HexColor("2E2B2B"),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    )
                                   : Text(
                                       "That’s Perfect 👌 \n On We GO!!",
                                       textAlign: TextAlign.center,
@@ -346,42 +396,39 @@ class AddActivity extends HookWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          width: double.infinity,
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                style: StyleVariableStore.upload_pic_btn_style,
-                                onPressed: () async {
-                                  String imageUrl =
-                                      await generalHelperMethodManager
-                                          .getImageFromSource(
-                                              ImageSource.camera,
-                                              place: "Activity");
-                                  image_notifier.setString(imageUrl);
-                                  print(imageUrl);
-                                },
-                                child: Icon(Icons.camera, color: Colors.white),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              ElevatedButton(
-                                style: StyleVariableStore.upload_pic_btn_style,
-                                onPressed: () async {
-                                  String imageUrl =
-                                      await generalHelperMethodManager
-                                          .getImageFromSource(
-                                              ImageSource.gallery,
-                                              place: "Activity");
-                                  image_notifier.setString(imageUrl);
-                                },
-                                child: Icon(Icons.folder, color: Colors.white),
-                              )
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: StyleVariableStore.upload_pic_btn_style,
+                              onPressed: () async {
+                                String imageUrl =
+                                    await generalHelperMethodManager
+                                        .getImageFromSource(
+                                  ImageSource.camera,
+                                  place: "Activity",
+                                );
+                                image_notifier.setString(imageUrl);
+                              },
+                              child: Icon(Icons.camera, color: Colors.white),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              style: StyleVariableStore.upload_pic_btn_style,
+                              onPressed: () async {
+                                String imageUrl =
+                                    await generalHelperMethodManager
+                                        .getImageFromSource(
+                                  ImageSource.gallery,
+                                  place: "Activity",
+                                );
+                                image_notifier.setString(imageUrl);
+                              },
+                              child: Icon(Icons.folder, color: Colors.white),
+                            )
+                          ],
                         ),
                         if (image_notifier.value != null)
                           CreateActivityBtn(_formKey)

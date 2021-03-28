@@ -37,7 +37,7 @@ class AppController extends StateNotifier<AppState> {
     String url_in_use;
 
     // Whether to use local server or not
-    bool production = false;
+    bool production = true;
 
     // Initial Loading state
     state = AppLoading();

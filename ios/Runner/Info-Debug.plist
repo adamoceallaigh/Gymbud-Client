@@ -2,23 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
- 	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_dartobservatory._tcp</string>
-	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string> This app requires connection to devices on your local network </string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires read and write permission Photo Library</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app requires read and write permission from the user</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app requires access to users microphone</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -39,6 +22,23 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires read and write permission from the user</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string> This app requires connection to devices on your local network </string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires access to users microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires read and write permission Photo Library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

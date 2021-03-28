@@ -232,7 +232,7 @@ class BudsView extends HookWidget {
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Container(
                     height: 180,
-                    width: 380,
+                    width: MediaQuery.of(context).size.width - 20,
                     // color: HexColor("EB9661"),
                     child: Column(
                       children: [

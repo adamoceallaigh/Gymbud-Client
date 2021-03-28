@@ -48,7 +48,7 @@ class GeneralOptionRadio extends StatelessWidget {
       color: _general_option.isSelected ? HexColor("EB9661") : Colors.white,
       child: Container(
         height: 20,
-        width: 110,
+        width: (MediaQuery.of(context).size.width - 75) / 3,
         alignment: Alignment.center,
         margin: new EdgeInsets.all(5.0),
         child: Column(
