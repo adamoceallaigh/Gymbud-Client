@@ -303,7 +303,7 @@ class _CalendarViewState extends State<CalendarView> {
                                 "You have signed up or planned out no activities yet, \nclick plus button below to get started.",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.delius(
-                                  color: HexColor("2E2B2B"),
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),

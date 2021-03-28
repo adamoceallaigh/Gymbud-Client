@@ -237,7 +237,20 @@ class BudsView extends HookWidget {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 50,
+                          height: 20,
+                        ),
+                        if (logged_in_user.activities.length == 0)
+                          Text(
+                            "You have signed up for no activities yet, \nclick below to get started.",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.delius(
+                              color: HexColor("2E2B2B"),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        SizedBox(
+                          height: 20,
                         ),
                         ElevatedButton(
                           child: Text(
