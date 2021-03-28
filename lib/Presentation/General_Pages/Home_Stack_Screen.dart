@@ -64,7 +64,7 @@ class HomeScreen extends HookWidget {
             : ScrollPhysics(),
         child: AnimatedContainer(
           height: logged_in_user.activities?.length != 0
-              ? logged_in_user.activities?.length * 830.0
+              ? logged_in_user.activities.length * 830.0
               : 830.0,
           transform: Matrix4.translationValues(
               drawer_changer.xOffset, drawer_changer.yOffset, 0)
@@ -292,7 +292,7 @@ class HomeScreen extends HookWidget {
                           ),
                           Expanded(
                             child: Container(
-                              height: 142,
+                              height: 145,
                               width: 130,
                               margin: EdgeInsets.only(
                                 top: 20,
@@ -396,6 +396,8 @@ class HomeScreen extends HookWidget {
                                                         vertical: 10.0),
                                                 child: Text(
                                                   '${activity.participants[0].username} and others',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style:
                                                       GoogleFonts.meriendaOne(
                                                     color: HexColor("4B4848"),
