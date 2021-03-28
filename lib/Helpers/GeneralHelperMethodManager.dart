@@ -651,6 +651,9 @@ class GeneralHelperMethodManager {
                       Text("DOB:"),
                       FormBuilderDateTimePicker(
                         name: 'DOB',
+                        onChanged: (value) => {
+                          logged_in_user.dob = value.toString().split(" ").first
+                        },
                         lastDate: DateTime(DateTime.now().year - 18),
                         initialDate: DateTime.parse(logged_in_user?.dob),
                         inputType: InputType.date,

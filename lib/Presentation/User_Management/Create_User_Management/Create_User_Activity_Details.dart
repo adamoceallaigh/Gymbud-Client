@@ -1,3 +1,5 @@
+// Copyrighted by Adam O' Ceallaigh Sun 28 Mar 2021
+
 // Imports
 
 // Library Imports
@@ -24,7 +26,7 @@ class ActivityDetails extends HookWidget {
   */
 
   // User object to be required to transfer values across pages
-  final User user;
+  User user;
   ActivityDetails({Key key, @required this.user}) : super(key: key);
   /*
     Setting the variable for this page
@@ -36,7 +38,7 @@ class ActivityDetails extends HookWidget {
           context.read(user_notifier_provider.state).fitnessLevel;
       user.preferredIntensity =
           context.read(user_notifier_provider.state).preferredIntensity;
-      // // // Result from logging in user could either be a error or user
+      // Result from logging in user could either be a error or user
       dynamic createdUser = await context.read(user_provider).createUser(user);
 
       // Checking if the result is a error
@@ -47,9 +49,10 @@ class ActivityDetails extends HookWidget {
           //   infoPopUp = createdUser;
           // });
           Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-              (route) => false);
+            context,
+            MaterialPageRoute(builder: (context) => Login()),
+            (route) => false,
+          );
         }
       } else {
         // Navigating to the Home page if user logged in is returned
@@ -61,6 +64,7 @@ class ActivityDetails extends HookWidget {
               builder: (context) => Home(),
             ),
           );
+          user = new User();
         } else {
           // infoPopUp.message =
           //     "An error occurred while registering. Please try again";

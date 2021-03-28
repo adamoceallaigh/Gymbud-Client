@@ -85,8 +85,15 @@ class _UploadPhotoState extends State<UploadPhoto> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ElevatedButton(
-                        child: Text('Take Photo'),
-                        style: StyleVariableStore.upload_pic_btn_style,
+                        child: Text(
+                          'Take Photo',
+                          style: GoogleFonts.delius(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        style: StyleVariableStore.sign_up_button_style,
                         onPressed: () async {
                           await generalHelperMethodManager.getImageFromSource(
                               ImageSource.camera,
@@ -101,9 +108,19 @@ class _UploadPhotoState extends State<UploadPhoto> {
                           //         builder: (context) => UploadPhotoSucess()));
                         },
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       ElevatedButton(
-                        child: Text('Upload Photo'),
-                        style: StyleVariableStore.upload_pic_btn_style,
+                        child: Text(
+                          'Upload Photo',
+                          style: GoogleFonts.delius(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        style: StyleVariableStore.sign_up_button_style,
                         onPressed: () async {
                           await generalHelperMethodManager.getImageFromSource(
                               ImageSource.gallery,
