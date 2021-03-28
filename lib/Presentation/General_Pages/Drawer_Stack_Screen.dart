@@ -65,12 +65,29 @@ class DrawerScreen extends HookWidget {
                                   child: Text(
                                       "There was a problem gathering your info. Try log in again"),
                                 ),
-                          Text(
-                            'Active Status',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: HexColor("eeeeee"),
-                            ),
+                          Row(
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(50),
+                                  ),
+                                  color: Colors.greenAccent,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Active Status',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: HexColor("eeeeee"),
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       ),
