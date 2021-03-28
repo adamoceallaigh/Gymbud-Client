@@ -702,8 +702,15 @@ class GeneralHelperMethodManager {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
       child: ElevatedButton(
-        child: Text('Update'),
-        style: Constants.StyleVariableStore.update_btn_style,
+        child: Text(
+          'Update',
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        style: Constants.StyleVariableStore.sign_up_button_style,
         onPressed: () => {
           setUpDob(_basicDetailsUpdateKey),
           // Check if the form is validated

@@ -41,7 +41,26 @@ class MatchView extends HookWidget {
       body: Column(
         children: [
           SizedBox(
-            height: 80,
+            height: 30,
+          ),
+          Row(
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  child: Icon(Icons.arrow_back),
+                  onTap: () => {
+                    Navigator.pop(context),
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 30,
           ),
           Container(
             height: (MediaQuery.of(context).size.height + 120) * 0.6,

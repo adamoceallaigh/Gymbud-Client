@@ -230,43 +230,41 @@ class BudsView extends HookWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
-                  child: Expanded(
-                    child: Container(
-                      height: 180,
-                      width: 380,
-                      // color: HexColor("EB9661"),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 50,
-                          ),
-                          ElevatedButton(
-                            child: Text(
-                              "Find Some Buds",
-                              style: GoogleFonts.delius(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
+                  child: Container(
+                    height: 180,
+                    width: 380,
+                    // color: HexColor("EB9661"),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        ElevatedButton(
+                          child: Text(
+                            "Find Some Buds",
+                            style: GoogleFonts.delius(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
                             ),
-                            style: StyleVariableStore.sign_up_button_style,
-                            onPressed: () async {
-                              List<Activity> all_activities = await context
-                                  .read(activities_provider)
-                                  .readActivities();
-                              context
-                                  .read(activities_notifier_provider)
-                                  .addActivities(all_activities);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MatchView(),
-                                ),
-                              );
-                            },
                           ),
-                        ],
-                      ),
+                          style: StyleVariableStore.sign_up_button_style,
+                          onPressed: () async {
+                            List<Activity> all_activities = await context
+                                .read(activities_provider)
+                                .readActivities();
+                            context
+                                .read(activities_notifier_provider)
+                                .addActivities(all_activities);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MatchView(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),
