@@ -152,328 +152,393 @@ class SingleActivityView extends HookWidget {
 
     Widget getSingleActivityBody() {
       return SingleChildScrollView(
-        child: Container(
-            height: 1280,
-            width: double.infinity,
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 470,
-                  child: Hero(
-                    tag: 'Activity ${activity_picked.hashCode}',
-                    child: Image.network(
-                      activity_picked.activityImageUrl,
-                      fit: BoxFit.fill,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+
+            // Widget to make the appBar
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => {
+                      Navigator.pop(context),
+                    },
+                    child: Icon(Icons.arrow_back),
+                  ),
+                  // Container(
+                  //   width: 100,
+                  //   child: Row(
+                  //     children: [
+                  //       Expanded(
+                  //         child: Stack(
+                  //           children: [
+                  //             Container(
+                  //               height: 70,
+                  //               decoration: BoxDecoration(
+                  //                 color: Colors.white,
+                  //                 borderRadius: BorderRadius.circular(10),
+                  //                 boxShadow: StyleVariableStore.shadowList,
+                  //               ),
+                  //               // margin: EdgeInsets.only(top: 10),
+                  //             ),
+                  //             Center(
+                  //               child: Container(
+                  //                 margin: EdgeInsets.all(8),
+                  //                 child: SvgPicture.asset(
+                  //                   "Resources/Images/Gymbud_Logo.svg",
+                  //                   height: 60,
+                  //                 ),
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // CircleAvatar(
+                  //   radius: 30.0,
+                  //   backgroundImage: logged_in_user?.profileUrl != null
+                  //       ? new NetworkImage(logged_in_user.profileUrl)
+                  //       : null,
+                  //   // backgroundColor: Colors.orange,
+                  // ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 1280,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 470,
+                    child: Hero(
+                      tag: 'Activity ${activity_picked.hashCode}',
+                      child: Image.network(
+                        activity_picked.activityImageUrl,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 3),
-                  padding: EdgeInsets.all(6),
-                  height: 800,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        height: 80,
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Name",
-                                  style: GoogleFonts.meriendaOne(
-                                    color: HexColor("#000000"),
-                                    fontSize: 18,
-                                    letterSpacing: -1.5,
-                                  ),
-                                ),
-                                Text(activity_picked.activityName),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Type Of Workout",
-                                  style: GoogleFonts.meriendaOne(
-                                    color: HexColor("#000000"),
-                                    fontSize: 18,
-                                    letterSpacing: -1.5,
-                                  ),
-                                ),
-                                Text(activity_picked.activityType),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 80,
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Looking To Workout With",
-                                  style: GoogleFonts.meriendaOne(
-                                    color: HexColor("#000000"),
-                                    fontSize: 18,
-                                    letterSpacing: -1.5,
-                                  ),
-                                ),
-                                Text(activity_picked.activityGenderPreference),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                // Text("Activity"),
-                                Container(
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  width: 250,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: Offset(0.0, 1.0), //(x,y)
-                                        blurRadius: 8.0,
-                                      ),
-                                    ],
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15),
-                                    ),
-                                    // border: Border.all(
-                                    //   color:
-                                    //       HexColor('#eeeeee'), // set border color
-                                    //   width: 1.0,
-                                    // ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              top: 4, right: 4, left: 4),
-                                          width: 230,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            color: HexColor('#F1BF60'),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Expanded(
-                                                  child:
-                                                      Icon(Icons.date_range)),
-                                              // SizedBox(width: 15.0),
-                                              Expanded(
-                                                child: Text(
-                                                  "Activity Details",
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                      Container(
-                                          width: 230,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  '${activity_picked.date}',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              // SizedBox(width: 15.0),
-                                              Expanded(
-                                                child: Text(
-                                                  '${activity_picked.time}',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 100,
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Column(
+                  Container(
+                    margin: EdgeInsets.only(top: 3),
+                    padding: EdgeInsets.all(6),
+                    height: 800,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          height: 80,
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      style: GoogleFonts.meriendaOne(
-                                        color: HexColor("#000000"),
-                                        fontSize: 18,
-                                        letterSpacing: -1.5,
-                                      ),
-                                      children: [
-                                        TextSpan(text: 'Participants'),
-                                        WidgetSpan(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20.0),
-                                            child: Icon(Icons.person),
-                                          ),
-                                        ),
-                                        TextSpan(
-                                            text:
-                                                '${activity_picked.participants.length}'),
-                                      ],
+                                  Text(
+                                    "Name",
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: getAttendeeCircles(),
+                                  Text(activity_picked.activityName),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 80,
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Type Of Workout",
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
+                                    ),
+                                  ),
+                                  Text(activity_picked.activityType),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 80,
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Looking To Workout With",
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
+                                    ),
+                                  ),
+                                  Text(
+                                      activity_picked.activityGenderPreference),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  // Text("Activity"),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 8),
+                                    width: 250,
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          offset: Offset(0.0, 1.0), //(x,y)
+                                          blurRadius: 8.0,
+                                        ),
+                                      ],
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(15),
+                                      ),
+                                      // border: Border.all(
+                                      //   color:
+                                      //       HexColor('#eeeeee'), // set border color
+                                      //   width: 1.0,
+                                      // ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: 4, right: 4, left: 4),
+                                            width: 230,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              color: HexColor('#F1BF60'),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                    child:
+                                                        Icon(Icons.date_range)),
+                                                // SizedBox(width: 15.0),
+                                                Expanded(
+                                                  child: Text(
+                                                    "Activity Details",
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                        Container(
+                                            width: 230,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '${activity_picked.date}',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                // SizedBox(width: 15.0),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${activity_picked.time}',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 80,
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
+                        Container(
+                          height: 100,
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        style: GoogleFonts.meriendaOne(
+                                          color: HexColor("#000000"),
+                                          fontSize: 18,
+                                          letterSpacing: -1.5,
+                                        ),
+                                        children: [
+                                          TextSpan(text: 'Participants'),
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0),
+                                              child: Icon(Icons.person),
+                                            ),
+                                          ),
+                                          TextSpan(
+                                              text:
+                                                  '${activity_picked.participants.length}'),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: getAttendeeCircles(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 80,
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Resources",
+                                    style: GoogleFonts.meriendaOne(
+                                      color: HexColor("#000000"),
+                                      fontSize: 18,
+                                      letterSpacing: -1.5,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: activity_picked.resources
+                                        .map((resource) => Text(resource))
+                                        .toList(),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Resources",
-                                  style: GoogleFonts.meriendaOne(
-                                    color: HexColor("#000000"),
-                                    fontSize: 18,
-                                    letterSpacing: -1.5,
+                            TextButton(
+                              style: StyleVariableStore.update_btn_style,
+                              onPressed: () => {
+                                addUserToActivity(
+                                    activity_picked.id,
+                                    context
+                                        .read(user_notifier_provider.state)
+                                        .id,
+                                    context),
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "I want to do this/I'm Available",
+                                  style: TextStyle(
+                                    color: Colors.white,
                                   ),
-                                ),
-                                Row(
-                                  children: activity_picked.resources
-                                      .map((resource) => Text(resource))
-                                      .toList(),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            style: StyleVariableStore.update_btn_style,
-                            onPressed: () => {
-                              addUserToActivity(
-                                  activity_picked.id,
-                                  context.read(user_notifier_provider.state).id,
-                                  context),
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "I want to do this/I'm Available",
-                                style: TextStyle(
-                                  color: Colors.white,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(
-          height: 70,
-          padding: const EdgeInsets.all(0),
-          child: Row(children: [
-            Expanded(
-              flex: 6,
-              child: Image.asset(
-                'Resources/Images/logoGymbud.png',
-                fit: BoxFit.fill,
-              ),
-            ),
-          ]),
-        ),
-        backgroundColor: HexColor("FEFEFE"),
-      ),
+      // appBar: AppBar(
+      //   leadingWidth: 100,
+      //   leading: Container(
+      //     child: Image.asset(
+      //       'Resources/Images/logoGymbud.png',
+      //     ),
+      //   ),
+      //   backgroundColor: HexColor("FEFEFE"),
+      // ),
       body: getSingleActivityBody(),
     );
   }
