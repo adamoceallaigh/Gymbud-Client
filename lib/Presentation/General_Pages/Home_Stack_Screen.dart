@@ -5,6 +5,7 @@ import 'package:Client/Config/configVariables.dart';
 import 'package:Client/Helpers/GeneralHelperMethodManager.dart';
 import 'package:Client/Managers/Providers.dart';
 import 'package:Client/Presentation/User_Management/Read_User_Management/Read_User_Profile_Page.dart';
+import 'package:Client/Presentation/User_Management/Read_User_Management/Read_Users_Buds_View.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -263,176 +264,233 @@ class HomeScreen extends HookWidget {
 
               // Widget to make the Cards
               Column(
-                  children: logged_in_user?.activities?.map((activity) {
-                return activity?.activityImageUrl != null
-                    ? Row(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: HexColor("EB9661"),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: shadowList,
-                                ),
-                                margin: EdgeInsets.only(left: 150),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 30),
-                                child: Image.network(
-                                  activity != null
-                                      ? activity?.activityImageUrl
-                                      : "",
-                                  height: 150,
-                                  width: 120,
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              )
-                            ],
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 145,
-                              width: 130,
-                              margin: EdgeInsets.only(
-                                top: 20,
-                                bottom: 20,
-                                right: 25,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: shadowList,
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        activity?.activityType,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        activity?.activityName,
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(activity?.time),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(activity?.date),
-                                    ],
-                                  ),
-
-                                  // Adding Expanded here gave me a height to the row down below or else flutter gets messed up
-                                  Expanded(
-                                    flex: 1,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                  children: logged_in_user?.activities?.length > 0
+                      ? logged_in_user?.activities?.map((activity) {
+                          return activity?.activityImageUrl != null
+                              ? Row(
+                                  children: [
+                                    Stack(
                                       children: [
                                         Container(
-                                          width: 80,
-                                          child: Stack(
-                                            children:
-                                                GeneralHelperMethodManager(
-                                              logged_in_user: logged_in_user,
-                                              index: logged_in_user.activities
-                                                  .indexOf(
-                                                getIterator(),
-                                              ),
-                                            ).getAttendeeCircles(),
+                                          decoration: BoxDecoration(
+                                            color: HexColor("EB9661"),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            boxShadow: shadowList,
                                           ),
+                                          margin: EdgeInsets.only(left: 150),
                                         ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10.0),
-                                                child: Text(
-                                                  '${activity.participants[0].username} and others',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style:
-                                                      GoogleFonts.meriendaOne(
-                                                    color: HexColor("4B4848"),
-                                                    fontSize: 15,
-                                                    letterSpacing: -1.5,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                        Container(
+                                          margin: EdgeInsets.only(left: 30),
+                                          child: Image.network(
+                                            activity != null
+                                                ? activity?.activityImageUrl
+                                                : "",
+                                            height: 150,
+                                            width: 120,
+                                            fit: BoxFit.fitWidth,
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
                                         )
                                       ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  )
-                                ],
-                              ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 145,
+                                        width: 130,
+                                        margin: EdgeInsets.only(
+                                          top: 20,
+                                          bottom: 20,
+                                          right: 25,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow: shadowList,
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  activity?.activityType,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  activity?.activityName,
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(activity?.time),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(activity?.date),
+                                              ],
+                                            ),
+
+                                            // Adding Expanded here gave me a height to the row down below or else flutter gets messed up
+                                            Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Container(
+                                                    width: 80,
+                                                    child: Stack(
+                                                      children:
+                                                          GeneralHelperMethodManager(
+                                                        logged_in_user:
+                                                            logged_in_user,
+                                                        index: logged_in_user
+                                                            .activities
+                                                            .indexOf(
+                                                          getIterator(),
+                                                        ),
+                                                      ).getAttendeeCircles(),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical:
+                                                                      10.0),
+                                                          child: Text(
+                                                            '${activity.participants[0].username} and others',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: GoogleFonts
+                                                                .meriendaOne(
+                                                              color: HexColor(
+                                                                  "4B4848"),
+                                                              fontSize: 15,
+                                                              letterSpacing:
+                                                                  -1.5,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 20,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Container(
+                                        child: Image.network(
+                                            "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80")),
+                                  ],
+                                );
+                        })?.toList()
+                      : [
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            "You have signed up for no activities yet, \nclick below to get started.",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.delius(
+                              color: HexColor("2E2B2B"),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
-                          )
-                        ],
-                      )
-                    : Row(
-                        children: [
-                          Container(
-                              child: Image.network(
-                                  "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80")),
-                        ],
-                      );
-              })?.toList()),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          createContinueToBasicDetailsPageBtn(context)
+                        ].toList()),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Create the button to navigate to the basic details page
+  Widget createContinueToBasicDetailsPageBtn(BuildContext context) {
+    return Container(
+      child: ElevatedButton(
+        style: StyleVariableStore.orange_gymbud_btn,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BudsView(),
+            ),
+          );
+        },
+        child: Text(
+          "Find Some Buds",
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
         ),
       ),

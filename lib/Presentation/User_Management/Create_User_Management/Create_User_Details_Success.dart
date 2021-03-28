@@ -73,8 +73,6 @@ class DetailsPageSuccess extends StatelessWidget {
   // Create the button to navigate to the basic details page
   Widget createContinueToBasicDetailsPageBtn(BuildContext context) {
     return Container(
-      width: 300,
-      height: 60,
       child: ElevatedButton(
         style: ButtonProducer.getOrangeGymbudBtn(),
         onPressed: () {
@@ -85,14 +83,12 @@ class DetailsPageSuccess extends StatelessWidget {
             ),
           );
         },
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            "Continue",
-            style: GoogleFonts.concertOne(
-              fontSize: 30,
-              // letterSpacing: -1.5,
-            ),
+        child: Text(
+          "Continue",
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
         ),
       ),

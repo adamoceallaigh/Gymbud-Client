@@ -209,7 +209,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text("Maximum Distance:"),
-                      Text("20 mi"),
+                      Text("20 km"),
                       SliderTheme(
                         data: SliderThemeData(
                           showValueIndicator: ShowValueIndicator.always,
@@ -217,7 +217,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: Slider(
                           value: _distanceValue,
                           min: 0,
-                          max: 100,
+                          max: 20,
                           label: '${_distanceValue.round()}',
                           inactiveColor: Colors.grey,
                           activeColor: HexColor('#EB9661'),
@@ -246,8 +246,6 @@ class _DetailsPageState extends State<DetailsPage> {
   // Create the button to navigate to the basic details page
   Widget createContinueToBasicDetailsPageBtn(BuildContext context) {
     return Container(
-      width: 300,
-      height: 60,
       child: ElevatedButton(
         style: ButtonProducer.getOrangeGymbudBtn(),
         onPressed: () {
@@ -259,14 +257,12 @@ class _DetailsPageState extends State<DetailsPage> {
             );
           }
         },
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            "Continue",
-            style: GoogleFonts.concertOne(
-              fontSize: 30,
-              // letterSpacing: -1.5,
-            ),
+        child: Text(
+          "Continue",
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
         ),
       ),

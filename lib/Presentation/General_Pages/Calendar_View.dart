@@ -285,46 +285,33 @@ class _CalendarViewState extends State<CalendarView> {
                     //       .value
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: getChildren().map((activity) {
-                        return taskList(
-                          activity?.activityName,
-                          activity.activityDescription,
-                          video_url ?? "",
-                          CupertinoIcons.check_mark_circled_solid,
-                          Colors.white,
-                        );
-                      }).toList(),
-                      // children: [
-                      //   Padding(
-                      //     padding: EdgeInsets.only(top: 50),
-                      //     child: Text(
-                      //       "Today",
-                      //       style: TextStyle(
-                      //         color: Colors.white,
-                      //         fontSize: 30,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   taskList(
-                      //     "Gym workout",
-                      //     "Video Url : http://localhost:3030//gjhgj5678hb39b29",
-                      //     CupertinoIcons.check_mark_circled_solid,
-                      //     Colors.white,
-                      //   ),
-                      //   taskList(
-                      //     "Home Workout",
-                      //     "Video Url : http://localhost:3030//gjhgj5678hb39b29",
-                      //     CupertinoIcons.check_mark_circled_solid,
-                      //     Colors.white,
-                      //   ),
-                      //   taskList(
-                      //     "Outdoor Activity",
-                      //     "Stroll In the Parks",
-                      //     CupertinoIcons.check_mark_circled_solid,
-                      //     Colors.white,
-                      //   )
-                      // ],
+                      children: getChildren().length > 0
+                          ? getChildren().map((activity) {
+                              return taskList(
+                                activity?.activityName,
+                                activity.activityDescription,
+                                video_url ?? "",
+                                CupertinoIcons.check_mark_circled_solid,
+                                Colors.white,
+                              );
+                            }).toList()
+                          : [
+                              SizedBox(
+                                height: 40,
+                              ),
+                              Text(
+                                "You have signed up or planned out no activities yet, \nclick plus button below to get started.",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.delius(
+                                  color: HexColor("2E2B2B"),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ].toList(),
                     ),
                     Positioned(
                       bottom: 50,

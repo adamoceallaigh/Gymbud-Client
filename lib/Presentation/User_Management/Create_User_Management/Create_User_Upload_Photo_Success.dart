@@ -81,30 +81,24 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Center(
-                    child: widget?.user?.profileUrl == null
-                        ? Text("No image Selected. Please pick one to continue")
-                        : Text(
-                            "That’s Perfect 👌 \n On We GO!!",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.meriendaOne(
-                              color: HexColor("#000000"),
-                              fontSize: 15,
-                              // letterSpacing: -1.5,
-                            ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: widget?.user?.profileUrl == null
+                      ? Text("No image Selected. Please pick one to continue")
+                      : Text(
+                          "That’s Perfect 👌 \n On We GO!!",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.meriendaOne(
+                            color: HexColor("#000000"),
+                            fontSize: 15,
+                            // letterSpacing: -1.5,
                           ),
-                  ),
+                        ),
                 ),
               ),
               if (widget?.user?.profileUrl != null)
-                GestureDetector(
-                  onTap: () async {},
-                  child: createContinueToBasicDetailsPageBtn(context),
-                )
+                createContinueToBasicDetailsPageBtn(context)
             ],
           ),
         ),
@@ -115,8 +109,6 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
   // Create the button to navigate to the basic details page
   Widget createContinueToBasicDetailsPageBtn(BuildContext context) {
     return Container(
-      width: 300,
-      height: 60,
       child: ElevatedButton(
         style: ButtonProducer.getOrangeGymbudBtn(),
         onPressed: () {
@@ -129,14 +121,12 @@ class _UploadPhotoState extends State<UploadPhotoSucess> {
             ),
           );
         },
-        child: Align(
-          alignment: Alignment.center,
-          child: Text(
-            "Continue",
-            style: GoogleFonts.concertOne(
-              fontSize: 30,
-              // letterSpacing: -1.5,
-            ),
+        child: Text(
+          "Continue",
+          style: GoogleFonts.delius(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
         ),
       ),

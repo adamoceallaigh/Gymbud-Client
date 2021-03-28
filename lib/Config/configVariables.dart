@@ -337,4 +337,6 @@ class StyleVariableStore {
   // Setting up the button styles for login/ signup buttons
   static ButtonStyle sign_up_button_style = ButtonProducer.getSignUpGymbudBtn();
   // ButtonStyle login_button_style = ButtonProducer.getWhiteGymbudBtn("eeeeee");
+
+  static ButtonStyle orange_gymbud_btn = ButtonProducer.getOrangeGymbudBtn();
 }

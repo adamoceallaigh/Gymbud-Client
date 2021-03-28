@@ -236,20 +236,17 @@ class ActivityDetails extends HookWidget {
     // Create the button to navigate to the basic details page
     Widget createContinueToBasicDetailsPageBtn(BuildContext context) {
       return Container(
-        width: 300,
-        height: 60,
         child: ElevatedButton(
           style: ButtonProducer.getOrangeGymbudBtn(),
           onPressed: () {
             _setUpUser(context);
           },
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Finish",
-              style: GoogleFonts.concertOne(
-                fontSize: 30,
-              ),
+          child: Text(
+            "Finish",
+            style: GoogleFonts.delius(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 26,
             ),
           ),
         ),

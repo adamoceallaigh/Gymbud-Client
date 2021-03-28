@@ -16,6 +16,14 @@ class ButtonProducer {
   static getOrangeGymbudBtn() {
     return ElevatedButton.styleFrom(
       primary: HexColor("EB9661"),
+      elevation: 2,
+      fixedSize: Size(
+        240,
+        50,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
     );
   }
 
